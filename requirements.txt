@@ -1,0 +1,67 @@
+Roles:
+
+Player
+
+1.(Login Screen)
+Login=>
+email/password
+
+Alternate=>Sign Up/Sign In
+
+Register:
+email,
+usernmae(nickname)
+password(confifm password)
+
+
+2.(Main Menu)
+
+Play (view)
+Settings(Avatar,...)
+Shop (View)
+Show LeaderBoard(per category, and total) (modal)
+Show  Stats (per category  win/loss rate) 
+LiveSupport(chat) (web sockets)
+Logout(-> return to login screeen)
+
+3.
+(Game)
+
+Select Category=>(Rest)
+Wheel (one image => fixed bonuses)
+
+Wheel (rotation)=>
+10 rounds (time)
+At Run time assign points for Win-Loss
+
+Show total score=> Play again/ Main menu
+
+
+
+Bonus items:
+-Avatar
+-Skip Questing(new question)
+-Credits(pay to play!!!)
+
+========
+Admin:
+Login same Interface as simple user.
+No register
+-----
+Admin Panel=>(View)
+Priorities:
+
+Import Question and Category(delete/edit)
+Show question per category=>diffeculty level/category frequency.(Question, Category => statistics)
+Show eshop stats.
+Show leaderbords.
+Stats of all players. (search and table)(category and win/loss rate)
+
+Extras:
+*Admin creates other admin accounts
+
+
+
+
+=========
+Avatatar image ? file in web pages or store in database?
