@@ -22,6 +22,7 @@ create table category(
 category_id int auto_increment,
 category_name varchar(30) not null unique,
 category_image blob not null,
+category_active bit not null,
 primary key(category_id)
 );
 
@@ -82,8 +83,3 @@ avatar_id int not null,
 foreign key(user_id) references user(user_id) on delete cascade on update restrict,
 foreign key(avatar_id) references avatar(avatar_id) on delete cascade on update restrict
 );
-
-
--- drop database quizz_mock;
-
- 
