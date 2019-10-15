@@ -14,7 +14,7 @@
         <mapping class="com.game.quizbot.model.QuestionAnswer"/>
         <mapping class="com.game.quizbot.model.Role"/>
         <mapping class="com.game.quizbot.model.User"/>
-        <mapping class="com.game.quizbot.model.UserAvatar"/>
+        <!--<mapping class="com.game.quizbot.model.UserAvatar"/>-->
         <mapping class="com.game.quizbot.model.UserHighscore"/>
         <mapping class="com.game.quizbot.model.UserQuestion"/>
         <!-- <property name="connection.username"/> -->
