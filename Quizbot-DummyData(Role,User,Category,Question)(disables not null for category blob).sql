@@ -2,6 +2,7 @@ ALTER TABLE `quizbot`.`category`
 CHANGE COLUMN `category_image` `category_image` BLOB NULL ;
 
 
+
 INSERT INTO `quizbot`.`role` (`role_id`, `role_name`) VALUES ('1', 'Admin');
 INSERT INTO `quizbot`.`role` (`role_id`, `role_name`) VALUES ('2', 'User');
 
