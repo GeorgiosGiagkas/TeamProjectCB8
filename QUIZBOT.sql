@@ -54,6 +54,7 @@ user_id int not null,
 question_id int not null,
 user_question_success bit not null,
 user_question_timespamp timestamp not null,
+primary key(user_id,question_id),
 foreign key(user_id) references user(user_id) on delete cascade on update restrict,
 foreign key(question_id) references question(question_id) on delete cascade on update restrict
 );
