@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
-  User: giagkas
-  Date: 15/10/19
-  Time: 11:59
+  User: mousa
+  Date: 16-Oct-19
+  Time: 8:19 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title>Login Page</title>
+        <title>Register Page</title>
         <!--Made with love by Mutiullah Samim -->
 
         <!--Bootsrap 4 CDN-->
@@ -20,7 +20,7 @@
               integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
         <!--Custom styles-->
-        <link rel="stylesheet" type="text/css" href = "/css/login-and-register.css">
+        <link rel="stylesheet" type="text/css" href="/css/login-and-register.css">
     </head>
 
     <body>
@@ -31,12 +31,17 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h3>Sign in</h3>
+                        <h3>Sign up</h3>
 
                     </div>
                     <div class="card-body">
                         <form>
-
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" name="nickname-input" class="form-control" placeholder="nickname">
+                            </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -49,24 +54,27 @@
                                 </div>
                                 <input type="password" name="pass-input" class="form-control" placeholder="password">
                             </div>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-repeat"></i></span>
+                                </div>
+                                <input type="password" name="pass-input-retype" class="form-control" placeholder="confirm password">
+                            </div>
 
                             <div class="form-group align-items-center">
-                                <input type="submit" value="Login" class="btn float-right login_btn">
+                                <input type="submit" value="Create my account" class="btn float-right login_btn">
                             </div>
                         </form>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center links">
-                            Don't have an account?<a href="register.html">Sign Up</a>
+                            Already registered?<a href="login.html">Sign In</a>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#">Forgot your password?</a>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
 
     </body>
-
 </html>
