@@ -1,4 +1,4 @@
-package com.game.quizbot.services.game;
+package com.game.quizbot.services.categories;
 
 
 import com.game.quizbot.dao.CategoryDao;
@@ -27,5 +27,7 @@ public class ActiveCategories {
 
         return categoriesDto;
     }
+
+
 
 }

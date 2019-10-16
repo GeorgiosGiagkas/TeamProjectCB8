@@ -4,7 +4,7 @@ package com.game.quizbot.controllers;
 
 import com.game.quizbot.dto.CategoryDto;
 import com.game.quizbot.model.User;
-import com.game.quizbot.services.game.ActiveCategories;
+import com.game.quizbot.services.categories.ActiveCategories;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
