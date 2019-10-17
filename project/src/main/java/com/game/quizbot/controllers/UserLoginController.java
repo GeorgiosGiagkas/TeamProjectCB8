@@ -15,4 +15,10 @@ public class UserLoginController {
         return mv;
     }
 
+    @GetMapping(value="/register")
+    public ModelAndView showRegister(ModelAndView mv){
+        mv.setViewName("register");
+        return mv;
+    }
+
 }

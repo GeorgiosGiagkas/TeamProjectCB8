@@ -2,7 +2,7 @@ package com.game.quizbot.controllers;
 
 
 
-import com.game.quizbot.dto.CategoryDto;
+import com.game.quizbot.model.Category;
 import com.game.quizbot.model.User;
 import com.game.quizbot.services.categories.ActiveCategories;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class MenuController {
@@ -26,9 +25,9 @@ public class MenuController {
 
     @GetMapping("/show-categories")
     @ResponseBody
-    public List<CategoryDto> showCategories(){
+    public Iterable<Category> showCategories(){
         ActiveCategories activeCategories = new ActiveCategories();
-        return  activeCategories.getActiveCategoriesDto();
+        return  activeCategories.getActiveCategories();
     }
 
 

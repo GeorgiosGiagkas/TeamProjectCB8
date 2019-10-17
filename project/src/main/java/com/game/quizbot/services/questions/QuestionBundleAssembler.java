@@ -2,6 +2,7 @@ package com.game.quizbot.services.questions;
 
 import com.game.quizbot.dao.AnswerDao;
 import com.game.quizbot.dao.QuestionDao;
+import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.model.Answer;
 import com.game.quizbot.model.Category;
 import com.game.quizbot.model.Question;
@@ -28,17 +29,17 @@ public class QuestionBundleAssembler {
     }
 
 
-    public Set<QuestionPack>  getWeightedQuestionBundle(){
-        Set<QuestionPack> bundle = new HashSet<>();
+    public Set<QuestionPackDto>  getWeightedQuestionBundle(){
+        Set<QuestionPackDto> bundle = new HashSet<>();
 
         for(int id : getWeightedQuestionIds()){
             Question question = questionDao.getQuestionById(id);
             Iterable<Answer> answers= answerDao.getAllAnswersByQuestionId(id);
 
-            QuestionPack pack = new QuestionPack();
+            QuestionPackDto pack = new QuestionPackDto();
             pack.setQuestionId(question.getQuestionId());
             pack.setQuestionContent(question.getQuestionContent());
-            pack.setAnswersDto(answers);
+            pack.setAnswers(answers);
 
             bundle.add(pack);
         }
