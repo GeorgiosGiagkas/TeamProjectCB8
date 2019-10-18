@@ -35,18 +35,12 @@ foreign key(category_id) references category(category_id) on delete cascade on u
 );
 
 create table answer(
-answer_id int auto_increment,
-answer_content text not null,
-primary key(answer_id)
-);
-
-create table question_answer(
-question_id int,
 answer_id int,
-question_answer_correct bit,
-primary key(question_id, answer_id),
-foreign key(question_id) references question(question_id) on delete cascade on update restrict,
-foreign key(answer_id) references answer(answer_id) on delete cascade on update restrict
+answer_content text not null,
+answer_correct bit,
+question_id int,
+primary key(answer_id),
+foreign key(question_id) references question(question_id) on delete cascade on update restrict
 );
 
 create table user_question(

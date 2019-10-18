@@ -46,8 +46,6 @@ public class Category implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "category_name")
     private String categoryName;
-    @Basic(optional = false)
-    @NotNull
     @Lob
     @Column(name = "category_image")
     private byte[] categoryImage;
@@ -67,10 +65,9 @@ public class Category implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public Category(Integer categoryId, String categoryName, byte[] categoryImage, boolean categoryActive) {
+    public Category(Integer categoryId, String categoryName, boolean categoryActive) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.categoryImage = categoryImage;
         this.categoryActive = categoryActive;
     }
 

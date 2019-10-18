@@ -6,23 +6,19 @@
 package com.game.quizbot.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,8 +33,8 @@ public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "answer_id")
     private Integer answerId;
     @Basic(optional = false)
@@ -47,8 +43,11 @@ public class Answer implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "answer_content")
     private String answerContent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "answer")
-    private Collection<QuestionAnswer> questionAnswerCollection;
+    @Column(name = "answer_correct")
+    private Boolean answerCorrect;
+    @JoinColumn(name = "question_id", referencedColumnName = "question_id")
+    @ManyToOne
+    private Question questionId;
 
     public Answer() {
     }
@@ -78,13 +77,20 @@ public class Answer implements Serializable {
         this.answerContent = answerContent;
     }
 
-    @XmlTransient
-    public Collection<QuestionAnswer> getQuestionAnswerCollection() {
-        return questionAnswerCollection;
+    public Boolean getAnswerCorrect() {
+        return answerCorrect;
     }
 
-    public void setQuestionAnswerCollection(Collection<QuestionAnswer> questionAnswerCollection) {
-        this.questionAnswerCollection = questionAnswerCollection;
+    public void setAnswerCorrect(Boolean answerCorrect) {
+        this.answerCorrect = answerCorrect;
+    }
+
+    public Question getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Question questionId) {
+        this.questionId = questionId;
     }
 
     @Override

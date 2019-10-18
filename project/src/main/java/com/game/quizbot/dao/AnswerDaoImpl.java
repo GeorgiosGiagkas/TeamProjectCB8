@@ -1,17 +1,25 @@
 package com.game.quizbot.dao;
 
 import com.game.quizbot.model.Answer;
+import com.game.quizbot.repositories.AnswerRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AnswerDaoImpl implements AnswerDao {
+
+    @Autowired
+    AnswerRepo ar;
+
     @Override
     public Iterable<Answer> getAllAnswersByQuestionId(int questionId) {
-        return null;
+        Iterable<Answer> allAnswersByQuestionId = ar.getAllAnswersByQuestionId(questionId);
+        return allAnswersByQuestionId;
     }
 
     @Override
     public Answer getCorrectAnswerByQuestionId(int questionId) {
-        return null;
+        Answer correctAnswerByQuestionId = ar.getCorrectAnswerByQuestionId(questionId);
+        return correctAnswerByQuestionId;
     }
 }

@@ -49,11 +49,11 @@ public class Question implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "question_content")
     private String questionContent;
+    @OneToMany(mappedBy = "questionId")
+    private Collection<Answer> answerCollection;
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     @ManyToOne(optional = false)
     private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-    private Collection<QuestionAnswer> questionAnswerCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
     private Collection<UserQuestion> userQuestionCollection;
 
@@ -85,21 +85,21 @@ public class Question implements Serializable {
         this.questionContent = questionContent;
     }
 
+    @XmlTransient
+    public Collection<Answer> getAnswerCollection() {
+        return answerCollection;
+    }
+
+    public void setAnswerCollection(Collection<Answer> answerCollection) {
+        this.answerCollection = answerCollection;
+    }
+
     public Category getCategoryId() {
         return categoryId;
     }
 
     public void setCategoryId(Category categoryId) {
         this.categoryId = categoryId;
-    }
-
-    @XmlTransient
-    public Collection<QuestionAnswer> getQuestionAnswerCollection() {
-        return questionAnswerCollection;
-    }
-
-    public void setQuestionAnswerCollection(Collection<QuestionAnswer> questionAnswerCollection) {
-        this.questionAnswerCollection = questionAnswerCollection;
     }
 
     @XmlTransient
