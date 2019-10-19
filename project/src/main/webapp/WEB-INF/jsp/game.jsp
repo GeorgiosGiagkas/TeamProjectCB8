@@ -14,6 +14,10 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href = "/css/game.css">
         <title>Game</title>
 
@@ -24,15 +28,10 @@
 
 
         <div class="jumbotron" id="question">
-            <c:out value="${question.questionContent}"/>
+
         </div>
 
         <div id="answers">
-
-            <c:forEach items="${answers}" var="item">
-
-                <button class="btn btn-outline-dark btn-rounded"><span class="letters"><c:out value="${item.answerContent}"/></span></button>
-            </c:forEach>
 
         </div>
 
@@ -40,16 +39,52 @@
             <button class="col-md-6 btn btn-outline-dark text-strong">Leave Round</button>
         </div>
 
+            <div class="text-center" id="start">
+                <button class="col-md-6 btn btn-outline-dark text-strong">Start</button>
+            </div>
 
         </div>
 
-        <footer id="sticky-footer" class="py-4">
-            <div class="container text-center">
-                <small>Copyright &copy; Your Website</small>
-            </div>
-        </footer>
 
 
+
+        <script type="application/javascript">
+            $(document).ready(function(){
+
+
+
+                $("#start").click(restShowQuestion);
+
+
+
+                function restShowQuestion(){
+                    $.ajax({
+                        url:"/get-next-question"
+                    }).then(function(data){
+
+                       console.log(data);
+                        $("#answers").html("");
+                        $("#question").text(data.questionContent);
+                       for(let a in data.answersDto){
+                           const btn = document.createElement("button");
+                           btn.className="btn btn-outline-dark btn-rounded";
+                           btn.setAttribute("answer-id",data.answersDto[a].answerId);
+                           const span = document.createElement("span");
+                           span.className="letters";
+                           span.innerText=data.answersDto[a].answerContent;
+                           btn.appendChild(span);
+                           $("#answers").append(btn);
+                        }
+
+
+                    });
+                }
+
+
+
+
+            });
+        </script>
 
 
     </body>

@@ -1,7 +1,5 @@
 package com.game.quizbot.controllers;
 
-import com.game.quizbot.dao.AnswerDao;
-import com.game.quizbot.dao.QuestionDao;
 import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.services.questions.QuestionBundleAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,10 +33,9 @@ public class GameController {
         assembler.setUserId(1);
         List<QuestionPackDto>  bundle = assembler.getWeightedQuestionBundle();
 
+        session.setAttribute("round-counter",0);
+        session.setAttribute("bundle",bundle);
 
-        session.setAttribute("question",bundle.get(0));
-        session.setAttribute("answers",bundle.get(0).getAnswers());
-        bundle.remove(0);
         mv.setViewName("game");
         return mv;
     }
@@ -46,19 +44,20 @@ public class GameController {
     @ResponseBody
     @GetMapping("/get-next-question")
     public QuestionPackDto getNextQuestion(HttpSession session){
-        session.getAttribute("bundle");
-        return null;
+        List<QuestionPackDto> bundle = (ArrayList<QuestionPackDto>)session.getAttribute("bundle");
+        int roundCounter =(int) session.getAttribute("round-counter");
+        return bundle.get(roundCounter);
     }
 
 
     @ResponseBody
     @GetMapping("/answer-verification")
-    public boolean verifyAnswer(@RequestParam("question-id") int questionId, @RequestParam("answer-id") int answerId ){
+    public int verifyAnswer(@RequestParam("question-id") int questionId, @RequestParam("answer-id") int answerId ){
         //check answer
         //insert output to database
         //return boolean result
         //remove a questionpack from the bundle
-        return  true;
+        return  0;
     }
 
 

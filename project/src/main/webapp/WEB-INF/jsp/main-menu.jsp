@@ -56,6 +56,9 @@
 
     <script type="application/javascript">
         $(document).ready(function(){
+
+
+            
             $("#btn-start-game").click(restShowCategories);
 
             function restShowCategories(){

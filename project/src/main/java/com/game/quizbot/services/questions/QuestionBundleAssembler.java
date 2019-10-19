@@ -21,6 +21,7 @@ public class QuestionBundleAssembler {
     private int userId;
     private int categoryId;
 
+
     @Autowired
     QuestionDao questionDao;
 
@@ -53,12 +54,14 @@ public class QuestionBundleAssembler {
             QuestionPackDto pack = new QuestionPackDto();
             pack.setQuestionId(question.getQuestionId());
             pack.setQuestionContent(question.getQuestionContent());
-            pack.setAnswers(answers);
+            pack.setAnswersDtoFromAnswers(answers);
 
             bundle.add(pack);
         }
         return  bundle;
     }
+
+
 
 
     private int[] getWeightedQuestionIds(){
