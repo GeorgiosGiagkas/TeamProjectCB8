@@ -5,7 +5,10 @@ import com.game.quizbot.repositories.AnswerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class AnswerDaoImpl implements AnswerDao {
 
     @Autowired
@@ -21,5 +24,10 @@ public class AnswerDaoImpl implements AnswerDao {
     public Answer getCorrectAnswerByQuestionId(int questionId) {
         Answer correctAnswerByQuestionId = ar.getCorrectAnswerByQuestionId(questionId);
         return correctAnswerByQuestionId;
+    }
+
+    @Override
+    public void insertAnswer(Answer a){
+        ar.save(a);
     }
 }

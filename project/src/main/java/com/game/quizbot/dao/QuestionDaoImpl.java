@@ -5,7 +5,10 @@ import com.game.quizbot.repositories.QuestionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class QuestionDaoImpl implements QuestionDao {
 
     @Autowired
@@ -23,5 +26,10 @@ public class QuestionDaoImpl implements QuestionDao {
         int [] getWeightedQuestionIdsArray =  {1,2,3,4,5,6,7,8,9,10};
         return getWeightedQuestionIdsArray;
         // NEEDS IMPLEMETATION
+    }
+
+    @Override
+    public void insertQuestion(Question q){
+        qr.save(q);
     }
 }

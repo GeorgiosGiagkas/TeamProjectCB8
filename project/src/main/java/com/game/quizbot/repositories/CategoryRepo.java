@@ -16,4 +16,7 @@ public interface CategoryRepo extends CrudRepository<Category,Integer> {
     @Query("SELECT c FROM Category c WHERE c.categoryActive=true")
     Iterable<Category> getAllActiveCategories();
 
+    @Query("SELECT c FROM Category c WHERE c.categoryName = ?1")
+    Iterable<Category> getCategoriesByName(String categoryName);
+
 }

@@ -10,4 +10,6 @@ public interface CategoryDao {
 
     public void insertCategory(Category c);
 
+    public Iterable<Category> getCategoriesByName(String categoryName);
+
 }

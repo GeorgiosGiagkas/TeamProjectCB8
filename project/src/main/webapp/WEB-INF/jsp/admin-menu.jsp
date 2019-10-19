@@ -41,7 +41,7 @@
 
                     </div>
                     <div class="card-body">
-                        <button class="btn-warning btn">Create new Question</button>
+                        <button id = "btn-create-question" class="btn-warning btn">Create new Question</button>
                         <button id = "btn-create-category" class="btn-warning btn">Create new Category</button>
                         <button class="btn-warning btn">Edit existing Question</button>
                         <button class="btn-warning btn">Edit existing Category</button>
@@ -60,7 +60,13 @@
             $("#btn-create-category").click(function(){
                window.location = "/show-create-category";
             });
+
+            $("#btn-create-question").click(function(){
+                window.location = "/show-create-question";
+            });
         });
+
+
     </script>
     </body>
 </html>

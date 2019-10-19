@@ -6,5 +6,6 @@ public interface QuestionDao {
 
     public Question getQuestionById(int questionId);
     public int[] getWeightedQuestionIds(int userId, int categoryId);
+    public void insertQuestion(Question q);
 
 }
