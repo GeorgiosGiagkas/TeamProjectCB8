@@ -8,14 +8,18 @@ import com.game.quizbot.model.Category;
 import com.game.quizbot.model.Question;
 import com.game.quizbot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
+@Component
 public class QuestionBundleAssembler {
-    private User user;
-    private Category category;
+    private int userId;
+    private int categoryId;
 
     @Autowired
     QuestionDao questionDao;
@@ -23,14 +27,24 @@ public class QuestionBundleAssembler {
     @Autowired
     AnswerDao answerDao;
 
-    public QuestionBundleAssembler(User user,Category category) {
-        this.user = user;
-        this.category = category;
+    public int getUserId() {
+        return userId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-    public Set<QuestionPackDto>  getWeightedQuestionBundle(){
-        Set<QuestionPackDto> bundle = new HashSet<>();
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public List<QuestionPackDto> getWeightedQuestionBundle(){
+        List<QuestionPackDto> bundle = new ArrayList<>();
 
         for(int id : getWeightedQuestionIds()){
             Question question = questionDao.getQuestionById(id);
@@ -48,7 +62,7 @@ public class QuestionBundleAssembler {
 
 
     private int[] getWeightedQuestionIds(){
-        return questionDao.getWeightedQuestionIds(user.getUserId(), category.getCategoryId());
+        return questionDao.getWeightedQuestionIds(userId, categoryId);
     }
 
 

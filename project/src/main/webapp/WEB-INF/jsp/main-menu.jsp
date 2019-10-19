@@ -19,8 +19,14 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
               integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+        <!--Jquery--!>
+        <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous"></script>
         <!--Custom styles-->
         <link rel="stylesheet" type="text/css" href="/css/menu.css">
+
     </head>
 
     <body>
@@ -35,7 +41,7 @@
 
                     </div>
                     <div class="card-body">
-                        <button class = "btn-warning btn">Start Game</button>
+                        <button id="btn-start-game" class = "btn-warning btn">Start Game</button>
                         <button class = "btn-warning btn">Leaderboard</button>
                         <button class = "btn-warning btn">Show Stats</button>
                         <button class = "btn-warning btn">Shop</button>
@@ -47,5 +53,31 @@
             </div>
         </div>
 
+
+    <script type="application/javascript">
+        $(document).ready(function(){
+            $("#btn-start-game").click(restShowCategories);
+
+            function restShowCategories(){
+                $.ajax({
+                    url:"/show-categories"
+                }).then(function(data){
+                    $(".card-body").html("");
+                    for(let i in data){
+                        const link = document.createElement("a");
+                        link.className="btn btn-warning";
+                        link.innerText=data[i].categoryName;
+                        link.href="/start-game?category-id="+data[i].categoryId;
+
+                        $(".card-body").append(link);
+                    }
+                });
+            }
+
+
+
+
+        });
+    </script>
     </body>
 </html>

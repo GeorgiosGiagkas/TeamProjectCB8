@@ -14,6 +14,7 @@ public class QuestionDaoImpl implements QuestionDao {
     @Override
     public Question getQuestionById(int questionId) {
         Question questionById = qr.getQuestionById(questionId);
+
         return questionById;
     }
 

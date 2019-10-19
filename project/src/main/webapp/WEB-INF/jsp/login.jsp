@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: giagkas
@@ -24,6 +25,7 @@
     </head>
 
     <body>
+
         <div class="container">
 
             <div class="d-flex justify-content-center h-100">

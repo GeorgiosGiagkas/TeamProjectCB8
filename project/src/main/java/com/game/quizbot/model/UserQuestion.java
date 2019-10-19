@@ -41,9 +41,9 @@ public class UserQuestion implements Serializable {
     private boolean userQuestionSuccess;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "user_question_timespamp")
+    @Column(name = "user_question_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date userQuestionTimespamp;
+    private Date userQuestionTimestamp;
     @JoinColumn(name = "question_id", referencedColumnName = "question_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Question question;
@@ -61,7 +61,7 @@ public class UserQuestion implements Serializable {
     public UserQuestion(UserQuestionPK userQuestionPK, boolean userQuestionSuccess, Date userQuestionTimespamp) {
         this.userQuestionPK = userQuestionPK;
         this.userQuestionSuccess = userQuestionSuccess;
-        this.userQuestionTimespamp = userQuestionTimespamp;
+        this.userQuestionTimestamp = userQuestionTimestamp;
     }
 
     public UserQuestion(int userId, int questionId) {
@@ -84,12 +84,12 @@ public class UserQuestion implements Serializable {
         this.userQuestionSuccess = userQuestionSuccess;
     }
 
-    public Date getUserQuestionTimespamp() {
-        return userQuestionTimespamp;
+    public Date getUserQuestionTimestamp() {
+        return userQuestionTimestamp;
     }
 
-    public void setUserQuestionTimespamp(Date userQuestionTimespamp) {
-        this.userQuestionTimespamp = userQuestionTimespamp;
+    public void setUserQuestionTimestamp(Date userQuestionTimestamp) {
+        this.userQuestionTimestamp = userQuestionTimestamp;
     }
 
     public Question getQuestion() {

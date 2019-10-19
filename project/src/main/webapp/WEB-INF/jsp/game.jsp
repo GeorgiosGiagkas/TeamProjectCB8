@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: giagkas
@@ -23,15 +24,15 @@
 
 
         <div class="jumbotron" id="question">
-            Which of the programming languages below is NOT object oriented?
+            <c:out value="${question.questionContent}"/>
         </div>
 
         <div id="answers">
-            <button class="col-md-12 btn btn-outline-dark btn-rounded"><span class="letters">A.</span>Java</button>
-            <button class="col-md-12 btn btn-outline-dark btn-rounded"><span class="letters">B.</span>C#</button>
 
-            <button class="col-md-12 btn btn-outline-dark btn-rounded"><span class="letters">C.</span>Python</button>
-            <button class="col-md-12 btn btn-outline-dark btn-rounded"><span class="letters">D.</span>C</button>
+            <c:forEach items="${answers}" var="item">
+
+                <button class="btn btn-outline-dark btn-rounded"><span class="letters"><c:out value="${item.answerContent}"/></span></button>
+            </c:forEach>
 
         </div>
 
@@ -47,6 +48,9 @@
                 <small>Copyright &copy; Your Website</small>
             </div>
         </footer>
+
+
+
 
     </body>
 </html>

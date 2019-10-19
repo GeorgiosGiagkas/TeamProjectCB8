@@ -9,10 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionRepo extends CrudRepository<Question,Integer> {
 
-    @Query("SELECT q from QUESTION q WHERE questionId=?1")
+    @Query("SELECT q from Question q WHERE q.questionId=?1")
     Question getQuestionById(int questionId);
-
-
 
 
 }

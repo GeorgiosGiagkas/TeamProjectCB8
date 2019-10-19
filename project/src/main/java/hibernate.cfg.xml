@@ -5,13 +5,13 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.url">
-            <![CDATA[jdbc:mysql://localhost:3306/QUIZBOT?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false]]></property>
+            <![CDATA[jdbc:mysql://ra1.anystream.eu:5420/quizbot?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false]]></property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <mapping class="com.game.quizbot.model.Answer"/>
         <mapping class="com.game.quizbot.model.Avatar"/>
         <mapping class="com.game.quizbot.model.Category"/>
         <mapping class="com.game.quizbot.model.Question"/>
-        <mapping class="com.game.quizbot.model.QuestionAnswer"/>
+        <!--<mapping class="com.game.quizbot.model.QuestionAnswer"/>-->
         <mapping class="com.game.quizbot.model.Role"/>
         <mapping class="com.game.quizbot.model.User"/>
         <!--<mapping class="com.game.quizbot.model.UserAvatar"/>-->
