@@ -52,23 +52,25 @@
             $(document).ready(function(){
 
 
-
+                //NEXT QUESTION
                 $("#start").click(restShowQuestion);
-
-
 
                 function restShowQuestion(){
                     $.ajax({
                         url:"/get-next-question"
                     }).then(function(data){
 
-                       console.log(data);
+                        if(data.questionId===0){
+                            return;
+                        }
+
                         $("#answers").html("");
                         $("#question").text(data.questionContent);
+                        $("#question").attr("question-id",data.questionId);
                        for(let a in data.answersDto){
                            const btn = document.createElement("button");
                            btn.className="btn btn-outline-dark btn-rounded";
-                           btn.setAttribute("answer-id",data.answersDto[a].answerId);
+                           btn.setAttribute("data-answer-id",data.answersDto[a].answerId);
                            const span = document.createElement("span");
                            span.className="letters";
                            span.innerText=data.answersDto[a].answerContent;
@@ -80,6 +82,38 @@
                     });
                 }
 
+
+                //Get Correct Answer
+                document.addEventListener("click",restGetCorrectAnswer);
+
+                function restGetCorrectAnswer(e){
+
+                    if(e.target.hasAttribute("data-answer-id")){
+
+                        const id=e.target.getAttribute("data-answer-id");
+                        $.ajax({
+                            url:"/answer-verification?question-id="+$("#question").attr("question-id")+"&answer-id="+id
+                        }).then(function(data){
+
+                            highlightCorrectAnswer(data);
+                            setTimeout(restShowQuestion,2000);
+
+                        });
+
+                    }
+
+                }
+
+                function highlightCorrectAnswer(answerId){
+                    const buttons = document.querySelectorAll("[data-answer-id]");
+                    buttons.forEach(function(b){
+                        b.disabled=true;
+                        if(b.getAttribute("data-answer-id")==answerId){
+                            b.className+=" bg-success";
+                        }
+                    })
+
+                }
 
 
 

@@ -20,7 +20,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public int[] getWeightedQuestionIds(int userId, int categoryId) {
-        int [] getWeightedQuestionIdsArray =  {1,2,3,5,6,7,8,9,10};
+        int [] getWeightedQuestionIdsArray =  {1,2,3,4,5,6,7,8,9,10};
         return getWeightedQuestionIdsArray;
         // NEEDS IMPLEMETATION
     }
