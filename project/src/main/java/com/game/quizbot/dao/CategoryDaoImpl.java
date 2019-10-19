@@ -25,4 +25,9 @@ public class CategoryDaoImpl implements CategoryDao {
         Iterable allActiveCategories = cr.getAllActiveCategories();
         return allActiveCategories;
     }
+
+    @Override
+    public void insertCategory(Category c){
+        cr.save(c);
+    }
 }
