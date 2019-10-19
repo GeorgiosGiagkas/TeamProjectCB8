@@ -11,7 +11,7 @@ public interface AnswerRepo extends CrudRepository<Answer,Integer> {
     @Query("SELECT a FROM Answer a WHERE a.questionId.questionId=?1")
     Iterable<Answer> getAllAnswersByQuestionId(int questionId);
 
-    @Query("SELECT a FROM Answer a WHERE a.questionId=?1 AND a.answerCorrect=true")
+    @Query("SELECT a FROM Answer a WHERE a.questionId.questionId=?1 AND a.answerCorrect=true")
     Answer getCorrectAnswerByQuestionId(int questionId);
 
 }
