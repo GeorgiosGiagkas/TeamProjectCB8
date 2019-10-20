@@ -5,7 +5,10 @@
  */
 package com.game.quizbot.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -42,8 +45,9 @@ public class UserQuestion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_question_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date userQuestionTimestamp;
+//    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime userQuestionTimestamp;
     @JoinColumn(name = "question_id", referencedColumnName = "question_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Question question;
@@ -84,11 +88,11 @@ public class UserQuestion implements Serializable {
         this.userQuestionSuccess = userQuestionSuccess;
     }
 
-    public Date getUserQuestionTimestamp() {
+    public LocalDateTime getUserQuestionTimestamp() {
         return userQuestionTimestamp;
     }
 
-    public void setUserQuestionTimestamp(Date userQuestionTimestamp) {
+    public void setUserQuestionTimestamp(LocalDateTime userQuestionTimestamp) {
         this.userQuestionTimestamp = userQuestionTimestamp;
     }
 

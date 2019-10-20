@@ -1,8 +1,13 @@
 package com.game.quizbot.controllers;
 
 import com.game.quizbot.dao.AnswerDao;
+import com.game.quizbot.dao.QuestionDao;
+import com.game.quizbot.dao.UserQuestionDao;
 import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.model.Answer;
+import com.game.quizbot.model.Question;
+import com.game.quizbot.model.UserQuestion;
+import com.game.quizbot.model.UserQuestionPK;
 import com.game.quizbot.services.questions.QuestionBundleAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +36,12 @@ public class GameController {
     @Autowired
     AnswerDao answerDao;
 
+    @Autowired
+    QuestionDao questionDao;
+
+
+    @Autowired
+    UserQuestionDao userQuestionDao;
 
 
     @GetMapping("/start-game")
@@ -67,11 +79,22 @@ public class GameController {
     public int verifyAnswer(@RequestParam("question-id") int questionId, @RequestParam("answer-id") int answerId ,HttpSession session){
         //check answer
         Answer answer =answerDao.getCorrectAnswerByQuestionId(questionId);
+        boolean userAnswerCorrect = false;
         if(answerId==answer.getAnswerId()){
-            //
+            userAnswerCorrect=true;
         }
         //insert output to database
-        //return result
+        Question question = questionDao.getQuestionById(questionId);
+
+        UserQuestionPK pk = new UserQuestionPK(1,questionId);
+        UserQuestion userQuestion = new UserQuestion();
+        userQuestion.setUserQuestionPK(pk);
+        userQuestion.setUserQuestionSuccess(userAnswerCorrect);
+
+        userQuestion.setQuestion(question);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        userQuestion.setUserQuestionTimestamp(localDateTime);
+        userQuestionDao.insertUserQuestion(userQuestion);
 
         //update round
         int roundCounter =(int)session.getAttribute("round-counter");
@@ -81,6 +104,5 @@ public class GameController {
     }
 
 
-    //On refresh. Save the state kai run the corresponding rest state??
 
 }
