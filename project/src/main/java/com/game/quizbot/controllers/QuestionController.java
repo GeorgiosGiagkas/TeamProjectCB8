@@ -6,6 +6,7 @@ import com.game.quizbot.dao.QuestionDao;
 import com.game.quizbot.model.Answer;
 import com.game.quizbot.model.Category;
 import com.game.quizbot.model.Question;
+import com.game.quizbot.services.questions.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +31,9 @@ public class QuestionController {
     @Autowired
     AnswerDao ad;
 
+    @Autowired
+    QuestionService qs;
+
 
     @GetMapping("/show-create-question")
     public String showCreateQuestion(ModelMap m){
@@ -45,27 +49,8 @@ public class QuestionController {
     public String createQuestion(@ModelAttribute("myquestion") Question q, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
                                  @RequestParam("categoryName") String categoryName){
 
+        qs.createQuestion(q, answersStr, correctAnswer, categoryName);
 
-        Iterable<Category> categories = new ArrayList<>();
-        categories = cd.getCategoriesByName(categoryName);
-        Category categoryId = ((ArrayList<Category>) categories).get(0);
-
-        q.setCategoryId(categoryId);
-
-        qd.insertQuestion(q);
-
-        System.out.println(answersStr.toString());
-
-        for(int i = 0; i < answersStr.size(); i++){
-            Answer answer = new Answer();
-            answer.setAnswerContent(answersStr.get(i));
-            answer.setQuestionId(q);
-            answer.setAnswerCorrect(false);
-            int answerNo = i + 1;
-            if(correctAnswer == answerNo)
-                answer.setAnswerCorrect(true);
-            ad.insertAnswer(answer);
-        }
 
         return "admin-menu";
     }
