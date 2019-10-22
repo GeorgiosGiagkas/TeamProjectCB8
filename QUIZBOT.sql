@@ -44,7 +44,7 @@ foreign key(question_id) references question(question_id) on delete cascade on u
 );
 
 create table user_question(
-user_question_id int not null,
+user_question_id int auto_increment not null,
 user_id int not null,
 question_id int not null,
 user_question_success bit not null,
@@ -74,7 +74,7 @@ primary key(avatar_id)
 );
 
 create table user_avatar(
-user_avatar_id int not null,
+user_avatar_id int auto_increment not null,
 user_id int not null,
 avatar_id int not null,
 primary key(user_avatar_id),
