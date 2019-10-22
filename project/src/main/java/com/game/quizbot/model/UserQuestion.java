@@ -5,8 +5,10 @@
  */
 package com.game.quizbot.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -47,8 +47,9 @@ public class UserQuestion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_question_timespamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date userQuestionTimespamp;
+//    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime userQuestionTimespamp;
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     @ManyToOne(optional = false)
     private Question questionId;
@@ -63,7 +64,7 @@ public class UserQuestion implements Serializable {
         this.userQuestionId = userQuestionId;
     }
 
-    public UserQuestion(Integer userQuestionId, boolean userQuestionSuccess, Date userQuestionTimespamp) {
+    public UserQuestion(Integer userQuestionId, boolean userQuestionSuccess, LocalDateTime userQuestionTimespamp) {
         this.userQuestionId = userQuestionId;
         this.userQuestionSuccess = userQuestionSuccess;
         this.userQuestionTimespamp = userQuestionTimespamp;
@@ -85,11 +86,11 @@ public class UserQuestion implements Serializable {
         this.userQuestionSuccess = userQuestionSuccess;
     }
 
-    public Date getUserQuestionTimespamp() {
+    public LocalDateTime getUserQuestionTimespamp() {
         return userQuestionTimespamp;
     }
 
-    public void setUserQuestionTimespamp(Date userQuestionTimespamp) {
+    public void setUserQuestionTimespamp(LocalDateTime userQuestionTimespamp) {
         this.userQuestionTimespamp = userQuestionTimespamp;
     }
 

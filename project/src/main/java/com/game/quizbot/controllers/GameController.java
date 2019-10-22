@@ -2,12 +2,13 @@ package com.game.quizbot.controllers;
 
 import com.game.quizbot.dao.AnswerDao;
 import com.game.quizbot.dao.QuestionDao;
+import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.dao.UserQuestionDao;
 import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.model.Answer;
 import com.game.quizbot.model.Question;
+import com.game.quizbot.model.User;
 import com.game.quizbot.model.UserQuestion;
-import com.game.quizbot.model.UserQuestionPK;
 import com.game.quizbot.services.questions.QuestionBundleAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ public class GameController {
     @Autowired
     QuestionDao questionDao;
 
+    @Autowired
+    UserDao userDao;
 
     @Autowired
     UserQuestionDao userQuestionDao;
@@ -85,15 +88,16 @@ public class GameController {
         }
         //insert output to database
         Question question = questionDao.getQuestionById(questionId);
+        User user =  userDao.getUserById(1);
 
-        UserQuestionPK pk = new UserQuestionPK(1,questionId);
         UserQuestion userQuestion = new UserQuestion();
-        userQuestion.setUserQuestionPK(pk);
+
         userQuestion.setUserQuestionSuccess(userAnswerCorrect);
 
-        userQuestion.setQuestion(question);
+        userQuestion.setQuestionId(question);
+        userQuestion.setUserId(user);
         LocalDateTime localDateTime = LocalDateTime.now();
-        userQuestion.setUserQuestionTimestamp(localDateTime);
+        userQuestion.setUserQuestionTimespamp(localDateTime);
         userQuestionDao.insertUserQuestion(userQuestion);
 
         //update round
