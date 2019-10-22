@@ -47,6 +47,7 @@ public class GameController {
     UserQuestionDao userQuestionDao;
 
 
+
     @GetMapping("/start-game")
     public ModelAndView startGame(ModelAndView mv, HttpSession session,@RequestParam("category-id") int categoryId){
 //        User user = (User)session.getAttribute("login-user");
@@ -57,6 +58,9 @@ public class GameController {
 
         session.setAttribute("round-counter",0);
         session.setAttribute("bundle",bundle);
+        session.setAttribute("user-score",0);
+        session.setAttribute("user-highscore",0);
+
 
         mv.setViewName("game");
         return mv;
@@ -79,7 +83,8 @@ public class GameController {
 
     @ResponseBody
     @GetMapping("/answer-verification")
-    public int verifyAnswer(@RequestParam("question-id") int questionId, @RequestParam("answer-id") int answerId ,HttpSession session){
+    public int verifyAnswer(@RequestParam("question-id") int questionId, @RequestParam("answer-id") int answerId ,
+                            @RequestParam("timer") int timer,@RequestParam("points") int points,HttpSession session){
         //check answer
         Answer answer =answerDao.getCorrectAnswerByQuestionId(questionId);
         boolean userAnswerCorrect = false;
@@ -99,6 +104,17 @@ public class GameController {
         LocalDateTime localDateTime = LocalDateTime.now();
         userQuestion.setUserQuestionTimespamp(localDateTime);
         userQuestionDao.insertUserQuestion(userQuestion);
+
+
+        //calculate points
+        int resultPoints = timer*points;
+        int sum = (int)session.getAttribute("user-score") +resultPoints ;
+        System.out.println(sum);
+        if(sum > (int)session.getAttribute("user-highscore")){
+            //update user highscore
+            System.out.println("new high score");
+        }
+
 
         //update round
         int roundCounter =(int)session.getAttribute("round-counter");

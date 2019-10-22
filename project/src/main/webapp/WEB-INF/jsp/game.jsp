@@ -25,7 +25,7 @@
     <body>
 
         <div class="container-fluid col-md-6" id="container">
-
+            <div style="margin:auto;" id="countdown"></div>
 
         <div class="jumbotron" id="question">
 
@@ -51,11 +51,18 @@
         <script type="application/javascript">
             $(document).ready(function(){
 
+                //set timer state
+                let stopTimer = false;
+                let timeleft =20;
+
+                //set points modifier
+                let pointsModifier = 0;
 
                 //NEXT QUESTION
                 $("#start").click(restShowQuestion);
 
                 function restShowQuestion(){
+                    pointsModifier=generatePoints();
                     $.ajax({
                         url:"/get-next-question"
                     }).then(function(data){
@@ -78,10 +85,20 @@
                            $("#answers").append(btn);
                         }
 
+                        //TIMER
+                        stopTimer=false;
+                            let  time = setInterval(function(){
+                                document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+                                timeleft -= 1;
+                                if(timeleft <= 0 || stopTimer){
+                                    clearInterval(time);
+                                    document.getElementById("countdown").innerHTML = "Finished"
+                                }
+                            }, 1000);
 
                     });
-                }
 
+                }
 
                 //Get Correct Answer
                 document.addEventListener("click",restGetCorrectAnswer);
@@ -90,18 +107,22 @@
 
                     if(e.target.hasAttribute("data-answer-id")){
 
+                        //stop timer
+                        stopTimer=true;
+                        let timeBonus = timeleft;
+                        let points = pointsModifier;
+                        timeleft=20;
+
                         const id=e.target.getAttribute("data-answer-id");
                         $.ajax({
-                            url:"/answer-verification?question-id="+$("#question").attr("question-id")+"&answer-id="+id
+                            url:"/answer-verification?question-id="+$("#question").attr("question-id")+"&answer-id="+id+"&timer="+timeBonus+"&points="+points
                         }).then(function(data){
 
                             highlightCorrectAnswer(data);
-                            setTimeout(restShowQuestion,2000);
+                            setTimeout(restShowQuestion,3000);
 
                         });
-
                     }
-
                 }
 
                 function highlightCorrectAnswer(answerId){
@@ -112,10 +133,16 @@
                             b.className+=" bg-success";
                         }
                     })
-
                 }
 
 
+                //generate random points//wheel or other visualization
+                function generatePoints(){
+                    const arrayPoints = [1,2,3,4,5];
+                    randomPoints = Math.floor(1+Math.random()*(arrayPoints.length));
+                    console.log(randomPoints);
+                    return randomPoints;
+                }
 
             });
         </script>
