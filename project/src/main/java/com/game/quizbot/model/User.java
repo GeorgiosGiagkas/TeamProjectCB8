@@ -15,8 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -59,17 +57,14 @@ public class User implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "user_email")
     private String userEmail;
-    @JoinTable(name = "user_avatar", joinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "avatar_id", referencedColumnName = "avatar_id")})
-    @ManyToMany
-    private Collection<Avatar> avatarCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<UserAvatar> userAvatarCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UserHighscore> userHighscoreCollection;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     @ManyToOne(optional = false)
     private Role roleId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<UserQuestion> userQuestionCollection;
 
     public User() {
@@ -119,12 +114,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Avatar> getAvatarCollection() {
-        return avatarCollection;
+    public Collection<UserAvatar> getUserAvatarCollection() {
+        return userAvatarCollection;
     }
 
-    public void setAvatarCollection(Collection<Avatar> avatarCollection) {
-        this.avatarCollection = avatarCollection;
+    public void setUserAvatarCollection(Collection<UserAvatar> userAvatarCollection) {
+        this.userAvatarCollection = userAvatarCollection;
     }
 
     @XmlTransient

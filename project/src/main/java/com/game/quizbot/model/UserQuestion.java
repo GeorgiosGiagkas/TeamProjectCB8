@@ -5,15 +5,12 @@
  */
 package com.game.quizbot.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -36,48 +33,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserQuestion implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected UserQuestionPK userQuestionPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "user_question_id")
+    private Integer userQuestionId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_question_success")
     private boolean userQuestionSuccess;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "user_question_timestamp")
-//    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime userQuestionTimestamp;
-    @JoinColumn(name = "question_id", referencedColumnName = "question_id", insertable = false, updatable = false)
+    @Column(name = "user_question_timespamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date userQuestionTimespamp;
+    @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     @ManyToOne(optional = false)
-    private Question question;
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    private Question questionId;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private User user;
+    private User userId;
 
     public UserQuestion() {
     }
 
-    public UserQuestion(UserQuestionPK userQuestionPK) {
-        this.userQuestionPK = userQuestionPK;
+    public UserQuestion(Integer userQuestionId) {
+        this.userQuestionId = userQuestionId;
     }
 
-    public UserQuestion(UserQuestionPK userQuestionPK, boolean userQuestionSuccess, Date userQuestionTimespamp) {
-        this.userQuestionPK = userQuestionPK;
+    public UserQuestion(Integer userQuestionId, boolean userQuestionSuccess, Date userQuestionTimespamp) {
+        this.userQuestionId = userQuestionId;
         this.userQuestionSuccess = userQuestionSuccess;
-        this.userQuestionTimestamp = userQuestionTimestamp;
+        this.userQuestionTimespamp = userQuestionTimespamp;
     }
 
-    public UserQuestion(int userId, int questionId) {
-        this.userQuestionPK = new UserQuestionPK(userId, questionId);
+    public Integer getUserQuestionId() {
+        return userQuestionId;
     }
 
-    public UserQuestionPK getUserQuestionPK() {
-        return userQuestionPK;
-    }
-
-    public void setUserQuestionPK(UserQuestionPK userQuestionPK) {
-        this.userQuestionPK = userQuestionPK;
+    public void setUserQuestionId(Integer userQuestionId) {
+        this.userQuestionId = userQuestionId;
     }
 
     public boolean getUserQuestionSuccess() {
@@ -88,34 +83,34 @@ public class UserQuestion implements Serializable {
         this.userQuestionSuccess = userQuestionSuccess;
     }
 
-    public LocalDateTime getUserQuestionTimestamp() {
-        return userQuestionTimestamp;
+    public Date getUserQuestionTimespamp() {
+        return userQuestionTimespamp;
     }
 
-    public void setUserQuestionTimestamp(LocalDateTime userQuestionTimestamp) {
-        this.userQuestionTimestamp = userQuestionTimestamp;
+    public void setUserQuestionTimespamp(Date userQuestionTimespamp) {
+        this.userQuestionTimespamp = userQuestionTimespamp;
     }
 
-    public Question getQuestion() {
-        return question;
+    public Question getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(Question questionId) {
+        this.questionId = questionId;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userQuestionPK != null ? userQuestionPK.hashCode() : 0);
+        hash += (userQuestionId != null ? userQuestionId.hashCode() : 0);
         return hash;
     }
 
@@ -126,7 +121,7 @@ public class UserQuestion implements Serializable {
             return false;
         }
         UserQuestion other = (UserQuestion) object;
-        if ((this.userQuestionPK == null && other.userQuestionPK != null) || (this.userQuestionPK != null && !this.userQuestionPK.equals(other.userQuestionPK))) {
+        if ((this.userQuestionId == null && other.userQuestionId != null) || (this.userQuestionId != null && !this.userQuestionId.equals(other.userQuestionId))) {
             return false;
         }
         return true;
@@ -134,7 +129,7 @@ public class UserQuestion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.game.quizbot.model.UserQuestion[ userQuestionPK=" + userQuestionPK + " ]";
+        return "com.game.quizbot.model.UserQuestion[ userQuestionId=" + userQuestionId + " ]";
     }
     
 }

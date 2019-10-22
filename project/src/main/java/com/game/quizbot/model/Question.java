@@ -54,7 +54,7 @@ public class Question implements Serializable {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     @ManyToOne(optional = false)
     private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
     private Collection<UserQuestion> userQuestionCollection;
 
     public Question() {
