@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-body">
 
-                        <spring:form modelAttribute="mycategory" action="create-category" method="POST">
+                        <spring:form modelAttribute="mycategory" action="create-category" method="POST" enctype = "multipart/form-data">
 
                             <div class="form-group">
 
