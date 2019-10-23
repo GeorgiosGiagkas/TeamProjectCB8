@@ -1,14 +1,8 @@
 package com.game.quizbot.controllers;
 
-import com.game.quizbot.dao.AnswerDao;
-import com.game.quizbot.dao.QuestionDao;
-import com.game.quizbot.dao.UserDao;
-import com.game.quizbot.dao.UserQuestionDao;
+import com.game.quizbot.dao.*;
 import com.game.quizbot.dto.QuestionPackDto;
-import com.game.quizbot.model.Answer;
-import com.game.quizbot.model.Question;
-import com.game.quizbot.model.User;
-import com.game.quizbot.model.UserQuestion;
+import com.game.quizbot.model.*;
 import com.game.quizbot.services.questions.QuestionBundleAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +40,9 @@ public class GameController {
     @Autowired
     UserQuestionDao userQuestionDao;
 
+    @Autowired
+    UserHighscoreDao userHighscoreDao;
+
 
 
     @GetMapping("/start-game")
@@ -59,7 +56,12 @@ public class GameController {
         session.setAttribute("round-counter",0);
         session.setAttribute("bundle",bundle);
         session.setAttribute("user-score",0);
-        session.setAttribute("user-highscore",0);
+        session.setAttribute("category-id",categoryId);
+
+        UserHighscorePK userHighscorePK = new UserHighscorePK(1,categoryId);
+        userHighscoreDao.createUserHighscore(userHighscorePK);
+        UserHighscore userHighscore = userHighscoreDao.getUserHighscore(userHighscorePK);
+        session.setAttribute("user-highscore",userHighscore.getHighscore());
 
 
         mv.setViewName("game");
@@ -107,13 +109,20 @@ public class GameController {
 
 
         //calculate points
-        int resultPoints = timer*points;
-        int sum = (int)session.getAttribute("user-score") +resultPoints ;
-        System.out.println(sum);
-        if(sum > (int)session.getAttribute("user-highscore")){
-            //update user highscore
-            System.out.println("new high score");
+        if(userAnswerCorrect){
+            int resultPoints = timer*points;
+            int sum = (int)session.getAttribute("user-score") +resultPoints ;
+            System.out.println(sum);
+            session.setAttribute("user-score",sum);
+            if(sum > (int)session.getAttribute("user-highscore")){
+                //update user highscore
+                UserHighscorePK userHighscorePK = new UserHighscorePK(1,(int)session.getAttribute("category-id"));
+                userHighscoreDao.insertNewUserHighscore(userHighscorePK,sum);
+                session.setAttribute("user-highscore",sum);
+                System.out.println("new high score");
+            }
         }
+
 
 
         //update round
