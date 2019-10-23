@@ -26,18 +26,17 @@ public class CategoryController {
     @Autowired
     CategoryService cs;
 
-    @GetMapping("/show-create-category")
-    public String showCreateCategoryForm(ModelMap m){
-        Category c = new Category();
-        m.addAttribute("mycategory", c);
-        return "create-category";
-    }
 
     @PostMapping("/create-category")
-    public String createCategory(@ModelAttribute("mycategory") Category c, @RequestParam("category-image") Part p) {
+    public String createCategory(@RequestParam("categoryName") String categoryName, @RequestParam("category-image") Part p) {
+
+        Category c = new Category();
+        c.setCategoryName(categoryName);
+
         cd.insertCategory(c);
 
         cs.partWrite(p);
+
 
         return "admin-menu";
     }

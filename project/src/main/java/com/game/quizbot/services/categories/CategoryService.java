@@ -4,7 +4,7 @@ import com.game.quizbot.utils.PartUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Part;
-import java.io.IOException;
+
 
 @Component
 public class CategoryService {

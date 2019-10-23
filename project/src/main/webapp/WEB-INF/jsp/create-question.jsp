@@ -40,7 +40,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h3>Create new Category</h3>
+                        <h3>Create new Question</h3>
 
                     </div>
                     <div class="card-body">

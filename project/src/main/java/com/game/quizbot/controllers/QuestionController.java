@@ -35,19 +35,14 @@ public class QuestionController {
     QuestionService qs;
 
 
-    @GetMapping("/show-create-question")
-    public String showCreateQuestion(ModelMap m){
-        Question q = new Question();
 
-        m.addAttribute("myquestion", q);
-
-        return "create-question";
-
-    }
 
     @PostMapping("/create-question")
-    public String createQuestion(@ModelAttribute("myquestion") Question q, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
+    public String createQuestion(@RequestParam("questionContent") String questionContent, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
                                  @RequestParam("categoryName") String categoryName){
+
+        Question q = new Question();
+        q.setQuestionContent(questionContent);
 
         qs.createQuestion(q, answersStr, correctAnswer, categoryName);
 
