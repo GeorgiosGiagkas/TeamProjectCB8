@@ -32,4 +32,10 @@ public class QuestionDaoImpl implements QuestionDao {
     public void insertQuestion(Question q){
         qr.save(q);
     }
+
+    @Override
+    public Iterable<Question> getAllQuestions(){
+        Iterable<Question> questions = qr.findAll();
+        return questions;
+    }
 }

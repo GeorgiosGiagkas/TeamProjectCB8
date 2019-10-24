@@ -3,10 +3,13 @@ package com.game.quizbot.services.questions;
 import com.game.quizbot.dao.AnswerDao;
 import com.game.quizbot.dao.CategoryDao;
 import com.game.quizbot.dao.QuestionDao;
+import com.game.quizbot.dto.CategoryDto;
+import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.model.Answer;
 import com.game.quizbot.model.Category;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -48,4 +51,32 @@ public class QuestionService {
             ad.insertAnswer(answer);
         }
     }
+
+    public List<QuestionPackDto> getAllQuestions(){
+        List<QuestionPackDto> questionsDto = new ArrayList<>();
+        Iterator<Question> questions = qd.getAllQuestions().iterator();
+        while (questions.hasNext()){
+            Question q = questions.next();
+            QuestionPackDto questionPackDto = new QuestionPackDto();
+            questionPackDto.setQuestionId(q.getQuestionId());
+            questionPackDto.setQuestionContent(q.getQuestionContent());
+            questionPackDto.setCategoryName(cd.getCategoryNameById(q.getCategoryId().getCategoryId()));
+            questionPackDto.setAnswersDtoFromAnswers(q.getAnswerCollection());
+            questionsDto.add(questionPackDto);
+        }
+        return questionsDto;
+    }
+
+    public QuestionPackDto getQuestionPackDtoById(int id){
+        Question q = qd.getQuestionById(id);
+        QuestionPackDto questionPackDto = new QuestionPackDto();
+        questionPackDto.setQuestionId(q.getQuestionId());
+        questionPackDto.setQuestionContent(q.getQuestionContent());
+        questionPackDto.setCategoryName(cd.getCategoryNameById(q.getCategoryId().getCategoryId()));
+        questionPackDto.setAnswersDtoFromAnswers(q.getAnswerCollection());
+
+        return questionPackDto;
+    }
+
+
 }
