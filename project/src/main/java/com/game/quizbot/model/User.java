@@ -57,10 +57,17 @@ public class User implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "user_email")
     private String userEmail;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "wallet")
+    private int wallet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<UserAvatar> userAvatarCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UserHighscore> userHighscoreCollection;
+    @JoinColumn(name = "selected_avatar_id", referencedColumnName = "avatar_id")
+    @ManyToOne(optional = false)
+    private Avatar selectedAvatarId;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     @ManyToOne(optional = false)
     private Role roleId;
@@ -74,11 +81,12 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public User(Integer userId, String userNickname, String userPassword, String userEmail) {
+    public User(Integer userId, String userNickname, String userPassword, String userEmail, int wallet) {
         this.userId = userId;
         this.userNickname = userNickname;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
+        this.wallet = wallet;
     }
 
     public Integer getUserId() {
@@ -113,6 +121,14 @@ public class User implements Serializable {
         this.userEmail = userEmail;
     }
 
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
     @XmlTransient
     public Collection<UserAvatar> getUserAvatarCollection() {
         return userAvatarCollection;
@@ -129,6 +145,14 @@ public class User implements Serializable {
 
     public void setUserHighscoreCollection(Collection<UserHighscore> userHighscoreCollection) {
         this.userHighscoreCollection = userHighscoreCollection;
+    }
+
+    public Avatar getSelectedAvatarId() {
+        return selectedAvatarId;
+    }
+
+    public void setSelectedAvatarId(Avatar selectedAvatarId) {
+        this.selectedAvatarId = selectedAvatarId;
     }
 
     public Role getRoleId() {
