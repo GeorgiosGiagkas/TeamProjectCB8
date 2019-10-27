@@ -1,6 +1,7 @@
 package com.game.quizbot.controllers;
 
 
+import com.game.quizbot.dao.QuestionDao;
 import com.game.quizbot.dao.UserQuestionDao;
 import com.game.quizbot.model.Category;
 import com.game.quizbot.utils.StatUtils;
@@ -11,11 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class AdminMenuController {
 
     @Autowired
     UserQuestionDao uqd;
+
+    @Autowired
+    QuestionDao qd;
 
     @GetMapping("/admin-menu")
     public ModelAndView showAdminMenu(ModelAndView modelAndView, ModelMap m){
@@ -23,17 +29,11 @@ public class AdminMenuController {
         return modelAndView;
     }
 
-    @GetMapping("/show-number")
-    @ResponseBody
-    public double showNumber(){
-        int number = uqd.getNumberOfCorrectResponses(1, 1);
-        return number;
-    }
 
-    @GetMapping("/show-numbers")
+    @GetMapping("/show-list")
     @ResponseBody
-    public int showNumbers(){
-        int number = uqd.getTotalNumberOfResponses(1, 1);
-        return number;
+    public List<Integer> getList(){
+        List<Integer> questions = qd.getWeightedQuestionIds(1, 1);
+        return questions;
     }
 }

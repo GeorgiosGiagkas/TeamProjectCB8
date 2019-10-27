@@ -46,10 +46,10 @@
                         <c:out value="${category.categoryName}" />
                     </td>
                     <td>
-                        <button class = "btn-edit btn-warning btn" type = "button" data-categoryId = "${category.categoryId}" data-toggle="modal" data-target="#modalEditCategory">Edit</button>
+                        <button class = "btn-edit btn-warning btn" type = "button" data-categoryId = "${category.categoryId}" data-toggle="modal">Edit</button>
                     </td>
                     <td>
-                        <button class = "btn-delete btn-danger btn" type = "button" data-categoryId = "${category.categoryId}" data-toggle="modal" data-target="#modalDeleteCategory">Delete</button>
+                        <button class = "btn-delete btn-danger btn" type = "button" data-categoryId = "${category.categoryId}" data-toggle="modal">Delete</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -132,18 +132,21 @@
             $(".btn-edit").click(function(){
                 let categoryId = $(this).attr("data-categoryId");
                 $.ajax({
-                    url:"/get-category-by-id/" + categoryId
+                    url:"/get-category-by-id/" + categoryId,
+                    async: false
                 }).then(function(data){
                     $("#categoryId").val(data.categoryId);
                     $("#categoryName").val(data.categoryName);
 
                 });
+                $("#modalEditCategory").modal("show");
             });
 
             $(".btn-delete").click(function(){
                 let categoryId = $(this).attr("data-categoryId");
                 $.ajax({
-                    url:"/get-category-by-id/" + categoryId
+                    url:"/get-category-by-id/" + categoryId,
+                    async: false
                 }).then(function(data){
                     $("#categoryId-delete").val(data.categoryId);
                     $("#category-name-delete").html("");
@@ -151,6 +154,7 @@
 
 
                 });
+                $("#modalDeleteCategory").modal("show");
             });
 
         });

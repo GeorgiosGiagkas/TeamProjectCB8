@@ -2,15 +2,13 @@ package com.game.quizbot.dao;
 
 import com.game.quizbot.model.Question;
 import com.game.quizbot.repositories.QuestionRepo;
+import com.game.quizbot.utils.CollectionUtils;
 import com.game.quizbot.utils.StatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,14 +28,13 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public int[] getWeightedQuestionIds(int userId, int categoryId) {
-        Iterable<Integer> questionIds;
-        questionIds = getQuestionIdsByCategoryId(categoryId);
+    public List<Integer> getWeightedQuestionIds(int userId, int categoryId) {
+        Collection<Integer> questionIdsCollection = CollectionUtils.getCollectionFromIteralbe(getQuestionIdsByCategoryId(categoryId));
+        LinkedList<Integer> questionIds = new LinkedList<>(questionIdsCollection);
+        List<Integer> getWeightedQuestionsIdsList = new ArrayList<>();
 
         Iterator<Integer> questionIdsIter = questionIds.iterator();
         List<Integer> biasedPartition = new ArrayList<>();
-        List<Integer> getWeightedQuestionsIdsList = new ArrayList<>();
-
         while(questionIdsIter.hasNext()){
             int questionId = questionIdsIter.next();
             int total = uqr.getTotalNumberOfResponses(questionId, userId);
@@ -48,23 +45,24 @@ public class QuestionDaoImpl implements QuestionDao {
                 weight = StatUtils.calculateWeight(correct);
             }
 
-            for(int i = 0; i < weight * 100; i++){
+            for(int j = 0; j < weight * 100; j++){
                 biasedPartition.add(questionId);
             }
         }
 
         for(int i = 0; i < 10; i++){
-            int selectedIndex = StatUtils.randomWithRange(0, biasedPartition.size());
-            int selectedQuestionId = ((LinkedList<Integer>) questionIds).get(selectedIndex);
-            getWeightedQuestionsIdsList.add(selectedQuestionId);
-            //To be continued
 
+
+            int selectedIndex = StatUtils.randomWithRange(0, biasedPartition.size());
+            Integer selectedQuestionId = biasedPartition.get(selectedIndex);
+            getWeightedQuestionsIdsList.add(selectedQuestionId);
+
+            biasedPartition.removeAll(Collections.singleton(selectedQuestionId));
+            questionIds.remove(selectedQuestionId);
         }
 
 
-        int [] getWeightedQuestionIdsArray =  {1,2,3,4,5,6,7,8,9,10};
-        return getWeightedQuestionIdsArray;
-        // NEEDS IMPLEMETATION
+        return getWeightedQuestionsIdsList;
     }
 
     @Override

@@ -58,7 +58,7 @@ public class QuestionBundleAssembler {
     }
 
 
-    private int[] getWeightedQuestionIds(){
+    private List<Integer> getWeightedQuestionIds(){
         return questionDao.getWeightedQuestionIds(userId, categoryId);
 
     }

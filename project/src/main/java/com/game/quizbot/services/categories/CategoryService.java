@@ -19,6 +19,7 @@ public class CategoryService {
     @Autowired
     CategoryDao categoryDao;
 
+    //To be changed
     Iterable<Category> categories;
 
     public List<CategoryDto> getCategories(){

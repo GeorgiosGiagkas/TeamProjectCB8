@@ -49,6 +49,20 @@ public class QuestionController {
         return "admin-menu";
     }
 
+    @PostMapping("/edit-question")
+    public String editQuestion(@RequestParam("questionId") int questionId, @RequestParam("questionContent") String questionContent, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
+                                 @RequestParam("categoryName") String categoryName){
+
+        Question q = new Question();
+        q.setQuestionId(questionId);
+        q.setQuestionContent(questionContent);
+
+        qs.createQuestion(q, answersStr, correctAnswer, categoryName);
+
+
+        return "redirect:/show-all-questions";
+    }
+
     @GetMapping("show-all-questions")
     public String showAllQuestions(ModelMap m){
         Iterable<Question> questions = qd.getAllQuestions();
@@ -62,5 +76,7 @@ public class QuestionController {
     public QuestionPackDto getQuestionById(@PathVariable("id") int id){
         return qs.getQuestionPackDtoById(id);
     }
+
+
 
 }

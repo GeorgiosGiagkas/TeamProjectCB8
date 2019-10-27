@@ -49,7 +49,7 @@
                     <c:out value="${question.categoryId.categoryName}" />
                 </td>
                 <td>
-                    <button class = "btn-edit btn-warning btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal" data-target="#modalEditQuestion">Edit</button>
+                    <button class = "btn-edit btn-warning btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Edit</button>
                 </td>
                 <td>
                     <button class = "btn-delete btn-danger btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal" data-target="#modalDeleteCategory">Delete</button>
@@ -69,7 +69,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="create-question" method="POST">
+                <form action="edit-question" method="POST">
                     <div class="modal-body">
 
                         <input type = "hidden" id = "questionId" name = "questionId" />
@@ -130,7 +130,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-warning">Create</button>
+                        <button type="submit" class="btn btn-warning">Update</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -143,16 +143,20 @@
 
             $(".btn-edit").click(function(){
                 let id = $(this).attr("data-questionId");
+                $("#questionId").val(id);
                 $.ajax({
-                    url:"/get-all-categories"
+                    url:"/get-all-categories",
+                    async: false
                 }).then(function(data1){
 
                     $.ajax({
-                        url: "/get-question-by-id/" + id
+                        url: "/get-question-by-id/" + id,
+                        async: false
                     }).then(function(data2){
                         const selector = document.querySelector("#category-selector");
                         selector.innerHTML = "";
                         for(let i in data1){
+
                             const option = document.createElement("option");
 
                             option.innerText = data1[i].categoryName;
@@ -162,7 +166,6 @@
 
 
                             if(data1[i].categoryName === data2.categoryName) {
-                                console.log(1);
                                 option.setAttribute("selected", "true");
                             }
 
@@ -170,11 +173,18 @@
                         }
 
                         for(let i = 0; i < data2.answersDto.length; i++){
-                            console.log(2);
+                            const correctSelector = document.querySelector("#correct-answer-selector");
                             k = i + 1;
+                            const optionCor = document.createElement("option");
+                            optionCor.innerHTML = k;
+                            correctSelector.append(optionCor);
+                            if(data2.answersDto[i].answerCorrect === true){
+                                optionCor.setAttribute("selected", "true");
+                            }
                             let content = data2.answersDto[i].answerContent;
                             console.log(data2.answersDto[i].answerContent);
                             $("#answer" + k).val(content);
+
                         }
 
                         $("#questionContent").html("");
@@ -184,7 +194,9 @@
                     });
 
                 });
+                $("#modalEditQuestion").modal("show");
             });
+
 
             $("#btn-edit-category").click(function () {
                 location.href = "/show-all-categories";
