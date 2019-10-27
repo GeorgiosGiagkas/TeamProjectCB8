@@ -18,4 +18,14 @@ public class UserQuestionImpl implements UserQuestionDao {
     public void insertUserQuestion(UserQuestion userQuestion) {
         userQuestionRepo.save(userQuestion);
     }
+
+    @Override
+    public int getNumberOfCorrectResponses(Integer questionId, Integer userId){
+        return userQuestionRepo.getNumberOfCorrectResponses(questionId, userId);
+    }
+
+    @Override
+    public int getTotalNumberOfResponses(Integer questionId, Integer userId){
+        return userQuestionRepo.getTotalNumberOfResponses(questionId, userId);
+    }
 }
