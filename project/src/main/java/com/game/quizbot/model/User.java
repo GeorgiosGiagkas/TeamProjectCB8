@@ -31,17 +31,17 @@ public class User implements Serializable {
     private Integer userId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 15)
+//    @Size(min = 1, max = 15)
     @Column(name = "user_nickname")
     private String userNickname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
+//    @Size(min = 1, max = 60)
     @Column(name = "user_password")
     private String userPassword;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
+//    @Size(min = 1, max = 60)
     @Column(name = "user_email")
     private String userEmail;
     @Basic(optional = false)

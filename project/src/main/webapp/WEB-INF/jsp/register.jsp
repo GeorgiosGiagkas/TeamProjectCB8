@@ -22,10 +22,6 @@
 
         <!--Custom styles-->
         <link rel="stylesheet" type="text/css" href="/css/login-and-register.css">
-        <script
-                src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -86,7 +82,7 @@
 
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
-        <script src="js/validation.js"></script>
+        <script src="js/registerValidation.js"></script>
 
     </body>
 </html>

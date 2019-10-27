@@ -7,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
 <html>
     <head>
         <title>Login Page</title>
@@ -37,25 +38,27 @@
 
                     </div>
                     <div class="card-body">
-                        <form>
+                    <spring:form modelAttribute="user" id="loginForm" action="loginUser" method="post">
 
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                 </div>
-                                <input type="email" name="email-input" class="form-control" placeholder="email">
+                                    <spring:input path="userNickname" cssclass="form-control" placeholder="nickname"/>
+                                    <spring:errors path="userNickname" cssClass="error"/>
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" name="pass-input" class="form-control" placeholder="password">
+                                    <spring:password id="pass" path="userPassword" cssclass="form-control" placeholder="password"/>
+                                    <spring:errors path="userPassword" cssClass="error"/>
                             </div>
 
                             <div class="form-group align-items-center">
                                 <input type="submit" value="Login" class="btn float-right login_btn">
                             </div>
-                        </form>
+                    </spring:form>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center links">
@@ -69,6 +72,9 @@
             </div>
         </div>
 
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="js/loginValidation.js"></script>
     </body>
 
 </html>
