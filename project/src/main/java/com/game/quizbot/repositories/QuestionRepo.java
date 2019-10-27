@@ -12,6 +12,9 @@ public interface QuestionRepo extends CrudRepository<Question,Integer> {
     @Query("SELECT q from Question q WHERE q.questionId=?1")
     Question getQuestionById(int questionId);
 
+    @Query("SELECT q.questionId from Question q WHERE q.categoryId = ?1")
+    Iterable<Integer> getQuestionIdsByCategoryId(int categoryId);
+
 
 
 }
