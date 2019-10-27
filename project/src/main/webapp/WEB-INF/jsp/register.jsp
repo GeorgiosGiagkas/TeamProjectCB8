@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
 <html>
     <head>
         <title>Register Page</title>
@@ -21,6 +22,10 @@
 
         <!--Custom styles-->
         <link rel="stylesheet" type="text/css" href="/css/login-and-register.css">
+        <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -35,36 +40,39 @@
 
                     </div>
                     <div class="card-body">
-                        <form>
+                            <spring:form modelAttribute="user" id="registrationForm" action="registerUser" method="post">
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
-                                <input type="text" name="nickname-input" class="form-control" placeholder="nickname">
+                                    <spring:input path="userNickname" cssclass="form-control" placeholder="nickname"/>
+                                    <spring:errors path="userNickname" cssClass="error"/>
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                 </div>
-                                <input type="email" name="email-input" class="form-control" placeholder="email">
+                                <spring:input path="userEmail" cssclass="form-control" placeholder="email"/>
+                                <spring:errors path="userEmail" cssClass="error"/>
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" name="pass-input" class="form-control" placeholder="password">
+                                <spring:password id="userPassword" path="userPassword" cssclass="form-control" placeholder="password"/>
+                                <spring:errors path="userPassword" cssClass="error"/>
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-repeat"></i></span>
                                 </div>
-                                <input type="password" name="pass-input-retype" class="form-control" placeholder="confirm password">
+                                <spring:password path="retypePassword" cssclass="form-control" placeholder="confirm password"/>
+                                <spring:errors path="retypePassword" cssClass="error"/>
                             </div>
-
                             <div class="form-group align-items-center">
                                 <input type="submit" value="Create my account" class="btn float-right login_btn">
                             </div>
-                        </form>
+                            </spring:form>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center links">
@@ -75,6 +83,10 @@
                 </div>
             </div>
         </div>
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="js/validation.js"></script>
 
     </body>
 </html>

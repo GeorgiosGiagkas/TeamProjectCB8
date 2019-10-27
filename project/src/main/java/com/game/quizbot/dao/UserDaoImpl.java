@@ -16,6 +16,22 @@ public class UserDaoImpl implements UserDao {
     public User getUserById(int userId) {
         User userById = ur.getUserById(userId);
         return userById;
+    }
 
+    @Override
+    public User getUserByNickname(String userNickname) {
+        User userByNickname = ur.getUserByNickname(userNickname);
+        return userByNickname;
+    }
+
+    @Override
+    public User getUserByEmail(String userEmail) {
+        User userByEmail = ur.getUserByEmail(userEmail);
+        return userByEmail;
+    }
+
+    @Override
+    public void insertUser(User user) {
+        ur.save(user);
     }
 }
