@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 
 @Component
-public class UserValidator implements Validator {
+public class UserRegisterValidator implements Validator {
 
     @Autowired
     UserDao userDao;

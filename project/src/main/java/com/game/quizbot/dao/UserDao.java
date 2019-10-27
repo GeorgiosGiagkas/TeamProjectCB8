@@ -11,4 +11,6 @@ public interface UserDao {
     public User getUserByEmail(String userEmail);
 
     public void insertUser(User user);
+
+    public boolean checkUserByPassword(User user);
 }

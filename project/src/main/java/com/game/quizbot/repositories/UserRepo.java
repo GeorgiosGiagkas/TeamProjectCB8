@@ -19,6 +19,4 @@ public interface UserRepo extends CrudRepository <User,Integer> {
     User getUserByEmail(String userEmail);
 
 
-
-
 }

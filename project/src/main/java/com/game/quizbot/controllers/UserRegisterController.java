@@ -5,7 +5,7 @@ import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.model.Avatar;
 import com.game.quizbot.model.Role;
 import com.game.quizbot.model.User;
-import com.game.quizbot.validators.UserValidator;
+import com.game.quizbot.validators.UserRegisterValidator;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.validation.Valid;
 
 @Controller
@@ -24,7 +25,7 @@ public class UserRegisterController {
     UserDao userDao;
 
     @Autowired
-    UserValidator userValidator;
+    UserRegisterValidator userRegisterValidator;
 
     @GetMapping(value = "/register")
     public String showRegisterForm(ModelMap mm) {
@@ -35,7 +36,7 @@ public class UserRegisterController {
 
     @InitBinder
     private void InitBinder (WebDataBinder binder) {
-        binder.addValidators(userValidator);
+        binder.addValidators(userRegisterValidator);
     }
 
     @PostMapping("/registerUser")
@@ -58,5 +59,7 @@ public class UserRegisterController {
             return "main-menu";
         }
     }
+
+
 
 }
