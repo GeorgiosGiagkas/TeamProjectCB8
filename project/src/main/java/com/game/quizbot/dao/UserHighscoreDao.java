@@ -7,4 +7,5 @@ public interface UserHighscoreDao {
     public void insertNewUserHighscore(UserHighscorePK userHighscorePK, int highscore);
     public UserHighscore getUserHighscore(UserHighscorePK userHighscorePK);
     public boolean createUserHighscore(UserHighscorePK userHighscorePK);
+    public  boolean userHighscoreExistsById(UserHighscorePK userHighscorePK);
 }

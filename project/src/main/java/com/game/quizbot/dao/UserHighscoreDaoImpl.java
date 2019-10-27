@@ -42,5 +42,10 @@ public class UserHighscoreDaoImpl implements UserHighscoreDao {
 
     }
 
+    @Override
+    public boolean userHighscoreExistsById(UserHighscorePK userHighscorePK) {
+        return userHighscoreRepo.existsById(userHighscorePK);
+    }
+
 
 }

@@ -90,9 +90,18 @@
                             let  time = setInterval(function(){
                                 document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
                                 timeleft -= 1;
-                                if(timeleft <= 0 || stopTimer){
+                                if(stopTimer){
                                     clearInterval(time);
-                                    document.getElementById("countdown").innerHTML = "Finished"
+                                    document.getElementById("countdown").innerHTML = "Finished";
+
+                                }
+                                if(timeleft<=0){
+                                    clearInterval(time);
+                                    document.getElementById("countdown").innerHTML = "Finished";
+                                    timeleft=20;
+                                    disableAnswerButtons();
+                                    restGetCorrectAnswer(0,0,0);
+
                                 }
                             }, 1000);
 
@@ -101,9 +110,9 @@
                 }
 
                 //Get Correct Answer
-                document.addEventListener("click",restGetCorrectAnswer);
+                document.addEventListener("click",getCorrectAnswer);
 
-                function restGetCorrectAnswer(e){
+                function getCorrectAnswer(e){
 
                     if(e.target.hasAttribute("data-answer-id")){
 
@@ -113,22 +122,37 @@
                         let points = pointsModifier;
                         timeleft=20;
 
-                        const id=e.target.getAttribute("data-answer-id");
-                        $.ajax({
-                            url:"/answer-verification?question-id="+$("#question").attr("question-id")+"&answer-id="+id+"&timer="+timeBonus+"&points="+points
-                        }).then(function(data){
-
-                            highlightCorrectAnswer(data);
-                            setTimeout(restShowQuestion,3000);
-
-                        });
+                        const answerId=e.target.getAttribute("data-answer-id");
+                        disableAnswerButtons();
+                        restGetCorrectAnswer(answerId,timeBonus,points);
                     }
                 }
+
+                function restGetCorrectAnswer(answerId,timeBonus,points){
+                    $.ajax({
+                        url:"/answer-verification?answer-id="+answerId+"&timer="+timeBonus+"&points="+points
+                    }).then(function(data){
+                        console.log(data);
+                        console.log(data.correctAnswer);
+                        highlightCorrectAnswer(data.correctAnswer);
+                        setTimeout(restShowQuestion,3000);
+
+                    });
+                }
+
+
+                function disableAnswerButtons(){
+                    const buttons = document.querySelectorAll("[data-answer-id]");
+                    buttons.forEach(function(b){
+                        b.disabled=true;
+                    });
+                }
+
+
 
                 function highlightCorrectAnswer(answerId){
                     const buttons = document.querySelectorAll("[data-answer-id]");
                     buttons.forEach(function(b){
-                        b.disabled=true;
                         if(b.getAttribute("data-answer-id")==answerId){
                             b.className+=" bg-success";
                         }
