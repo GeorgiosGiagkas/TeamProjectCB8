@@ -27,6 +27,11 @@ public class CategoryDaoImpl implements CategoryDao {
         return allActiveCategories;
     }
 
+    public Iterable<Category> getAllCategories() {
+        Iterable<Category> categories = cr.getAllCategories();
+        return categories;
+    }
+
 
 
     @Override
@@ -38,5 +43,16 @@ public class CategoryDaoImpl implements CategoryDao {
     public Iterable<Category> getCategoriesByName(String categoryName){
         Iterable<Category> categories = cr.getCategoriesByName(categoryName);
         return categories;
+    }
+
+    @Override
+    public void deleteCategoryById(int id){
+        Category c = cr.getCategoryById(id);
+        cr.delete(c);
+    }
+
+    @Override
+    public String getCategoryNameById(int id){
+        return cr.getCategoryNameById(id);
     }
 }

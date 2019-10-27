@@ -14,28 +14,5 @@ import java.util.List;
 @Component
 public class ActiveCategories {
 
-    @Autowired
-    CategoryDao categoryDao;
-
-    public ActiveCategories() {
-    }
-
-    public List<CategoryDto> getActiveCategories(){
-        List<CategoryDto> categoriesDto = new ArrayList<>();
-        Iterator<Category> categories =  categoryDao.getAllActiveCategories().iterator();
-        while (categories.hasNext()){
-            Category c =categories.next();
-            CategoryDto categoryDto = new CategoryDto();
-            categoryDto.setCategoryId(c.getCategoryId());
-            categoryDto.setCategoryName(c.getCategoryName());
-
-            categoriesDto.add(categoryDto);
-        }
-
-
-        return categoriesDto;
-    }
-
-
 
 }

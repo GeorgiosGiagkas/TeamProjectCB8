@@ -4,6 +4,7 @@ package com.game.quizbot.controllers;
 import com.game.quizbot.dto.CategoryDto;
 import com.game.quizbot.model.User;
 import com.game.quizbot.services.categories.ActiveCategories;
+import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,10 @@ import java.util.List;
 @Controller
 public class MenuController {
 
+
+
     @Autowired
-    ActiveCategories activeCategories;
+    CategoryService cs;
 
 
 
@@ -34,7 +37,7 @@ public class MenuController {
     @ResponseBody
     public List<CategoryDto> showCategories(){
 
-        return  activeCategories.getActiveCategories();
+        return cs.getActiveCategories();
 
     }
 

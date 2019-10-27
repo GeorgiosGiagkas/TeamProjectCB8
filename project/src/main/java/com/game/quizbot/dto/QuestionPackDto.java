@@ -2,6 +2,7 @@ package com.game.quizbot.dto;
 
 
 import com.game.quizbot.model.Answer;
+import com.game.quizbot.model.Category;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +11,16 @@ import java.util.List;
 public class QuestionPackDto {
     private Integer questionId;
     private String questionContent;
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     private Iterable<AnswerDto> answersDto;
 
 
@@ -48,6 +59,8 @@ public class QuestionPackDto {
             answerDto.setAnswerContent(answer.getAnswerContent());
             answersDto.add(answerDto);
         }
+
+
         this.answersDto = answersDto;
     }
 

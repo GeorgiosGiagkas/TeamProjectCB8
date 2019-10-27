@@ -6,7 +6,6 @@
 package com.game.quizbot.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -47,18 +46,17 @@ public class Avatar implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "avatar_name")
     private String avatarName;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "avatar_cost")
-    private BigDecimal avatarCost;
-    @Basic(optional = false)
-    @NotNull
+    private int avatarCost;
     @Lob
     @Column(name = "avatar_image")
     private byte[] avatarImage;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "avatarId")
     private Collection<UserAvatar> userAvatarCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "selectedAvatarId")
+    private Collection<User> userCollection;
 
     public Avatar() {
     }
@@ -67,11 +65,10 @@ public class Avatar implements Serializable {
         this.avatarId = avatarId;
     }
 
-    public Avatar(Integer avatarId, String avatarName, BigDecimal avatarCost, byte[] avatarImage) {
+    public Avatar(Integer avatarId, String avatarName, int avatarCost) {
         this.avatarId = avatarId;
         this.avatarName = avatarName;
         this.avatarCost = avatarCost;
-        this.avatarImage = avatarImage;
     }
 
     public Integer getAvatarId() {
@@ -90,11 +87,11 @@ public class Avatar implements Serializable {
         this.avatarName = avatarName;
     }
 
-    public BigDecimal getAvatarCost() {
+    public int getAvatarCost() {
         return avatarCost;
     }
 
-    public void setAvatarCost(BigDecimal avatarCost) {
+    public void setAvatarCost(int avatarCost) {
         this.avatarCost = avatarCost;
     }
 
@@ -113,6 +110,15 @@ public class Avatar implements Serializable {
 
     public void setUserAvatarCollection(Collection<UserAvatar> userAvatarCollection) {
         this.userAvatarCollection = userAvatarCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 
     @Override

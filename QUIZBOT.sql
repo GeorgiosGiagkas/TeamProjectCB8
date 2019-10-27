@@ -17,6 +17,16 @@ primary key(user_id),
 foreign key(role_id) references role(role_id) on delete cascade on update restrict
 );
 
+ALTER TABLE `quizbot`.`user` 
+ADD INDEX `user_ibfk_2_idx` (`selected_avatar_id` ASC) VISIBLE;
+;
+
+ALTER TABLE `quizbot`.`user` 
+ADD CONSTRAINT `user_ibfk_2`
+  FOREIGN KEY (`selected_avatar_id`)
+  REFERENCES `quizbot`.`avatar` (`avatar_id`)
+  ON DELETE cascade
+  ON UPDATE restrict;
 
 create table category(
 category_id int auto_increment,

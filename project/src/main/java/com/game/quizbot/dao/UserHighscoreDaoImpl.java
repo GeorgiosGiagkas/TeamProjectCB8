@@ -4,14 +4,16 @@ import com.game.quizbot.model.UserHighscore;
 import com.game.quizbot.model.UserHighscorePK;
 import com.game.quizbot.repositories.UserHighscoreRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserHighscoreDaoImpl implements UserHighscoreDao {
 
     @Autowired
     UserHighscoreRepo userHighscoreRepo;
-
 
     @Override
     public void insertNewUserHighscore(UserHighscorePK userHighscorePK, int highscore) {
@@ -47,5 +49,10 @@ public class UserHighscoreDaoImpl implements UserHighscoreDao {
         return userHighscoreRepo.existsById(userHighscorePK);
     }
 
+
+    public ArrayList getLeaderboardByCategoryId(int categoryId){
+        ArrayList leaderboardByCategoryid = userHighscoreRepo.getLeaderboardByCategoryId(categoryId);
+        return leaderboardByCategoryid;
+    }
 
 }

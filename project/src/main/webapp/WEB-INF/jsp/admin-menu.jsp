@@ -46,8 +46,8 @@
                     <div class="card-body">
                         <button id = "btn-create-question" class="btn-warning btn" data-toggle="modal" data-target="#modalCreateQuestion">Create new Question</button>
                         <button id = "btn-create-category" class="btn-warning btn" data-toggle="modal" data-target="#modalCreateCategory">Create new Category</button>
-                        <button class="btn-warning btn">Edit existing Question</button>
-                        <button class="btn-warning btn">Edit existing Category</button>
+                        <button id = "btn-edit-question" class="btn-warning btn">Edit existing Question</button>
+                        <button id = "btn-edit-category" class="btn-warning btn">Edit existing Category</button>
                         <button class="btn-warning btn">Show e-Shop Stats</button>
                         <button class="btn-warning btn">Show Leaderboard</button>
                         <button class="btn-warning btn">Show Stats of all Players</button>
@@ -181,9 +181,10 @@
 
             $("#btn-create-question").click(function(){
                 $.ajax({
-                    url:"/show-categories"
+                    url:"/get-all-categories"
                 }).then(function(data){
                     const selector = document.querySelector("#category-selector");
+                    selector.innerHTML = "";
                     for(let i in data){
                         const option = document.createElement("option");
 
@@ -194,6 +195,14 @@
                     }
                 });
              });
+
+            $("#btn-edit-category").click(function () {
+                location.href = "/show-all-categories";
+            });
+
+            $("#btn-edit-question").click(function () {
+                location.href = "/show-all-questions";
+            });
         });
 
 
