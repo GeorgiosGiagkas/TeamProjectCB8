@@ -4,5 +4,9 @@ import com.game.quizbot.model.UserQuestion;
 
 public interface UserQuestionDao {
 
-    public void insertUserQuestion(UserQuestion userQuestion);
+    void insertUserQuestion(UserQuestion userQuestion);
+
+    int getNumberOfCorrectResponses(Integer questionId, Integer userId);
+
+    int getTotalNumberOfResponses(Integer questionId, Integer userId);
 }
