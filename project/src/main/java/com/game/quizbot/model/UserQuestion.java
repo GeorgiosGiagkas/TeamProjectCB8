@@ -5,7 +5,10 @@
  */
 package com.game.quizbot.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -47,8 +50,8 @@ public class UserQuestion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_question_timespamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date userQuestionTimespamp;
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime userQuestionTimespamp;
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     @ManyToOne(optional = false)
     private Question questionId;
@@ -63,7 +66,7 @@ public class UserQuestion implements Serializable {
         this.userQuestionId = userQuestionId;
     }
 
-    public UserQuestion(Integer userQuestionId, boolean userQuestionSuccess, Date userQuestionTimespamp) {
+    public UserQuestion(Integer userQuestionId, boolean userQuestionSuccess, Date myDateTime) {
         this.userQuestionId = userQuestionId;
         this.userQuestionSuccess = userQuestionSuccess;
         this.userQuestionTimespamp = userQuestionTimespamp;
@@ -85,11 +88,11 @@ public class UserQuestion implements Serializable {
         this.userQuestionSuccess = userQuestionSuccess;
     }
 
-    public Date getUserQuestionTimespamp() {
+    public LocalDateTime getUserQuestionTimespamp() {
         return userQuestionTimespamp;
     }
 
-    public void setUserQuestionTimespamp(Date userQuestionTimespamp) {
+    public void setUserQuestionTimespamp(LocalDateTime userQuestionTimespamp) {
         this.userQuestionTimespamp = userQuestionTimespamp;
     }
 
