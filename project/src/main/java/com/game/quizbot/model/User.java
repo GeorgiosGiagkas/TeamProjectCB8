@@ -7,33 +7,20 @@ package com.game.quizbot.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author omiro
  */
 @Entity
 @Table(name = "user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
+        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,17 +31,17 @@ public class User implements Serializable {
     private Integer userId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 15)
+//    @Size(min = 1, max = 15)
     @Column(name = "user_nickname")
     private String userNickname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
+//    @Size(min = 1, max = 60)
     @Column(name = "user_password")
     private String userPassword;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
+//    @Size(min = 1, max = 60)
     @Column(name = "user_email")
     private String userEmail;
     @Basic(optional = false)
@@ -73,6 +60,9 @@ public class User implements Serializable {
     private Role roleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<UserQuestion> userQuestionCollection;
+
+    @Transient
+    private String retypePassword;
 
     public User() {
     }
@@ -99,6 +89,14 @@ public class User implements Serializable {
 
     public String getUserNickname() {
         return userNickname;
+    }
+
+    public String getRetypePassword() {
+        return retypePassword;
+    }
+
+    public void setRetypePassword(String retypePassword) {
+        this.retypePassword = retypePassword;
     }
 
     public void setUserNickname(String userNickname) {
@@ -196,5 +194,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.game.quizbot.model.User[ userId=" + userId + " ]";
     }
-    
+
 }

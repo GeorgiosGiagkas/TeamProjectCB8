@@ -1,32 +1,29 @@
 package com.game.quizbot.services.questions;
 
-import com.game.quizbot.dao.AnswerDao;
-import com.game.quizbot.dao.QuestionDao;
+import com.game.quizbot.dao.*;
 import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.model.Answer;
-import com.game.quizbot.model.Category;
 import com.game.quizbot.model.Question;
-import com.game.quizbot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
+import com.game.quizbot.utils.BeanUtil;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
-@Component
+
+
 public class QuestionBundleAssembler {
     private int userId;
     private int categoryId;
 
 
-    @Autowired
-    QuestionDao questionDao;
 
-    @Autowired
-    AnswerDao answerDao;
+    QuestionDao questionDao =BeanUtil.getBean(QuestionDaoImpl.class);;
+
+
+    AnswerDao answerDao =BeanUtil.getBean(AnswerDaoImpl.class);;
 
     public int getUserId() {
         return userId;
@@ -47,7 +44,10 @@ public class QuestionBundleAssembler {
     public List<QuestionPackDto> getWeightedQuestionBundle(){
         List<QuestionPackDto> bundle = new ArrayList<>();
 
-        for(int id : getWeightedQuestionIds()){
+        Iterator<Integer> idIterator = getWeightedQuestionIds().iterator();
+
+        while(idIterator.hasNext()){
+            int id = idIterator.next();
             Question question = questionDao.getQuestionById(id);
             Iterable<Answer> answers= answerDao.getAllAnswersByQuestionId(id);
 
@@ -57,15 +57,15 @@ public class QuestionBundleAssembler {
             pack.setAnswersDtoFromAnswers(answers);
 
             bundle.add(pack);
+
         }
         return  bundle;
     }
 
 
-
-
-    private int[] getWeightedQuestionIds(){
+    private List<Integer> getWeightedQuestionIds(){
         return questionDao.getWeightedQuestionIds(userId, categoryId);
+
     }
 
 

@@ -3,7 +3,6 @@ package com.game.quizbot.controllers;
 
 import com.game.quizbot.dto.CategoryDto;
 import com.game.quizbot.model.User;
-import com.game.quizbot.services.categories.ActiveCategories;
 import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

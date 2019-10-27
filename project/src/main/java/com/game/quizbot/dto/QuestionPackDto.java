@@ -57,6 +57,7 @@ public class QuestionPackDto {
             AnswerDto answerDto = new AnswerDto();
             answerDto.setAnswerId(answer.getAnswerId());
             answerDto.setAnswerContent(answer.getAnswerContent());
+            answerDto.setAnswerCorrect(answer.getAnswerCorrect());
             answersDto.add(answerDto);
         }
 

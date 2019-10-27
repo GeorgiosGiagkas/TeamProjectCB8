@@ -4,7 +4,7 @@ body{
 }
 
 .navbar{
-    background-color: rgba(255,255,255,0.5);
+ background-color: rgba(255,255,255,0.5);
 }
 
 .nav-link{
@@ -20,19 +20,19 @@ body{
 }
 
 #indicator{
-    display: flex;
+    display: flex; 
     justify-content: center;
-    color:chartreuse;
-}
+    color:chartreuse;    
+} 
 
 .jumbotron{
-
+    
     font-size:larger;
     text-align: center;
     border: solid 3px crimson;
 }
 
-#answers{
+#buttons{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -44,15 +44,15 @@ body{
     width:100%;
     margin: 10px 0;
     height: 70px;
-
+   
 }
 
-.answer-btn:focus, .start-btn:focus{
-    outline: none;
+.answer-btn:focus, .category-btn:focus{
+    outline: none;   
 }
 
-.answer-btn:hover, .start-btn:hover{
-    background: chocolate;
+.answer-btn:hover, .category-btn:hover{
+    background: chocolate;  
 }
 
 #wheel{
@@ -63,15 +63,14 @@ body{
     display:none;
 }
 
-#start{
-
+#categories{  
+     
     text-align: center;
     font-size: x-large;
     font-weight: bolder;
 }
 
-.start-btn{
-    font-size: 40px;
+.category-btn{
     margin: 15px auto;
     border: solid 3px crimson;
     border-radius: 25px;
@@ -79,21 +78,9 @@ body{
 
 }
 
-div #countdown{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    height: 30px;
-}
-
-
-#points-message{
-    margin-top: 100px;
-    margin-bottom: 10px;
-    font-size: 30px;
+#loader, .test{
     display: none;
-    justify-content: center;
-    height: 30px;
-}
+    text-align: center;
+    margin: 100px auto;
+  }
+  

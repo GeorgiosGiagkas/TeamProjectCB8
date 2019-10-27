@@ -44,6 +44,11 @@ public class UserHighscoreDaoImpl implements UserHighscoreDao {
 
     }
 
+    @Override
+    public boolean userHighscoreExistsById(UserHighscorePK userHighscorePK) {
+        return userHighscoreRepo.existsById(userHighscorePK);
+    }
+
 
     public ArrayList getLeaderboardByCategoryId(int categoryId){
         ArrayList leaderboardByCategoryid = userHighscoreRepo.getLeaderboardByCategoryId(categoryId);

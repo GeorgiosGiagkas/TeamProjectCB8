@@ -12,7 +12,11 @@ public interface UserRepo extends CrudRepository <User,Integer> {
     @Query("SELECT u FROM User u WHERE u.userId=?1")
     User getUserById(int userId);
 
+    @Query("SELECT u FROM User u WHERE u.userNickname=?1")
+    User getUserByNickname(String userNickname);
 
+    @Query("SELECT u FROM User u WHERE u.userEmail=?1")
+    User getUserByEmail(String userEmail);
 
 
 }

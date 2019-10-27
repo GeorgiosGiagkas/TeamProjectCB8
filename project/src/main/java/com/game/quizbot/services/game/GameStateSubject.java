@@ -1,31 +1,56 @@
 package com.game.quizbot.services.game;
 
-import java.util.ArrayList;
+import com.game.quizbot.dto.QuestionPackDto;
+
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class GameStateSubject {
     private int userId;
     private int categoryId;
     private  int round;
+    private QuestionPackDto questionPackDto;
     private int answerId;
-    private int points;
+    private int correctAnswerId;
+    private boolean userAnswerIsCorrect;
+    private int totalRunPoints;
+    private int currentQuestionPoints;
     private  int time;
     private int highscore;
+    private boolean recordStateActive;
+    private List<GameObserver> gameObservers = new CopyOnWriteArrayList<>();
 
-    private List<GameObserver> gameObservers = new ArrayList<>();
 
     public void registerGameObserver(GameObserver gameObserver){
+        //order matters
         gameObservers.add(gameObserver);
+        gameObserver.setGameStateSubject(this);
     }
 
     public void removeGameObserver(GameObserver gameObserver){
         gameObservers.remove(gameObserver);
     }
 
+    public void nextRound(){
+        this.round++;
+    }
+
     public void notifyAllGameObservers(){
-        for(GameObserver go : gameObservers){
-            go.update();
+        Iterator<GameObserver> iterator=gameObservers.iterator();
+        while (iterator.hasNext()){
+            iterator.next().update();
         }
+    }
+
+    public UpdatedScoreStatus getUpdatedScoreStatus(){
+        UpdatedScoreStatus updatedScoreStatus = new UpdatedScoreStatus();
+        updatedScoreStatus.setHighscore(this.highscore);
+        updatedScoreStatus.setCorrectAnswer(this.correctAnswerId);
+        updatedScoreStatus.setCurrentScore(this.totalRunPoints);
+
+        return  updatedScoreStatus;
     }
 
 
@@ -61,13 +86,6 @@ public class GameStateSubject {
         this.answerId = answerId;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 
     public int getTime() {
         return time;
@@ -85,11 +103,53 @@ public class GameStateSubject {
         this.highscore = highscore;
     }
 
-    public List<GameObserver> getGameObservers() {
-        return gameObservers;
+    public QuestionPackDto getQuestionPackDto() {
+        return questionPackDto;
     }
 
-    public void setGameObservers(List<GameObserver> gameObservers) {
-        this.gameObservers = gameObservers;
+    public void setQuestionPackDto(QuestionPackDto questionPackDto) {
+        this.questionPackDto = questionPackDto;
     }
+
+    public int getTotalRunPoints() {
+        return totalRunPoints;
+    }
+
+    public void setTotalRunPoints(int totalRunPoints) {
+        this.totalRunPoints = totalRunPoints;
+    }
+
+    public int getCurrentQuestionPoints() {
+        return currentQuestionPoints;
+    }
+
+    public void setCurrentQuestionPoints(int currentQuestionPoints) {
+        this.currentQuestionPoints = currentQuestionPoints;
+    }
+
+    public boolean isUserAnswerIsCorrect() {
+        return userAnswerIsCorrect;
+    }
+
+    public void setUserAnswerIsCorrect(boolean userAnswerIsCorrect) {
+        this.userAnswerIsCorrect = userAnswerIsCorrect;
+    }
+
+    public boolean isRecordStateActive() {
+        return recordStateActive;
+    }
+
+    public void setRecordStateActive(boolean recordStateActive) {
+        this.recordStateActive = recordStateActive;
+    }
+
+    public int getCorrectAnswerId() {
+        return correctAnswerId;
+    }
+
+    public void setCorrectAnswerId(int correctAnswerId) {
+        this.correctAnswerId = correctAnswerId;
+    }
+
+
 }

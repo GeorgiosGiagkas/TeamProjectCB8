@@ -2,7 +2,9 @@ package com.game.quizbot.repositories;
 
 import com.game.quizbot.model.UserHighscore;
 import com.game.quizbot.model.UserHighscorePK;
+
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -44,7 +44,7 @@
 
                     </div>
                     <div class="card-body">
-                        <button id = "btn-create-question" class="btn-warning btn" data-toggle="modal" data-target="#modalCreateQuestion">Create new Question</button>
+                        <button id = "btn-create-question" class="btn-warning btn" data-toggle="modal">Create new Question</button>
                         <button id = "btn-create-category" class="btn-warning btn" data-toggle="modal" data-target="#modalCreateCategory">Create new Category</button>
                         <button id = "btn-edit-question" class="btn-warning btn">Edit existing Question</button>
                         <button id = "btn-edit-category" class="btn-warning btn">Edit existing Category</button>
@@ -181,7 +181,8 @@
 
             $("#btn-create-question").click(function(){
                 $.ajax({
-                    url:"/get-all-categories"
+                    url:"/get-all-categories",
+                    async: false
                 }).then(function(data){
                     const selector = document.querySelector("#category-selector");
                     selector.innerHTML = "";
@@ -194,7 +195,8 @@
                         selector.append(option);
                     }
                 });
-             });
+                $("#modalCreateQuestion").modal("show");
+            });
 
             $("#btn-edit-category").click(function () {
                 location.href = "/show-all-categories";

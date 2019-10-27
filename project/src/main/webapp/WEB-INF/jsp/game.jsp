@@ -8,145 +8,102 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script
-                src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href = "/css/game.css">
-        <title>Game</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    </head>
-    <body>
+    <%--Bootstrap--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <%--font awsome--%>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <%--jquery--%>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <%--game css--%>
+    <link rel="stylesheet" type="text/css" href="/css/game.css">
+    <%--winwheel--%>
+    <script type="text/javascript" src="/js/Winwheel.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 
-        <div class="container-fluid col-md-6" id="container">
-            <div style="margin:auto;" id="countdown"></div>
 
-        <div class="jumbotron" id="question">
+    <title>Quizbot</title>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Quizbot</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <span class="nav-item nav-link">Sound Toggle</span>
+            <a class="nav-item nav-link" href="#">Logout</a>
+
+            <span id="category-highscore" class="nav-item nav-link">Category HighScore: ${gameStateSubject.highscore}</span>
+            <span id="current-score" class="nav-item nav-link">Current Score: 0</span>
 
         </div>
-
-        <div id="answers">
-
-        </div>
-
-        <div class="text-center" id="leave">
-            <button class="col-md-6 btn btn-outline-dark text-strong">Leave Round</button>
-        </div>
-
-            <div class="text-center" id="start">
-                <button class="col-md-6 btn btn-outline-dark text-strong">Start</button>
-            </div>
-
-        </div>
+    </div>
+</nav>
 
 
+<div class="container" >
+    <div  id="countdown"></div>
+</div>
+
+<div id="points-message" class="container" >
+    
+</div>
+
+<div id="wheel" class="mt-5">
+    <div id="indicator">
+        <i class="fas fa-angle-double-down fa-2x"></i>
+    </div>
+    <div width="438" height="582" class="the_wheel" align="center" valign="center">
+        <canvas id="canvas" width="434" height="434">
+            <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.
+            </p>
+        </canvas>
+    </div>
+</div>
 
 
-        <script type="application/javascript">
-            $(document).ready(function(){
-
-                //set timer state
-                let stopTimer = false;
-                let timeleft =20;
-
-                //set points modifier
-                let pointsModifier = 0;
-
-                //NEXT QUESTION
-                $("#start").click(restShowQuestion);
-
-                function restShowQuestion(){
-                    pointsModifier=generatePoints();
-                    $.ajax({
-                        url:"/get-next-question"
-                    }).then(function(data){
-
-                        if(data.questionId===0){
-                            return;
-                        }
-
-                        $("#answers").html("");
-                        $("#question").text(data.questionContent);
-                        $("#question").attr("question-id",data.questionId);
-                       for(let a in data.answersDto){
-                           const btn = document.createElement("button");
-                           btn.className="btn btn-outline-dark btn-rounded";
-                           btn.setAttribute("data-answer-id",data.answersDto[a].answerId);
-                           const span = document.createElement("span");
-                           span.className="letters";
-                           span.innerText=data.answersDto[a].answerContent;
-                           btn.appendChild(span);
-                           $("#answers").append(btn);
-                        }
-
-                        //TIMER
-                        stopTimer=false;
-                            let  time = setInterval(function(){
-                                document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-                                timeleft -= 1;
-                                if(timeleft <= 0 || stopTimer){
-                                    clearInterval(time);
-                                    document.getElementById("countdown").innerHTML = "Finished"
-                                }
-                            }, 1000);
-
-                    });
-
-                }
-
-                //Get Correct Answer
-                document.addEventListener("click",restGetCorrectAnswer);
-
-                function restGetCorrectAnswer(e){
-
-                    if(e.target.hasAttribute("data-answer-id")){
-
-                        //stop timer
-                        stopTimer=true;
-                        let timeBonus = timeleft;
-                        let points = pointsModifier;
-                        timeleft=20;
-
-                        const id=e.target.getAttribute("data-answer-id");
-                        $.ajax({
-                            url:"/answer-verification?question-id="+$("#question").attr("question-id")+"&answer-id="+id+"&timer="+timeBonus+"&points="+points
-                        }).then(function(data){
-
-                            highlightCorrectAnswer(data);
-                            setTimeout(restShowQuestion,3000);
-
-                        });
-                    }
-                }
-
-                function highlightCorrectAnswer(answerId){
-                    const buttons = document.querySelectorAll("[data-answer-id]");
-                    buttons.forEach(function(b){
-                        b.disabled=true;
-                        if(b.getAttribute("data-answer-id")==answerId){
-                            b.className+=" bg-success";
-                        }
-                    })
-                }
+<div id="question" class="container">
+    <div class="jumbotron">
+        <p id="question-content"></p>
+    </div>
+    <div id="answers">
 
 
-                //generate random points//wheel or other visualization
-                function generatePoints(){
-                    const arrayPoints = [1,2,3,4,5];
-                    randomPoints = Math.floor(1+Math.random()*(arrayPoints.length));
-                    console.log(randomPoints);
-                    return randomPoints;
-                }
-
-            });
-        </script>
+    </div>
+</div>
 
 
-    </body>
+<div class="container mt-5" id="start">
+
+    <div class="row">
+        <button class="start-btn">Start Quiz</button>
+    </div>
+
+</div>
+
+
+
+
+
+<script type="application/javascript" src="/js/game.js">
+
+</script>
+
+
+</body>
 </html>
