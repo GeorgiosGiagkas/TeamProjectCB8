@@ -8,6 +8,7 @@ import com.game.quizbot.model.Question;
 import com.game.quizbot.utils.BeanUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -43,7 +44,10 @@ public class QuestionBundleAssembler {
     public List<QuestionPackDto> getWeightedQuestionBundle(){
         List<QuestionPackDto> bundle = new ArrayList<>();
 
-        for(int id : getWeightedQuestionIds()){
+        Iterator<Integer> idIterator = getWeightedQuestionIds().iterator();
+
+        while(idIterator.hasNext()){
+            int id = idIterator.next();
             Question question = questionDao.getQuestionById(id);
             Iterable<Answer> answers= answerDao.getAllAnswersByQuestionId(id);
 
@@ -53,6 +57,7 @@ public class QuestionBundleAssembler {
             pack.setAnswersDtoFromAnswers(answers);
 
             bundle.add(pack);
+
         }
         return  bundle;
     }
