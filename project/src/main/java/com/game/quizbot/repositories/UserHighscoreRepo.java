@@ -16,7 +16,7 @@ public interface UserHighscoreRepo extends CrudRepository<UserHighscore,UserHigh
 
 
 
-    @Query(value = "SELECT * FROM user_highscore WHERE category_id = ?1 order by highscore DESC LIMIT 10;", nativeQuery = true)
+    @Query(value = "SELECT u.user_nickname, uh.highscore FROM user_highscore uh, user u WHERE category_id = ?1 and u.user_id = uh.user_id order by highscore DESC LIMIT 10;", nativeQuery = true)
     ArrayList getLeaderboardByCategoryId(int categoryId);
 
 
