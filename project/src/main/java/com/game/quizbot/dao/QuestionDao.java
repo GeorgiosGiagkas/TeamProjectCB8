@@ -12,5 +12,6 @@ public interface QuestionDao {
     public void insertQuestion(Question q);
     public Iterable<Question> getAllQuestions();
     public Iterable<Integer> getQuestionIdsByCategoryId(int categoryId);
+    public void deleteQuestionById(int questionId);
 
 }

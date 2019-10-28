@@ -80,4 +80,10 @@ public class QuestionDaoImpl implements QuestionDao {
     public Iterable<Integer> getQuestionIdsByCategoryId(int categoryId){
         return qr.getQuestionIdsByCategoryId(categoryId);
     }
+
+    @Override
+    public void deleteQuestionById(int questionId){
+        Question q = qr.getQuestionById(questionId);
+        qr.delete(q);
+    }
 }

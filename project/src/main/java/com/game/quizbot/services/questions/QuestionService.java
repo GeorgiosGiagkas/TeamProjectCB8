@@ -52,6 +52,29 @@ public class QuestionService {
         }
     }
 
+    public void updateQuestion(Question q, List<Integer> answerIds, List<String> answers, int correctAnswer, String categoryName){
+
+        Iterable<Category> categories;
+        categories = cd.getCategoriesByName(categoryName);
+        Category categoryId = ((ArrayList<Category>) categories).get(0);
+
+        q.setCategoryId(categoryId);
+
+        qd.insertQuestion(q);
+
+        for(int i = 0; i < answers.size(); i++){
+            Answer answer = new Answer();
+            answer.setAnswerId(answerIds.get(i));
+            answer.setAnswerContent(answers.get(i));
+            answer.setQuestionId(q);
+            answer.setAnswerCorrect(false);
+            int answerNo = i + 1;
+            if(correctAnswer == answerNo)
+                answer.setAnswerCorrect(true);
+            ad.insertAnswer(answer);
+        }
+    }
+
     public List<QuestionPackDto> getAllQuestions(){
         List<QuestionPackDto> questionsDto = new ArrayList<>();
         Iterator<Question> questions = qd.getAllQuestions().iterator();

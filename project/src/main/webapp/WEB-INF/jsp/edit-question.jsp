@@ -52,7 +52,7 @@
                     <button class = "btn-edit btn-warning btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Edit</button>
                 </td>
                 <td>
-                    <button class = "btn-delete btn-danger btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal" data-target="#modalDeleteCategory">Delete</button>
+                    <button class = "btn-delete btn-danger btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Delete</button>
                 </td>
             </tr>
         </c:forEach>
@@ -93,24 +93,28 @@
                         </div>
 
                         <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId1">
                             <label for = "answer1">Answer No1</label>
                             <br>
                             <input id = "answer1" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId2">
                             <label for = "answer2">Answer No2</label>
                             <br>
                             <input id = "answer2" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId3">
                             <label for = "answer3">Answer No3</label>
                             <br>
                             <input id = "answer3" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId4">
                             <label for = "answer4">Answer No4</label>
                             <br>
                             <input id = "answer4" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
@@ -133,6 +137,33 @@
                         <button type="submit" class="btn btn-warning">Update</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id = "modalDeleteQuestion" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action = "delete-question" method = "POST">
+                    <div class="modal-body">
+
+                        <input type = "hidden" id = "questionId-delete" name = "questionId">
+
+                        <p>Are you sure you want to delete question with ID <span id = "question-name-delete"></span> ? </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -171,9 +202,10 @@
 
                             selector.append(option);
                         }
-
+                        const correctSelector = document.querySelector("#correct-answer-selector");
+                        correctSelector.innerHTML = "";
                         for(let i = 0; i < data2.answersDto.length; i++){
-                            const correctSelector = document.querySelector("#correct-answer-selector");
+
                             k = i + 1;
                             const optionCor = document.createElement("option");
                             optionCor.innerHTML = k;
@@ -182,8 +214,9 @@
                                 optionCor.setAttribute("selected", "true");
                             }
                             let content = data2.answersDto[i].answerContent;
-                            console.log(data2.answersDto[i].answerContent);
+                            let answerid = data2.answersDto[i].answerId;
                             $("#answer" + k).val(content);
+                            $("#answerId" + k).val(answerid);
 
                         }
 
@@ -198,13 +231,20 @@
             });
 
 
-            $("#btn-edit-category").click(function () {
-                location.href = "/show-all-categories";
-            });
+            $(".btn-delete").click(function(){
+                let questionId = $(this).attr("data-questionId");
+                $.ajax({
+                    url:"/get-question-by-id/" + questionId,
+                    async: false
+                }).then(function(data){
+                    $("#questionId-delete").val(data.questionId);
+                    $("#question-name-delete").html("");
+                    $("#question-name-delete").append(data.questionId);
 
-            // $("#btn-edit-question").click(function () {
-            //     location.href = "/show-all-questions";
-            // });
+
+                });
+                $("#modalDeleteQuestion").modal("show");
+            });
         });
 
 

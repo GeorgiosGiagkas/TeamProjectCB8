@@ -51,14 +51,21 @@ public class QuestionController {
 
     @PostMapping("/edit-question")
     public String editQuestion(@RequestParam("questionId") int questionId, @RequestParam("questionContent") String questionContent, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
-                                 @RequestParam("categoryName") String categoryName){
+                                 @RequestParam("categoryName") String categoryName, @RequestParam("answerId") List<Integer> answerIds){
 
         Question q = new Question();
         q.setQuestionId(questionId);
         q.setQuestionContent(questionContent);
 
-        qs.createQuestion(q, answersStr, correctAnswer, categoryName);
+        qs.updateQuestion(q,answerIds, answersStr, correctAnswer, categoryName);
 
+
+        return "redirect:/show-all-questions";
+    }
+
+    @PostMapping("delete-question")
+    public String deleteCategory(@RequestParam("questionId") int questionId){
+        qd.deleteQuestionById(questionId);
 
         return "redirect:/show-all-questions";
     }
