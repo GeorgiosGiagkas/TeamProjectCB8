@@ -31,12 +31,15 @@ public class QuestionPackHandler implements GameObserver {
         assembler.setCategoryId(categoryId);
         if(bundle == null){
             bundle = assembler.getWeightedQuestionBundle();
+
+            gameStateSubject.setTotalRounds(bundle.size());
         }
 
         setQuestionPackDto();
     }
 
     public void setQuestionPackDto(){
+
         if((round-1) < bundle.size()){
             this.questionPackDto = bundle.get(round-1);
         }else{

@@ -4,6 +4,8 @@ public class UpdatedScoreStatus {
     private int correctAnswer;
     private int highscore;
     private int currentScore;
+    private int currentRound;
+    private  int totalRounds;
 
     public int getCorrectAnswer() {
         return correctAnswer;
@@ -27,5 +29,21 @@ public class UpdatedScoreStatus {
 
     public void setCurrentScore(int currentScore) {
         this.currentScore = currentScore;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
     }
 }

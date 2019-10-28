@@ -45,12 +45,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            <span class="nav-item nav-link">Sound Toggle</span>
+
             <a class="nav-item nav-link" href="#">Logout</a>
 
             <span id="category-highscore" class="nav-item nav-link">Category HighScore: ${gameStateSubject.highscore}</span>
             <span id="current-score" class="nav-item nav-link">Current Score: 0</span>
-
+            <span id="total-rounds" class="nav-item nav-link">Total Rounds: ${gameStateSubject.totalRounds}</span>
+            <span id="current-round" class="nav-item nav-link">Current Round: ${gameStateSubject.round}</span>
+            <span class="nav-item nav-link"><i id="music-switch" class="fas fa-volume-mute"></i></span>
         </div>
     </div>
 </nav>
@@ -96,6 +98,31 @@
 
 </div>
 
+
+
+
+
+
+<%--buttons--%>
+<audio id="button-sound" controls>
+    <source src="sound/157538__nenadsimic__double-click.wav" type="audio/wav">
+</audio>
+
+<%--success--%>
+<audio id="success-sound" controls>
+    <source src="/sound/80921__justinbw__buttonchime02up.wav" type="audio/wav">
+</audio>
+
+<%--fail--%>
+
+<audio id="fail-sound" controls>
+    <source src="/sound/335906__littlerainyseasons__fail.mp3" type="audio/wav">
+</audio>
+
+<%--mousic--%>
+<audio autoplay loop id="background-music" controls>
+    <source src="sound/335571__magntron__gamemusic.mp3" type="audio/mp3">
+</audio>
 
 
 

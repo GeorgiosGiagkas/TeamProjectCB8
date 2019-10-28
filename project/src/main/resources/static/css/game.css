@@ -97,3 +97,7 @@ div #countdown{
     justify-content: center;
     height: 30px;
 }
+
+audio {
+    display: none;
+}

@@ -11,6 +11,7 @@ public class GameStateSubject {
     private int userId;
     private int categoryId;
     private  int round;
+    private  int totalRounds;
     private QuestionPackDto questionPackDto;
     private int answerId;
     private int correctAnswerId;
@@ -49,6 +50,8 @@ public class GameStateSubject {
         updatedScoreStatus.setHighscore(this.highscore);
         updatedScoreStatus.setCorrectAnswer(this.correctAnswerId);
         updatedScoreStatus.setCurrentScore(this.totalRunPoints);
+        updatedScoreStatus.setCurrentRound(this.round);
+        updatedScoreStatus.setTotalRounds(this.totalRounds);
 
         return  updatedScoreStatus;
     }
@@ -151,5 +154,11 @@ public class GameStateSubject {
         this.correctAnswerId = correctAnswerId;
     }
 
+    public int getTotalRounds() {
+        return totalRounds;
+    }
 
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
+    }
 }

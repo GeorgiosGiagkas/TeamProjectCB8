@@ -12,8 +12,15 @@ $(document).ready(function(){
     //set points modifier
     let pointsModifier = 0;
 
+
+    //round
+    let round =1;
+
     //NEXT QUESTION
+    $("#start").click(handleSuccessSound);
     $("#start").click(startFirstRound);
+
+
 
     function startFirstRound(){
         const startBtn = document.querySelector("#start");
@@ -55,6 +62,7 @@ $(document).ready(function(){
             for(let a in data.answersDto){
 
                 const btn = document.createElement("button");
+                btn.addEventListener("click",handleButtonClickSound);
                 btn.className="answer-btn";
                 btn.setAttribute("data-answer-id",data.answersDto[a].answerId);
                 btn.textContent=data.answersDto[a].answerContent;
@@ -116,11 +124,18 @@ $(document).ready(function(){
         }).then(function(data){
             const highscore = document.querySelector("#category-highscore");
             const currentScore = document.querySelector("#current-score");
+            const currentRound = document.querySelector("#current-round");
             highscore.textContent = `Category HighScore: ${data.highscore}`;
             currentScore.textContent = `Current Score: ${data.currentScore}`;
+            currentRound.textContent = `Current Round: ${data.currentRound}`;
+            highlightCorrectAnswer(data.correctAnswer, answerId);
 
-            highlightCorrectAnswer(data.correctAnswer);
-            setTimeout(beginNextRound,3000);
+            if(data.currentRound===data.totalRounds){
+                setTimeout(endGame,3000);
+            }
+            else{
+                setTimeout(beginNextRound,3000);
+            }
 
         });
     }
@@ -135,13 +150,25 @@ $(document).ready(function(){
 
 
 
-    function highlightCorrectAnswer(answerId){
+    function highlightCorrectAnswer(correctAnswer,userAnswer){
+
+        if(userAnswer==correctAnswer){
+            handleSuccessSound();
+        }
+        else{
+            handleFailSound();
+        }
         const buttons = document.querySelectorAll("[data-answer-id]");
         buttons.forEach(function(b){
-            if(b.getAttribute("data-answer-id")==answerId){
+            if(b.getAttribute("data-answer-id")==correctAnswer){
                 b.className+=" bg-success";
             }
-        })
+            else{
+                b.className+=" bg-danger";
+            }
+        });
+
+
     }
 
     function displayPointsMessage() {
@@ -152,6 +179,55 @@ $(document).ready(function(){
             pointsMessage.style="display: none;";
         },1500);
     }
+
+
+    function endGame(){
+        window.location.href = "/main-menu";
+    }
+
+
+
+    //Event Handlers
+
+    //success
+    function handleSuccessSound(){
+        const sound = document.querySelector("#success-sound");
+        sound.play();
+    }
+
+
+    //fail
+    function handleFailSound(){
+        const sound = document.querySelector("#fail-sound");
+        sound.play();
+    }
+
+    //buttons
+    function handleButtonClickSound(){
+        const sound = document.querySelector("#button-sound");
+        sound.play();
+    }
+
+
+    //ADD BACKGROUND MUSIC
+    const musicSwitch = document.querySelector("#music-switch");
+    const icon = document.querySelector("i#music-switch");
+    const backMusic = document.querySelector("#background-music");
+    let isPlaying = true;
+
+    musicSwitch.addEventListener("click", function (e) {
+
+        if (isPlaying === true) {
+            backMusic.pause();
+            icon.className = "fas fa-volume-up";
+            isPlaying = false;
+        }
+        else {
+            icon.className = "fas fa-volume-mute";
+            backMusic.play();
+            isPlaying = true;
+        }});
+
 
 
 
