@@ -24,7 +24,7 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
-    game css
+    <%--game css--%>
     <link rel="stylesheet" type="text/css" href="/css/game.css">
     <%--winwheel--%>
     <script type="text/javascript" src="/js/Winwheel.js"></script>
@@ -37,7 +37,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">Quizbot</a>
+    <a class="navbar-brand" href="#"><img src="/images/quizbot-logo(200x50).png"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
