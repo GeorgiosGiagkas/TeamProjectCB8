@@ -1,6 +1,8 @@
 package com.game.quizbot.controllers;
 
 
+import com.game.quizbot.dao.AvatarDao;
+import com.game.quizbot.dao.RoleDao;
 import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.model.Avatar;
 import com.game.quizbot.model.Role;
@@ -21,8 +23,15 @@ import javax.validation.Valid;
 
 @Controller
 public class UserRegisterController {
+
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    AvatarDao avatarDao;
 
     @Autowired
     UserRegisterValidator userRegisterValidator;
@@ -48,11 +57,9 @@ public class UserRegisterController {
         } else {
             String hashed = BCrypt.hashpw(user.getUserPassword(), BCrypt.gensalt());
             user.setUserPassword(hashed);
-            Role role = new Role();
-            role.setRoleId(2);
+            Role role = roleDao.getRoleByRoleName("User");
             user.setRoleId(role);
-            Avatar avatar = new Avatar();
-            avatar.setAvatarId(1);
+            Avatar avatar = avatarDao.getAvatarByAvatarName("Beginner");
             user.setSelectedAvatarId(avatar);
             user.setWallet(0);
             userDao.insertUser(user);
