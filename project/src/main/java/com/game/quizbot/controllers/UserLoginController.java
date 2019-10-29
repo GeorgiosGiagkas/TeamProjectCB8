@@ -25,6 +25,11 @@ public class UserLoginController {
     @Autowired
     UserLoginValidator userLoginValidator;
 
+    @InitBinder
+    private void InitBinder (WebDataBinder binder) {
+        binder.addValidators(userLoginValidator);
+    }
+
     @GetMapping(value = "/login")
     public String showLoginForm(ModelMap mm) {
         User loginUser = new User();
@@ -32,16 +37,19 @@ public class UserLoginController {
         return "login";
     }
 
-    @InitBinder
-    private void InitBinder (WebDataBinder binder) {
-        binder.addValidators(userLoginValidator);
-    }
-
     @PostMapping("/loginUser")
     public String loginUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, HttpSession session) {
         if (userDao.checkUserByPassword(user)) {
+            User dbUser = userDao.getUserByNickname(user.getUserNickname());
+            user.setUserPassword(null);
             session.setAttribute("loginUser", user);
-            return "main-menu";
+            if(dbUser.getRoleId().getRoleId() == 1){
+                session.setAttribute("login-admin", user);
+                return "redirect:/admin-menu";
+            } else {
+                session.setAttribute("login-user", user);
+                return "redirect:/main-menu";
+            }
         } else
             return "login";
     }

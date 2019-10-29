@@ -136,7 +136,6 @@ $(document).ready(function(){
             else{
                 setTimeout(beginNextRound,3000);
             }
-
         });
     }
 
