@@ -1,5 +1,6 @@
 package com.game.quizbot.dao;
 
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
 import com.game.quizbot.repositories.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -36,16 +37,6 @@ public class UserDaoImpl implements UserDao {
         ur.save(user);
     }
 
-    @Override
-    public boolean checkUserByPassword(User user) {
-        User dbUser = ur.getUserByNickname(user.getUserNickname());
-        if (user.getUserNickname() != null && dbUser != null) {
-            if (BCrypt.checkpw(user.getUserPassword(), dbUser.getUserPassword())) {
-                return true;
-            }
-        }
-            return false;
-    }
 
 
 }

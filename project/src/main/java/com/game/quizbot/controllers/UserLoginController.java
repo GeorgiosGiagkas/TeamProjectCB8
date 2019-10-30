@@ -1,6 +1,7 @@
 package com.game.quizbot.controllers;
 
 import com.game.quizbot.dao.UserDao;
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
 import com.game.quizbot.validators.UserLoginValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,31 +27,36 @@ public class UserLoginController {
     UserLoginValidator userLoginValidator;
 
     @InitBinder
-    private void InitBinder (WebDataBinder binder) {
+    private void initBinder (WebDataBinder binder) {
         binder.addValidators(userLoginValidator);
     }
 
     @GetMapping(value = "/login")
     public String showLoginForm(ModelMap mm) {
-        User loginUser = new User();
-        mm.addAttribute("user", loginUser);
+        UserDto loginUser = new UserDto();
+        mm.addAttribute("userDto", loginUser);
         return "login";
     }
 
     @PostMapping("/loginUser")
-    public String loginUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, HttpSession session) {
-        if (userDao.checkUserByPassword(user)) {
-            User dbUser = userDao.getUserByNickname(user.getUserNickname());
-            user.setUserPassword(null);
-            session.setAttribute("loginUser", user);
-            if(dbUser.getRoleId().getRoleId() == 1){
-                session.setAttribute("login-admin", user);
+    public String loginUser(@Valid @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        } else {
+            User dbUser = userDao.getUserByNickname(userDto.getUserNickname());
+            userDto.setUserPassword(null);
+            userDto.setUserId(dbUser.getUserId());
+            userDto.setUserEmail(dbUser.getUserEmail());
+            userDto.setWallet(dbUser.getWallet());
+            userDto.setRoleId(dbUser.getRoleId().getRoleId());
+            if(userDto.getRoleId() == 1){
+                session.setAttribute("login-admin", userDto);
                 return "redirect:/admin-menu";
             } else {
-                session.setAttribute("login-user", user);
+                session.setAttribute("login-user", userDto);
                 return "redirect:/main-menu";
             }
-        } else
-            return "login";
+        }
+
     }
 }

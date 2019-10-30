@@ -38,7 +38,7 @@
 
                     </div>
                     <div class="card-body">
-                    <spring:form modelAttribute="user" id="loginForm" action="loginUser" method="post">
+                    <spring:form modelAttribute="userDto" id="loginForm" action="loginUser" method="post">
 
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">

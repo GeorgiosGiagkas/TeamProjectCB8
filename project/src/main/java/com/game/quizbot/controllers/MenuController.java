@@ -2,6 +2,7 @@ package com.game.quizbot.controllers;
 
 
 import com.game.quizbot.dto.CategoryDto;
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
 import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class MenuController {
 
     @GetMapping("/main-menu")
     public ModelAndView showMainMenu(HttpSession session,ModelAndView modelAndView){
-        User user =(User)session.getAttribute("login-user");
+        UserDto userDto =(UserDto)session.getAttribute("login-user");
         modelAndView.setViewName("main-menu");
         return  modelAndView;
     }
