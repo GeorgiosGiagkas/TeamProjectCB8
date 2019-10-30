@@ -7,7 +7,10 @@ import com.game.quizbot.utils.PartUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,12 +63,15 @@ public class CategoryService {
         return categoryDto;
     }
 
-    public void partWrite(Part p){
-        String filename = PartUtils.extractFileName(p);
-//        try {
-//            p.write("src/main/webapp/images/" + filename);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void partWrite(Part p, String filename, HttpServletRequest request){
+        String extension = PartUtils.extractFileName(p);
+        System.out.println(extension);
+        ServletContext context = request.getServletContext();
+        String appPath = context.getRealPath("/");
+        try {
+            p.write(appPath + "images/" + filename + "" + extension);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

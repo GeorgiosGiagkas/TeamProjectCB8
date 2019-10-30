@@ -1,5 +1,6 @@
 package com.game.quizbot.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 public class PartUtils {
@@ -18,9 +19,12 @@ public class PartUtils {
                 int i = clientFileName.lastIndexOf('/');
                 // file1.zip
                 // file2.zip
-                return clientFileName.substring(i + 1);
+                String result = clientFileName.substring(i + 1);
+                return result.substring(result.lastIndexOf("."));
             }
         }
         return null;
     }
+
+
 }

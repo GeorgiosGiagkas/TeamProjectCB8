@@ -23,6 +23,7 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="/css/categories.css">
 
 </head>
 <body>
@@ -89,6 +90,15 @@
                             </div>
                         </div>
 
+                        <div class = "form-group">
+                            <label for = "label">Active</label>
+                            <br>
+                            <label class="switch" id = "label">
+                                <input type="checkbox" name = "active" id = "active">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-warning">Update</button>
@@ -137,6 +147,9 @@
                 }).then(function(data){
                     $("#categoryId").val(data.categoryId);
                     $("#categoryName").val(data.categoryName);
+                    if(data.categoryActive === true){
+                        $("#active").prop("checked", true);
+                    }
 
                 });
                 $("#modalEditCategory").modal("show");

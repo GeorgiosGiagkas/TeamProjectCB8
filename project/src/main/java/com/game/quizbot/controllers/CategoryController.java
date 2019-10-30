@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
 
@@ -26,14 +27,18 @@ public class CategoryController {
 
 
     @PostMapping("/create-category")
-    public String createCategory(@RequestParam("categoryName") String categoryName, @RequestParam("category-image") Part p) {
+    public String createCategory(@RequestParam("categoryName") String categoryName, @RequestParam("category-image") Part image, HttpServletRequest request, @RequestParam(value = "active", required = false) String active) {
 
         Category c = new Category();
         c.setCategoryName(categoryName);
 
+        if(active != null){
+            c.setCategoryActive(true);
+        }
+
         cd.insertCategory(c);
 
-        cs.partWrite(p);
+        cs.partWrite(image, categoryName, request);
 
 
         return "admin-menu";
@@ -61,10 +66,18 @@ public class CategoryController {
     }
 
     @PostMapping("edit-category")
-    public String editCategory(@RequestParam("categoryId") int categoryId, @RequestParam("categoryName") String categoryName){
+    public String editCategory(@RequestParam("categoryId") int categoryId, @RequestParam("categoryName") String categoryName, @RequestParam(value = "active", required = false) String active){
         Category c = new Category();
         c.setCategoryId(categoryId);
         c.setCategoryName(categoryName);
+
+        if(active != null){
+            c.setCategoryActive(true);
+        }
+
+        else{
+            c.setCategoryActive(false);
+        }
 
         cd.insertCategory(c);
 
@@ -74,6 +87,7 @@ public class CategoryController {
     @PostMapping("delete-category")
     public String deleteCategory(@RequestParam("categoryId") int categoryId){
         cd.deleteCategoryById(categoryId);
+
 
         return "redirect:/show-all-categories";
     }
