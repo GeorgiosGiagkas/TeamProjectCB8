@@ -37,7 +37,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">Quizbot</a>
+    <a class="navbar-brand" href="#"><img src="/images/quizbot-logo(200x50).png"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
