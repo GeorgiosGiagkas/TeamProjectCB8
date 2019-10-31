@@ -38,6 +38,15 @@ public class AvatarService {
         return avatarsDto;
     }
 
+    public AvatarDto getAvatarDtoFromAvatar(Avatar a){
+        AvatarDto avatarDto = new AvatarDto();
+        avatarDto.setAvatarId(a.getAvatarId());
+        avatarDto.setAvatarName(a.getAvatarName());
+        avatarDto.setAvatarCost(a.getAvatarCost());
+
+        return avatarDto;
+    }
+
     public void partWrite(Part p, int avatarId, HttpServletRequest request){
         String extension = PartUtils.extractFileExtension(p);
         ServletContext context = request.getServletContext();

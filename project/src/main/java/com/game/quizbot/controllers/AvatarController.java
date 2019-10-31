@@ -7,10 +7,7 @@ import com.game.quizbot.services.avatars.AvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -25,10 +22,7 @@ public class AvatarController {
     @Autowired
     AvatarDao ad;
 
-    @GetMapping("show-avatars")
-    public String showAvatars(ModelMap m){
-        return "edit-avatars";
-    }
+
 
     @PostMapping("create-avatar")
     public String createAvatar(@RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, @RequestParam("avatar-image") Part image, HttpServletRequest request){
@@ -47,6 +41,25 @@ public class AvatarController {
         return "redirect:/show-all-avatars";
     }
 
+    @PostMapping("edit-avatar")
+    public String editAvatar(@RequestParam("avatarId") int id, @RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, @RequestParam("avatar-image") Part image, HttpServletRequest request){
+        Avatar a = new Avatar();
+        a.setAvatarId(id);
+        a.setAvatarName(name);
+        a.setAvatarCost(cost);
+
+        ad.saveAvatar(a);
+
+
+
+
+
+
+        return "redirect:/show-all-avatars";
+    }
+
+
+
     @GetMapping("get-all-avatars")
     @ResponseBody
     public Iterable<AvatarDto> getAllAvatars(){
@@ -58,6 +71,15 @@ public class AvatarController {
         Iterable<Avatar> avatars = ad.getAllAvatars();
         m.addAttribute("allavatars", avatars);
 
-        return "edit-avatars2";
+        return "edit-avatars";
+    }
+
+    @GetMapping("get-avatar-by-id/{id}")
+    @ResponseBody
+    public AvatarDto getAvatarById(@PathVariable("id") int id){
+        Avatar a = ad.getAvatarById(id);
+        AvatarDto avatarDto = as.getAvatarDtoFromAvatar(a);
+
+        return avatarDto;
     }
 }

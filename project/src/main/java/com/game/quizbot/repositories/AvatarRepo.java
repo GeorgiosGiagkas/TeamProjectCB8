@@ -14,4 +14,7 @@ public interface AvatarRepo extends CrudRepository<Avatar,Integer> {
 
     @Query("SELECT a FROM Avatar a")
     Iterable<Avatar> getAllAvatars();
+
+    @Query("SELECT a from Avatar a WHERE a.avatarId = ?1")
+    Avatar getAvatarById(int id);
 }

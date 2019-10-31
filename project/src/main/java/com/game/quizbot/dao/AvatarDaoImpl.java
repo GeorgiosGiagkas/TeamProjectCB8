@@ -28,4 +28,9 @@ public class AvatarDaoImpl implements AvatarDao{
         Iterable<Avatar> avatars = avatarRepo.getAllAvatars();
         return avatars;
     }
+
+    @Override
+    public Avatar getAvatarById(int id){
+        return avatarRepo.getAvatarById(id);
+    }
 }
