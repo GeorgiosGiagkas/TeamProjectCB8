@@ -2,6 +2,7 @@ package com.game.quizbot.controllers;
 
 
 import com.game.quizbot.dto.QuestionPackDto;
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.services.game.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,8 @@ public class GameController {
 
         session.removeAttribute("gameStateSubject");
         GameStateSubject gameStateSubject = gameState.createGameStateSubject();
-        gameStateSubject.setUserId(1);
+        int userId = ((UserDto) session.getAttribute("login-user")).getUserId();
+        gameStateSubject.setUserId(userId);
         gameStateSubject.setCategoryId(categoryId);
         gameStateSubject.setRound(1);
         gameStateSubject.setTotalRunPoints(0);
