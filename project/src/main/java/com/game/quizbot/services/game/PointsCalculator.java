@@ -29,6 +29,11 @@ public class PointsCalculator implements GameObserver {
         this.userAnswerIsCorrect=gameStateSubject.isUserAnswerIsCorrect();
 
         UserHighscorePK userHighscorePK = new UserHighscorePK(this.userId,this.categoryId);
+
+        if(!userHighscoreDao.userHighscoreExistsById(userHighscorePK)){
+            userHighscoreDao.createUserHighscore(userHighscorePK);
+        }
+
         gameStateSubject.setHighscore(getHighscore(userHighscorePK));
         this.highscore =gameStateSubject.getHighscore();
 
