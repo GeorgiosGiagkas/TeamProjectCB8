@@ -45,168 +45,28 @@
 
                     </div>
                     <div class="card-body">
-                        <button id = "btn-create-question" class="btn-warning btn" data-toggle="modal">Create new Question</button>
-                        <button id = "btn-create-category" class="btn-warning btn" data-toggle="modal" data-target="#modalCreateCategory">Create new Category</button>
-                        <button id = "btn-edit-question" class="btn-warning btn">Edit existing Question</button>
-                        <button id = "btn-edit-category" class="btn-warning btn">Edit existing Category</button>
-                        <button class="btn-warning btn">Show e-Shop Stats</button>
-                        <button class="btn-warning btn">Show Leaderboard</button>
-                        <button class="btn-warning btn">Show Stats of all Players</button>
+                        <button id = "btn-edit-question" class="btn-warning btn">Questions</button>
+                        <button id = "btn-edit-category" class="btn-warning btn">Categories</button>
+                        <button id = "btn-edit-avatars" class="btn-warning btn">Avatars</button>
+                        <button class="btn-warning btn">e-Shop Stats</button>
+                        <button id = "btn-show-leaderboard" class="btn-warning btn">Leaderboard</button>
+                        <button class="btn-warning btn">Stats of all Players</button>
                         <button class="btn-warning btn">Sign out</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id = "modalCreateCategory" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create Category</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="create-category" method="POST" enctype = "multipart/form-data">
-                        <div class="modal-body">
 
 
-                            <div class="form-group">
 
-                                <label for = "categoryName">Category Name</label>
-                                <br>
-                                <input type = "text" id = "categoryName" name = "categoryName" class="form-control"  placeholder = "Enter Name"/>
-
-                            </div>
-
-                            <div class="form-group">
-                                <label for="category-image">Category Image</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="category-image" name = "category-image"
-                                           aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="category-image">Choose file</label>
-                                </div>
-                            </div>
-
-                            <div class = "form-group">
-                                <label for = "label">Active</label>
-                                <br>
-                                <label class="switch" id = "label">
-                                    <input type="checkbox" name = "active" id = "active">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-warning">Create</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div id = "modalCreateQuestion" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create Question</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="create-question" method="POST">
-                        <div class="modal-body">
-
-
-                            <div class="form-group">
-
-                                <label for = "questionContent">Question Content</label>
-                                <br>
-                                <textarea id = "questionContent" name = "questionContent" class = "form-control" placeholder = "Enter Content"></textarea>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for = "category-selector">Category</label>
-                                <br>
-                                <select id = "category-selector" name = "categoryName">
-
-                                </select>
-
-                            </div>
-
-                            <div class="form-group">
-                                <label for = "answer1">Answer No1</label>
-                                <br>
-                                <input id = "answer1" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
-                            </div>
-
-                            <div class="form-group">
-                                <label for = "answer2">Answer No2</label>
-                                <br>
-                                <input id = "answer2" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
-                            </div>
-
-                            <div class="form-group">
-                                <label for = "answer3">Answer No3</label>
-                                <br>
-                                <input id = "answer3" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
-                            </div>
-
-                            <div class="form-group">
-                                <label for = "answer4">Answer No4</label>
-                                <br>
-                                <input id = "answer4" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for = "correct-answer-selector">Correct Answer</label>
-                                <br>
-                                <select id = "correct-answer-selector" name = "correct">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-warning">Create</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
 
 
     <script>
         $(document).ready(function(){
 
-            $("#btn-create-question").click(function(){
-                $.ajax({
-                    url:"/get-all-categories",
-                    async: false
-                }).then(function(data){
-                    const selector = document.querySelector("#category-selector");
-                    selector.innerHTML = "";
-                    for(let i in data){
-                        const option = document.createElement("option");
 
-                        option.innerText= data[i].categoryName;
-
-
-                        selector.append(option);
-                    }
-                });
-                $("#modalCreateQuestion").modal("show");
-            });
 
             $("#btn-edit-category").click(function () {
                 location.href = "/show-all-categories";
@@ -214,6 +74,14 @@
 
             $("#btn-edit-question").click(function () {
                 location.href = "/show-all-questions";
+            });
+
+            $("#btn-edit-avatars").click(function() {
+                location.href = "/show-all-avatars";
+            });
+
+            $("#btn-show-leaderboard").click(function(){
+               location.href = "/show-leaderboard";
             });
         });
 

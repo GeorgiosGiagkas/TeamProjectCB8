@@ -46,7 +46,7 @@ public class QuestionController {
         qs.createQuestion(q, answersStr, correctAnswer, categoryName);
 
 
-        return "admin-menu";
+        return "redirect:/show-all-questions";
     }
 
     @PostMapping("/edit-question")

@@ -38,10 +38,11 @@ public class CategoryController {
 
         cd.insertCategory(c);
 
+
         cs.partWrite(image, categoryName, request);
 
 
-        return "admin-menu";
+        return "redirect:/show-all-categories";
     }
 
     @GetMapping("get-all-categories")
