@@ -5,6 +5,9 @@ import com.game.quizbot.dto.AvatarDto;
 import com.game.quizbot.model.Avatar;
 import com.game.quizbot.utils.PartUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
@@ -20,6 +23,8 @@ public class AvatarService {
 
     @Autowired
     AvatarDao ad;
+
+
 
     public List<AvatarDto> getAvatars(){
         List<AvatarDto> avatarsDto = new ArrayList<>();
@@ -57,4 +62,11 @@ public class AvatarService {
             e.printStackTrace();
         }
     }
+
+
 }
+
+
+
+
+
