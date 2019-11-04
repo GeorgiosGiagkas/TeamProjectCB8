@@ -64,14 +64,16 @@ public class CategoryService {
     }
 
     public void partWrite(Part p, String filename, HttpServletRequest request){
-        String extension = PartUtils.extractFileName(p);
-        System.out.println(extension);
-        ServletContext context = request.getServletContext();
-        String appPath = context.getRealPath("/");
-        try {
-            p.write(appPath + "images/" + filename + "" + extension);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String extension = PartUtils.extractFileExtension(p);
+        if(extension != null){
+            ServletContext context = request.getServletContext();
+            String appPath = context.getRealPath("/");
+            try {
+                p.write(appPath + "images/" + filename + "" + extension);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }

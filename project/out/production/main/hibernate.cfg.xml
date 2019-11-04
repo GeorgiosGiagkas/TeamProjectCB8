@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">
+            <![CDATA[jdbc:mysql://ra1.anystream.eu:5420/quizbot?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false]]></property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="com.game.quizbot.model.Answer"/>
+        <mapping class="com.game.quizbot.model.Avatar"/>
+        <mapping class="com.game.quizbot.model.Category"/>
+        <mapping class="com.game.quizbot.model.Question"/>
+        <!--<mapping class="com.game.quizbot.model.QuestionAnswer"/>-->
+        <mapping class="com.game.quizbot.model.Role"/>
+        <mapping class="com.game.quizbot.model.User"/>
+        <mapping class="com.game.quizbot.model.UserAvatar"/>
+        <mapping class="com.game.quizbot.model.UserHighscore"/>
+        <mapping class="com.game.quizbot.model.UserQuestion"/>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

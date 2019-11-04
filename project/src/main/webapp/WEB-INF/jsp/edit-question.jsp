@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Edit existing Question</title>
+    <title>Questions</title>
 
     <!--Bootsrap 4 CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -21,58 +21,77 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
 
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Custom styles-->
 </head>
 <body>
+    <div class = "container">
+        <p class = "h1">Questions</p>
 
-    <table class = "table table-hover">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Question Content</th>
-            <th>Category</th>
-            <th> </th>
-            <th> </th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${allquestions}" var="question">
+        <table class = "table table-hover">
+            <thead>
             <tr>
-                <td>
-                    <c:out value="${question.questionId}" />
-                </td>
-                <td>
-                    <c:out value="${question.questionContent}" />
-                </td>
-                <td>
-                    <c:out value="${question.categoryId.categoryName}" />
-                </td>
-                <td>
-                    <button class = "btn-edit btn-warning btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Edit</button>
-                </td>
-                <td>
-                    <button class = "btn-delete btn-danger btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Delete</button>
-                </td>
+                <th>ID</th>
+                <th>Question Content</th>
+                <th>Category</th>
+                <th> </th>
+                <th> </th>
             </tr>
-        </c:forEach>
+            </thead>
+            <tbody>
+            <c:forEach items="${allquestions}" var="question">
+                <tr>
+                    <td>
+                        <c:out value="${question.questionId}" />
+                    </td>
+                    <td>
+                        <c:out value="${question.questionContent}" />
+                    </td>
+                    <td>
+                        <c:out value="${question.categoryId.categoryName}" />
+                    </td>
+                    <td>
+                        <button class = "btn-edit btn-warning btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Edit</button>
+                    </td>
+                    <td>
+                        <button class = "btn-delete btn-danger btn" type = "button" data-questionId = "${question.questionId}" data-toggle="modal">Delete</button>
+                    </td>
+                </tr>
+            </c:forEach>
 
-        </tbody>
-    </table>
+            <tr id = "btn-create-question" data-toggle="modal">
+                <td>
+                    <i class="fas fa-plus"></i>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
 
-    <div id = "modalEditQuestion" class="modal fade" tabindex="-1" role="dialog">
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div id = "modalCreateQuestion" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Question</h5>
+                    <h5 class="modal-title">Create Question</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="edit-question" method="POST">
+                <form action="create-question" method="POST">
                     <div class="modal-body">
 
-                        <input type = "hidden" id = "questionId" name = "questionId" />
 
                         <div class="form-group">
 
@@ -93,28 +112,24 @@
                         </div>
 
                         <div class="form-group">
-                            <input type = "hidden" name = "answerId" id = "answerId1">
                             <label for = "answer1">Answer No1</label>
                             <br>
                             <input id = "answer1" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
-                            <input type = "hidden" name = "answerId" id = "answerId2">
                             <label for = "answer2">Answer No2</label>
                             <br>
                             <input id = "answer2" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
-                            <input type = "hidden" name = "answerId" id = "answerId3">
                             <label for = "answer3">Answer No3</label>
                             <br>
                             <input id = "answer3" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
                         </div>
 
                         <div class="form-group">
-                            <input type = "hidden" name = "answerId" id = "answerId4">
                             <label for = "answer4">Answer No4</label>
                             <br>
                             <input id = "answer4" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
@@ -125,6 +140,88 @@
                             <label for = "correct-answer-selector">Correct Answer</label>
                             <br>
                             <select id = "correct-answer-selector" name = "correct">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">Create</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id = "modalEditQuestion" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="edit-question" method="POST">
+                    <div class="modal-body">
+
+                        <input type = "hidden" id = "questionId-edit" name = "questionId" />
+
+                        <div class="form-group">
+
+                            <label for = "questionContent">Question Content</label>
+                            <br>
+                            <textarea id = "questionContent-edit" name = "questionContent" class = "form-control" placeholder = "Enter Content"></textarea>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for = "category-selector">Category</label>
+                            <br>
+                            <select id = "category-selector-edit" name = "categoryName">
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId1">
+                            <label for = "answer1">Answer No1</label>
+                            <br>
+                            <input id = "answer1-edit" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
+                        </div>
+
+                        <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId2">
+                            <label for = "answer2">Answer No2</label>
+                            <br>
+                            <input id = "answer2-edit" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
+                        </div>
+
+                        <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId3">
+                            <label for = "answer3">Answer No3</label>
+                            <br>
+                            <input id = "answer3-edit" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
+                        </div>
+
+                        <div class="form-group">
+                            <input type = "hidden" name = "answerId" id = "answerId4">
+                            <label for = "answer4">Answer No4</label>
+                            <br>
+                            <input id = "answer4-edit" name = "answer" type = "text" class = "form-control" placeholder="Enter Answer">
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for = "correct-answer-selector">Correct Answer</label>
+                            <br>
+                            <select id = "correct-answer-selector-edit" name = "correct">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -172,9 +269,28 @@
     <script>
         $(document).ready(function(){
 
+            $("#btn-create-question").click(function(){
+                $.ajax({
+                    url:"/get-all-categories",
+                    async: false
+                }).then(function(data){
+                    const selector = document.querySelector("#category-selector");
+                    selector.innerHTML = "";
+                    for(let i in data){
+                        const option = document.createElement("option");
+
+                        option.innerText= data[i].categoryName;
+
+
+                        selector.append(option);
+                    }
+                });
+                $("#modalCreateQuestion").modal("show");
+            });
+
             $(".btn-edit").click(function(){
                 let id = $(this).attr("data-questionId");
-                $("#questionId").val(id);
+                $("#questionId-edit").val(id);
                 $.ajax({
                     url:"/get-all-categories",
                     async: false
@@ -184,7 +300,7 @@
                         url: "/get-question-by-id/" + id,
                         async: false
                     }).then(function(data2){
-                        const selector = document.querySelector("#category-selector");
+                        const selector = document.querySelector("#category-selector-edit");
                         selector.innerHTML = "";
                         for(let i in data1){
 
@@ -202,7 +318,7 @@
 
                             selector.append(option);
                         }
-                        const correctSelector = document.querySelector("#correct-answer-selector");
+                        const correctSelector = document.querySelector("#correct-answer-selector-edit");
                         correctSelector.innerHTML = "";
                         for(let i = 0; i < data2.answersDto.length; i++){
 
@@ -215,13 +331,13 @@
                             }
                             let content = data2.answersDto[i].answerContent;
                             let answerid = data2.answersDto[i].answerId;
-                            $("#answer" + k).val(content);
-                            $("#answerId" + k).val(answerid);
+                            $("#answer" + k+"-edit").val(content);
+                            $("#answerId" + +"-edit").val(answerid);
 
                         }
 
-                        $("#questionContent").html("");
-                        $("#questionContent").append(data2.questionContent)
+                        $("#questionContent-edit").html("");
+                        $("#questionContent-edit").append(data2.questionContent)
 
 
                     });

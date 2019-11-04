@@ -1,0 +1,38 @@
+#import-new {
+    text-align: center;
+    width: 115px;
+    padding: 50px;
+    border: 2px solid #000;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    transition: ease 1s;
+    cursor: pointer;
+    display: inline;
+}
+
+.avatar{
+    text-align: center;
+    width: 115px;
+    padding: 50px;
+    border: 2px solid #000;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    transition: ease 1s;
+    cursor: pointer;
+    display: inline;
+    margin: 10px;
+}
+
+.avatar-img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#import-new:hover {
+    transform: scale(1.1);
+}
+
+#import-new > i {
+    position: relative;
+    top: calc(50% - 10px);
+}

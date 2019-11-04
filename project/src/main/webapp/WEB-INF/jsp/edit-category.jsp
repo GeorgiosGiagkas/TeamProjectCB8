@@ -20,6 +20,9 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Custom styles-->
@@ -27,17 +30,18 @@
 
 </head>
 <body>
-
-    <table class = "table table-hover">
-        <thead>
+    <div class = "container">
+        <p class = "h1">Categories</p>
+        <table class = "table table-hover">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Category Name</th>
                 <th> </th>
                 <th> </th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <c:forEach items="${allcategories}" var="category">
                 <tr>
                     <td>
@@ -55,24 +59,35 @@
                 </tr>
             </c:forEach>
 
-        </tbody>
-    </table>
+            <tr id = "btn-create-category" data-toggle="modal">
+                <td>
+                    <i class="fas fa-plus"></i>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
 
-    <div id = "modalEditCategory" class="modal fade" tabindex="-1" role="dialog">
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div id = "modalCreateCategory" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Category</h5>
+                    <h5 class="modal-title">Create Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="edit-category" method="POST" enctype = "multipart/form-data">
+                <form action="create-category" method="POST" enctype = "multipart/form-data">
                     <div class="modal-body">
 
-                        <div class = "form-group">
-                            <input type = "hidden" id = "categoryId" name = "categoryId" class = "form-control" />
-                        </div>
+
                         <div class="form-group">
 
                             <label for = "categoryName">Category Name</label>
@@ -95,6 +110,57 @@
                             <br>
                             <label class="switch" id = "label">
                                 <input type="checkbox" name = "active" id = "active">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">Create</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id = "modalEditCategory" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="edit-category" method="POST" enctype = "multipart/form-data">
+                    <div class="modal-body">
+
+                        <div class = "form-group">
+                            <input type = "hidden" id = "categoryId-edit" name = "categoryId" class = "form-control" />
+                        </div>
+                        <div class="form-group">
+
+                            <label for = "categoryName">Category Name</label>
+                            <br>
+                            <input type = "text" id = "categoryName-edit" name = "categoryName" class="form-control"  placeholder = "Enter Name"/>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category-image">Category Image</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="category-image-edit" name = "category-image"
+                                       aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label" for="category-image">Choose file</label>
+                            </div>
+                        </div>
+
+                        <div class = "form-group">
+                            <label for = "label">Active</label>
+                            <br>
+                            <label class="switch" id = "label-edit">
+                                <input type="checkbox" name = "active" id = "active-edit">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -139,16 +205,23 @@
     <script>
         $(document).ready(function(){
 
+            $("#btn-create-category").click(function(){
+                $("#modalCreateCategory").modal("show");
+            });
+
             $(".btn-edit").click(function(){
                 let categoryId = $(this).attr("data-categoryId");
                 $.ajax({
                     url:"/get-category-by-id/" + categoryId,
                     async: false
                 }).then(function(data){
-                    $("#categoryId").val(data.categoryId);
-                    $("#categoryName").val(data.categoryName);
+                    $("#categoryId-edit").val(data.categoryId);
+                    $("#categoryName-edit").val(data.categoryName);
                     if(data.categoryActive === true){
-                        $("#active").prop("checked", true);
+                        $("#active-edit").prop("checked", true);
+                    }
+                    else{
+                        $("#active-edit").prop("checked", false);
                     }
 
                 });
