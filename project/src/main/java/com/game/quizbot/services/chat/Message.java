@@ -8,6 +8,10 @@ public class Message {
     private String content;
     private LocalDateTime localDateTime;
 
+    public Message() {
+        this.localDateTime= LocalDateTime.now();
+    }
+
     public String getSender() {
         return sender;
     }
