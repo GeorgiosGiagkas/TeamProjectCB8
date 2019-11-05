@@ -5,8 +5,8 @@
 .userBox{
     width:250px;
     max-width:250px;
-    display: inline-block;
     border:1px solid black;
     text-align: center;
+    list-style-type: none;
 }
 
