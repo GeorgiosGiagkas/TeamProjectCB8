@@ -49,6 +49,12 @@
             <button id="sendMessagePrivate" onclick="sendPrivateMessage();">Send</button>
             <p id="response"></p>
         </div>
+
+
+        <div id="messageboard">
+
+        </div>
+
     </div>
 
 
@@ -63,8 +69,9 @@
 
     const handleClickOnUserBox =(e)=>{
         const userId = e.target.getAttribute("id");
+        const userNickname = e.target.textContent;
         console.log(userId);
-        retrieveUserSessionId(userId);
+        retrieveUserSessionId(userId, userNickname);
     }
 
     const createUserDataBox= (id, nickname) =>{
@@ -83,9 +90,14 @@
     }
 
 
-    const retrieveUserSessionId=(userId)=>{
+    const retrieveUserSessionId=(userId, userNickname)=>{
         const URL = "/admin-get-user-id?user-id="+userId;
-        fetch(URL).then(res=>res.text()).then(data=>console.log(data));
+        fetch(URL).then(res=>res.text()).then(data=>{
+            console.log(data)
+            if(data!=="not available"){
+                createPrivateChatWindow(data, userId, userNickname);
+            }
+        });
     }
 
     const retrieveUserDtoList=()=>{
@@ -102,9 +114,34 @@
 
 
 
+    //create private user chat window
+    const createPrivateChatWindow=(sessionId, userId, userNickname)=>{
+        const messageBoard = document.querySelector("#messageboard");
+        const div = document.createElement("div");
+        const p = document.createElement("p");
+        p.textContent="Send message to: "+userNickname;
+        const messageArea = document.createElement("input");
+        messageArea.setAttribute("type","text");
+        //handle messaging
+        //here
+        const btnSend = document.createElement("button");
+        btnSend.textContent="Send";
+        btnSend.addEventListener("click",()=>{
+           sendPrivateMessage("admin",sessionId,messageArea.value);
+        });
+
+        div.appendChild(p);
+        div.appendChild(messageArea);
+        div.appendChild(btnSend);
+        messageBoard.appendChild(div);
+    }
 
 
 
+    //display results
+    const displayTextResults=(data, userNickname)=>{
+
+    }
 
 
 
@@ -156,12 +193,10 @@
     }
 
 
-    const sendPrivateMessage =()=>{
-        const to = document.getElementById('send-to').value;
-        console.log(to);
-        const from = document.getElementById('from').value;
-        const text = document.getElementById('textPrivate').value;
-        stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text}));
+    const sendPrivateMessage =(from, to, text)=>{
+        const dt = new Date();
+        const utcDate = dt.toUTCString();
+        stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:utcDate}));
     }
 
 
