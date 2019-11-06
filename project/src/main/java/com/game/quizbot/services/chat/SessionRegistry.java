@@ -63,6 +63,7 @@ public class SessionRegistry {
         Iterator<HttpSession> itr = sessions.iterator();
         while(itr.hasNext()){
             HttpSession session =itr.next();
+
             UserDto userDto = ((UserDto)session.getAttribute("login-user"));
             //return the first available
             if(userDto!=null){

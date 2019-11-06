@@ -39,16 +39,16 @@
 
 
 
-        <div>
-            Send private message:
-            <input type="text" id="send-to" placeholder="Choose a nickname"/>
-        </div>
+        <%--<div>--%>
+            <%--Send private message:--%>
+            <%--<input type="text" id="send-to" placeholder="Choose a nickname"/>--%>
+        <%--</div>--%>
 
-        <div id="conversationDivPrivate">
-            <input type="text" id="textPrivate" placeholder="Write a Private message..."/>
-            <button id="sendMessagePrivate" onclick="sendPrivateMessage();">Send</button>
-            <p id="response"></p>
-        </div>
+        <%--<div id="conversationDivPrivate">--%>
+            <%--<input type="text" id="textPrivate" placeholder="Write a Private message..."/>--%>
+            <%--<button id="sendMessagePrivate" onclick="sendPrivateMessage();">Send</button>--%>
+            <%--<p id="response"></p>--%>
+        <%--</div>--%>
 
 
         <div id="messageboard">
@@ -122,25 +122,51 @@
         p.textContent="Send message to: "+userNickname;
         const messageArea = document.createElement("input");
         messageArea.setAttribute("type","text");
-        //handle messaging
-        //here
+
         const btnSend = document.createElement("button");
         btnSend.textContent="Send";
         btnSend.addEventListener("click",()=>{
            sendPrivateMessage("admin",sessionId,messageArea.value);
+
+           const dialog = document.querySelector("#"+userNickname);
+           displayTextResults({from:"Admin",text:messageArea.value,timestamp:getTimestamp()},dialog);
         });
+
+        const response  = document.createElement("div");
+        response.id=userNickname;
 
         div.appendChild(p);
         div.appendChild(messageArea);
         div.appendChild(btnSend);
+        div.appendChild(response);
         messageBoard.appendChild(div);
     }
 
+    const createDialog=(userNickname)=>{
+        const response  = document.createElement("div");
+        response.id=userNickname;
+    }
 
 
-    //display results
-    const displayTextResults=(data, userNickname)=>{
+    const getTimestamp=()=>{
+        const dt = new Date();
+        const utcDate = dt.toUTCString();
+        return utcDate;
+    }
 
+    const displayTextResults=(data,toTargetElement)=>{
+        if(data.from!==""){
+            if(toTargetElement!==null){
+                let p = createTextResponseElement(data);
+                toTargetElement.appendChild(p);
+            }
+        }
+    }
+
+    const createTextResponseElement=(data)=>{
+        const p = document.createElement("p");
+        p.textContent="From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
+        return p;
     }
 
 
@@ -152,17 +178,9 @@
         document.getElementById('connect').disabled = connected;
         document.getElementById('disconnect').disabled = !connected;
 
-        document.getElementById('response').innerHTML = '';
+
     }
 
-
-    const  showMessageOutput=(messageOutput) =>{
-        const response = document.getElementById('response');
-        const p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode("from: "+messageOutput.body.from +" Content: "+  messageOutput.body.text));
-        response.appendChild(p);
-    }
 
     const connect =()=>{
         let socket = new SockJS("/chat");
@@ -178,6 +196,9 @@
                 stompClient.subscribe("/user/queue/private", function(message){
                     console.log(message.body);
                     // showMessageOutput(message.body);
+                    let data = JSON.parse(message.body);
+                    const dialog = document.querySelector("#"+data.from);
+                    displayTextResults(data,dialog);
                 });
 
             }
@@ -194,9 +215,7 @@
 
 
     const sendPrivateMessage =(from, to, text)=>{
-        const dt = new Date();
-        const utcDate = dt.toUTCString();
-        stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:utcDate}));
+        stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:getTimestamp()}));
     }
 
 
