@@ -55,8 +55,17 @@
 
 
     <script>
+
+
     const ul = document.querySelector("ul");
 
+
+
+    const handleClickOnUserBox =(e)=>{
+        const userId = e.target.getAttribute("id");
+        console.log(userId);
+        retrieveUserSessionId(userId);
+    }
 
     const createUserDataBox= (id, nickname) =>{
         //create td element to click containing a user info
@@ -66,12 +75,18 @@
         userData.setAttribute("id",id);
         userData.innerText=nickname;
 
-        //create row and append
+        //add Event Listener
+        userData.addEventListener("click",handleClickOnUserBox);
 
+        //create row and append
         ul.appendChild(userData)
     }
 
 
+    const retrieveUserSessionId=(userId)=>{
+        const URL = "/admin-get-user-id?user-id="+userId;
+        fetch(URL).then(res=>res.text()).then(data=>console.log(data));
+    }
 
     const retrieveUserDtoList=()=>{
         fetch("/admin-get-users").then(data=>data.json()).then(function(data){
