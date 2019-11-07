@@ -36,19 +36,7 @@
             </button>
         </div>
         <br />
-
-
-
-        <%--<div>--%>
-            <%--Send private message:--%>
-            <%--<input type="text" id="send-to" placeholder="Choose a nickname"/>--%>
-        <%--</div>--%>
-
-        <%--<div id="conversationDivPrivate">--%>
-            <%--<input type="text" id="textPrivate" placeholder="Write a Private message..."/>--%>
-            <%--<button id="sendMessagePrivate" onclick="sendPrivateMessage();">Send</button>--%>
-            <%--<p id="response"></p>--%>
-        <%--</div>--%>
+        
 
 
         <div id="messageboard">
@@ -128,23 +116,71 @@
         btnSend.addEventListener("click",()=>{
            sendPrivateMessage("admin",sessionId,messageArea.value);
 
-           const dialog = document.querySelector("#"+userNickname);
-           displayTextResults({from:"Admin",text:messageArea.value,timestamp:getTimestamp()},dialog);
+           const dialog = {from:"Admin",text:messageArea.value,timestamp:getTimestamp()};
+
+           saveDialog(userNickname,dialog);
+           displayDialog(userNickname);
         });
 
-        const response  = document.createElement("div");
-        response.id=userNickname;
+        //dialog box
+        const dialog  = displayDialog(userNickname);
+
 
         div.appendChild(p);
         div.appendChild(messageArea);
         div.appendChild(btnSend);
-        div.appendChild(response);
+        div.appendChild(dialog);
         messageBoard.appendChild(div);
     }
 
-    const createDialog=(userNickname)=>{
-        const response  = document.createElement("div");
-        response.id=userNickname;
+    const createDialogBox=(userNickname)=>{
+        const dialogBox  = document.createElement("div");
+        dialogBox.id=userNickname;
+
+        return dialogBox;
+    }
+
+    const displayDialog=(userNickname)=>{
+        let dialogBox = document.querySelector("#"+userNickname);
+        if(dialogBox===null){
+            dialogBox= createDialogBox(userNickname);
+        }
+
+            dialogBox.innerHTML="";
+            const dialog=fetchDialogFromStorage(userNickname);
+            //create displaying message
+            dialog.forEach(function(data){
+               const p = document.createElement("p");
+               p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
+               dialogBox.appendChild(p);
+            });
+        return dialogBox;
+    }
+
+
+    //retrieve dialog in json from local storage  based on userNickname
+    const fetchDialogFromStorage =(userNickname)=>{
+        let dialog = [];
+        if(localStorage.getItem(userNickname)===null){
+            dialog = [];
+        }
+        else{
+            dialog = JSON.parse(localStorage.getItem(userNickname))
+        }
+        return dialog;
+    }
+
+
+    //save dialog in json in local storage
+    const saveDialog=(userNickname, data)=>{
+       const dialog = fetchDialogFromStorage(userNickname);
+       dialog.push(data);
+       localStorage.setItem(userNickname,JSON.stringify(dialog));
+    }
+
+    //delete dialog in json in local storage
+    const deleteDialogInStorage=(userNickname)=>{
+        localStorage.removeItem(userNickname);
     }
 
 
@@ -154,24 +190,8 @@
         return utcDate;
     }
 
-    const displayTextResults=(data,toTargetElement)=>{
-        if(data.from!==""){
-            if(toTargetElement!==null){
-                let p = createTextResponseElement(data);
-                toTargetElement.appendChild(p);
-            }
-        }
-    }
 
-    const createTextResponseElement=(data)=>{
-        const p = document.createElement("p");
-        p.textContent="From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
-        return p;
-    }
-
-
-
-    //Chat Functionality
+    //Chat Functionality Stomp
     let stompClient = null;
 
     const setConnected=(connected)=>{
@@ -195,10 +215,10 @@
 
                 stompClient.subscribe("/user/queue/private", function(message){
                     console.log(message.body);
-                    // showMessageOutput(message.body);
                     let data = JSON.parse(message.body);
-                    const dialog = document.querySelector("#"+data.from);
-                    displayTextResults(data,dialog);
+                    saveDialog(data.from,data);
+
+                    displayDialog(data.from);
                 });
 
             }
