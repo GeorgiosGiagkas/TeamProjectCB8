@@ -4,7 +4,6 @@ import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.dao.UserDaoImpl;
 import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.utils.BeanUtil;
-import org.springframework.context.annotation.Bean;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
@@ -58,5 +57,20 @@ public class SessionRegistry {
         return "not available";
     }
 
+
+    public synchronized String getUserSessionId(int userId){
+
+        Iterator<HttpSession> itr = sessions.iterator();
+        while(itr.hasNext()){
+            HttpSession session =itr.next();
+
+            UserDto userDto = ((UserDto)session.getAttribute("login-user"));
+            //return the first available
+            if(userDto!=null){
+                if(userDto.getRoleId()==2 && userDto.getUserId()==userId) return session.getId();
+            }
+        }
+        return "not available";
+    }
 
 }

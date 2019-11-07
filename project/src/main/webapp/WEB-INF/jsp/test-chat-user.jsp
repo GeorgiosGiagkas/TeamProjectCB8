@@ -62,7 +62,7 @@
         const response = document.getElementById('response');
         const p = document.createElement('p');
         p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode("from: "+messageOutput.body.from +" Content: "+  messageOutput.body.text));
+        p.appendChild(document.createTextNode("from: "+messageOutput.from +" Content: "+  messageOutput.text+ " Timestamp: "+messageOutput.timestamp));
         response.appendChild(p);
     }
 
@@ -79,7 +79,8 @@
 
                 stompClient.subscribe("/user/queue/private", function(message){
                     console.log(message.body);
-                    // showMessageOutput(message.body);
+                    const data = JSON.parse(message.body);
+                    showMessageOutput(data);
                 });
 
             }
@@ -115,7 +116,10 @@
     const sendPrivateMessage =(sendTo)=>{
         const from = document.getElementById('from').value;
         const text = document.getElementById('textPrivate').value;
-        stompClient.send("/user/"+sendTo+"/queue/private",{}, JSON.stringify({from:from, text:text}));
+
+        const dt = new Date();
+        const utcDate = dt.toUTCString();
+        stompClient.send("/user/"+sendTo+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:utcDate}));
     }
 
 
