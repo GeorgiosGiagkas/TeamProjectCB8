@@ -36,8 +36,8 @@
 
     <div id="conversationDivPrivate">
         <input type="text" id="textPrivate" placeholder="Write a Private message..."/>
-        <button id="sendMessagePrivate" onclick="sendPrivateMessage(adminAvailableId);">Send</button>
-        <p id="response"></p>
+        <button id="sendMessageBtn" ">Send</button>
+        <div id="dialog-box"></div>
     </div>
 </div>
 
@@ -46,25 +46,39 @@
 <script type="text/javascript">
     //Chat Functionality
     let stompClient = null;
+    let adminAvailableId;
     document.querySelector("#conversationDivPrivate").style.display="none";
 
-    let adminAvailableId;
+    const sendMessageBtn = document.getElementById("sendMessageBtn");
+    sendMessageBtn.addEventListener("click",function(){
+        let data = getMessageTextData();
+        sendPrivateMessage(adminAvailableId,data);
+        saveDialog(adminAvailableId,data);
+        displayDialog(adminAvailableId);
+    });
 
     const setConnected=(connected)=>{
         document.getElementById('connect').disabled = connected;
         document.getElementById('disconnect').disabled = !connected;
 
-        document.getElementById('response').innerHTML = '';
+        document.getElementById('dialog-box').innerHTML = '';
     }
 
 
-    const  showMessageOutput=(messageOutput) =>{
-        const response = document.getElementById('response');
-        const p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode("from: "+messageOutput.from +" Content: "+  messageOutput.text+ " Timestamp: "+messageOutput.timestamp));
-        response.appendChild(p);
+    const  displayDialog=(admin) =>{
+        const dialogBox = document.getElementById('dialog-box');
+
+        dialogBox.innerHTML="";
+        const dialog=fetchDialogFromStorage(admin);
+        //create displaying message
+        dialog.forEach(function(data){
+            const p = document.createElement("p");
+            p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
+            dialogBox.appendChild(p);
+        });
+        return dialogBox;
     }
+
 
     const connect =()=>{
         let socket = new SockJS("/chat");
@@ -80,7 +94,8 @@
                 stompClient.subscribe("/user/queue/private", function(message){
                     console.log(message.body);
                     const data = JSON.parse(message.body);
-                    showMessageOutput(data);
+                    saveDialog(adminAvailableId,data);
+                    displayDialog(adminAvailableId);
                 });
 
             }
@@ -113,15 +128,48 @@
         }
     }
 
-    const sendPrivateMessage =(sendTo)=>{
-        const from = document.getElementById('from').value;
-        const text = document.getElementById('textPrivate').value;
+    const sendPrivateMessage =(sendTo, data)=>{
 
-        const dt = new Date();
-        const utcDate = dt.toUTCString();
-        stompClient.send("/user/"+sendTo+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:utcDate}));
+        stompClient.send("/user/"+sendTo+"/queue/private",{}, JSON.stringify(data));
+        return(data);
     }
 
+    const getMessageTextData=()=>{
+        const from = document.getElementById('from').value;
+        const text = document.getElementById('textPrivate').value;
+        const dt = new Date();
+        const utcDate = dt.toUTCString();
+
+        const data ={from:from, text:text, timestamp:utcDate};
+        return data;
+    }
+
+
+
+    //retrieve dialog in json from local storage  based on userNickname
+    const fetchDialogFromStorage =(admin)=>{
+        let dialog = [];
+        if(localStorage.getItem(admin)===null){
+            dialog = [];
+        }
+        else{
+            dialog = JSON.parse(localStorage.getItem(admin))
+        }
+        return dialog;
+    }
+
+
+    //save dialog in json in local storage
+    const saveDialog=(admin, data)=>{
+        const dialog = fetchDialogFromStorage(admin);
+        dialog.push(data);
+        localStorage.setItem(admin,JSON.stringify(dialog));
+    }
+
+    //delete dialog in json in local storage
+    const deleteDialogInStorage=(admin)=>{
+        localStorage.removeItem(admin);
+    }
 
 
 

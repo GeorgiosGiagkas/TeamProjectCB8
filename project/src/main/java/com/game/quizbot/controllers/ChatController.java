@@ -55,10 +55,17 @@ public class ChatController {
     }
 
     @ResponseBody
-    @GetMapping("/admin-get-user-id")
+    @GetMapping("/admin-get-user-session-id")
     public String getUser(@RequestParam("user-id") int userId){
         SessionRegistry sessionRegistry = SessionRegistry.getSessionRegistry();
         return  sessionRegistry.getUserSessionId(userId);
+    }
+
+    @ResponseBody
+    @GetMapping("/admin-get-user-id-by-nickname")
+    public int getUserIdByNickname(@RequestParam("userNickname") String userNickname){
+        SessionRegistry sessionRegistry = SessionRegistry.getSessionRegistry();
+        return sessionRegistry.getUserIdByNickname(userNickname);
     }
 
 

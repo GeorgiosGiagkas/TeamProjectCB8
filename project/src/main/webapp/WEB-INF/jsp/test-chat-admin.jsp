@@ -63,7 +63,7 @@
     }
 
     const createUserDataBox= (id, nickname) =>{
-        //create td element to click containing a user info
+        //create li element to click containing a user info
         const userData = document.createElement("li");
         userData.className+="userBox";
 
@@ -79,7 +79,7 @@
 
 
     const retrieveUserSessionId=(userId, userNickname)=>{
-        const URL = "/admin-get-user-id?user-id="+userId;
+        const URL = "/admin-get-user-session-id?user-id="+userId;
         fetch(URL).then(res=>res.text()).then(data=>{
             console.log(data)
             if(data!=="not available"){
@@ -114,7 +114,7 @@
         const btnSend = document.createElement("button");
         btnSend.textContent="Send";
         btnSend.addEventListener("click",()=>{
-           sendPrivateMessage("admin",sessionId,messageArea.value);
+           sendPrivateMessage("Admin",sessionId,messageArea.value);
 
            const dialog = {from:"Admin",text:messageArea.value,timestamp:getTimestamp()};
 
@@ -184,6 +184,25 @@
     }
 
 
+    //notification
+    const notify=(userNickname)=>{
+        fetchUserId(userNickname);
+    }
+
+
+    //check if userNickname matches  user id
+    const fetchUserId=(userNickname)=>{
+        const URL = "/admin-get-user-id-by-nickname?userNickname="+userNickname;
+        fetch(URL).then(res=>res.text()).then(data=>{
+            if(data!==undefined){
+                const userBox = document.getElementById(data);
+                userBox.style.backgroundColor="green";
+                userBox.style.color="white";
+            }
+        });
+    }
+
+
     const getTimestamp=()=>{
         const dt = new Date();
         const utcDate = dt.toUTCString();
@@ -217,7 +236,7 @@
                     console.log(message.body);
                     let data = JSON.parse(message.body);
                     saveDialog(data.from,data);
-
+                    notify(data.from);
                     displayDialog(data.from);
                 });
 

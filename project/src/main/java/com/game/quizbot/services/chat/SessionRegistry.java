@@ -63,14 +63,24 @@ public class SessionRegistry {
         Iterator<HttpSession> itr = sessions.iterator();
         while(itr.hasNext()){
             HttpSession session =itr.next();
-
             UserDto userDto = ((UserDto)session.getAttribute("login-user"));
-            //return the first available
             if(userDto!=null){
                 if(userDto.getRoleId()==2 && userDto.getUserId()==userId) return session.getId();
             }
         }
         return "not available";
+    }
+
+    public  synchronized  int getUserIdByNickname(String userNickname){
+        Iterator<HttpSession> itr = sessions.iterator();
+        while(itr.hasNext()){
+            HttpSession session =itr.next();
+            UserDto userDto = ((UserDto)session.getAttribute("login-user"));
+            if(userDto!=null){
+                if(userDto.getRoleId()==2 && userDto.getUserNickname().equals(userNickname)) return userDto.getUserId();
+            }
+        }
+        return 0;
     }
 
 }
