@@ -196,8 +196,10 @@
         fetch(URL).then(res=>res.text()).then(data=>{
             if(data!==undefined){
                 const userBox = document.getElementById(data);
-                userBox.style.backgroundColor="green";
-                userBox.style.color="white";
+                if(userBox!==null){
+                    userBox.style.backgroundColor="green";
+                    userBox.style.color="white";
+                }
             }
         });
     }

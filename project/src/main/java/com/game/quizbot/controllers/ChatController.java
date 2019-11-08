@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +32,12 @@ public class ChatController {
     }
 
     @GetMapping("/user-chat")
-    public String showUserChat(){
-        return  "test-chat-user";
+    public ModelAndView showUserChat(ModelAndView modelAndView, HttpSession session)
+    {
+        modelAndView.setViewName("test-chat-user");
+        String userNickname=((UserDto)(session.getAttribute("login-user"))).getUserNickname();
+        modelAndView.addObject("userNickname",userNickname);
+        return  modelAndView;
     }
 
     @ResponseBody
