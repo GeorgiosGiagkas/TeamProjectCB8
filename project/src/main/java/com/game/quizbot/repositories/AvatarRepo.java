@@ -28,4 +28,5 @@ public interface AvatarRepo extends PagingAndSortingRepository<Avatar,Integer> {
     @Query("SELECT a FROM Avatar a")
     Page<Avatar> getAllAvatarsByPageNo(@Param("pageNo") int somethingelseid, Pageable pageable);
 
+
 }

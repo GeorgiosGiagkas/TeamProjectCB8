@@ -44,17 +44,23 @@ public class SessionRegistry {
     }
 
 
-    public synchronized String getAvailableAdminSessionId(){
+    public synchronized AvailableAdmin getAvailableAdmin(){
         Iterator<HttpSession> itr = sessions.iterator();
+        AvailableAdmin availableAdmin = new AvailableAdmin();
         while(itr.hasNext()){
             HttpSession session =itr.next();
             UserDto userDto = ((UserDto)session.getAttribute("login-admin"));
             //return the first available
             if(userDto!=null){
-                if(userDto.getRoleId()==1)  return  session.getId();
+                if(userDto.getRoleId()==1)  {
+                    availableAdmin.setSessionId(session.getId());
+                    availableAdmin.setAvatarId(userDto.getSelectedAvatarId());
+                    return availableAdmin;
+                }
             }
         }
-        return "not available";
+        availableAdmin.setSessionId("not available");
+        return availableAdmin;
     }
 
 

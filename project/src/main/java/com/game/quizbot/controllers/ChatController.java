@@ -4,6 +4,7 @@ import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
 
+import com.game.quizbot.services.chat.AvailableAdmin;
 import com.game.quizbot.services.chat.SessionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -55,9 +56,9 @@ public class ChatController {
 
     @ResponseBody
     @GetMapping("/user-get-available-admin")
-    public String getAdmin(){
+    public AvailableAdmin getAdmin(){
         SessionRegistry sessionRegistry = SessionRegistry.getSessionRegistry();
-        return sessionRegistry.getAvailableAdminSessionId();
+        return sessionRegistry.getAvailableAdmin();
     }
 
     @ResponseBody

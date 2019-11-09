@@ -49,6 +49,7 @@ public class UserLoginController {
             userDto.setUserEmail(dbUser.getUserEmail());
             userDto.setWallet(dbUser.getWallet());
             userDto.setRoleId(dbUser.getRoleId().getRoleId());
+            userDto.setSelectedAvatarId(dbUser.getSelectedAvatarId().getAvatarId());
             if(userDto.getRoleId() == 1){
                 session.setAttribute("login-admin", userDto);
                 return "redirect:/admin-menu";

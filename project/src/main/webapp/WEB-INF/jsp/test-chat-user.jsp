@@ -110,12 +110,15 @@
 
     <div id="conversationDivPrivate">
         <textarea id="textPrivate" placeholder="Write a Private message..." required></textarea>
+        <button id="delete-history-btn" type="button" class="btn btn-warning">Delete History</button>
         <button id="sendMessageBtn" class=" btn btn-secondary send-button">Send</button>
     </div>
 
     <div>
         <button type="button" class="btn btn-info close-button" onclick="closeChat(); disconnect();"><i class="far fa-window-close icon"></i>Close</button>
     </div>
+
+
 
 
 </div>
@@ -126,6 +129,7 @@
     //Chat Functionality
     let stompClient = null;
     let adminAvailableId;
+    let adminAvailableAvatar;
     document.querySelector("#conversationDivPrivate").style.display="none";
 
     const sendMessageBtn = document.getElementById("sendMessageBtn");
@@ -149,6 +153,14 @@
             dialogBox.appendChild(p);
         });
         return dialogBox;
+    }
+
+    const createDeleteHistoryListener=()=>{
+        const deleteHistoryBtn = document.getElementById("delete-history-btn");
+        deleteHistoryBtn.addEventListener("click",()=>{
+            deleteDialogInStorage(adminAvailableId);
+            displayDialog(adminAvailableId);
+        });
     }
 
 
@@ -183,20 +195,23 @@
 
     //fetch admin
     const getAdmin =()=>{
-        fetch("/user-get-available-admin").then((data)=> data.text()).then((res)=> adminAvailable(res))
+        fetch("/user-get-available-admin").then((data)=> data.json()).then((res)=> adminAvailable(res));
     }
 
-    const adminAvailable=(adminId)=>{
+    const adminAvailable=(admin)=>{
         const conversationDivPrivate = document.querySelector("#conversationDivPrivate");
-        if(adminId!=="not available"){
-            adminAvailableId=adminId;
+        if(admin.sessionId!=="not available"){
+            adminAvailableId=admin.sessionId;
+            adminAvailableAvatar=admin.avatarId;
             conversationDivPrivate.style.display="block";
+            createDeleteHistoryListener();
+            displayDialog(adminAvailableId);
             document.querySelector(".panel-heading").innerHTML = "Hello! How can i help you?";
         }
         else{
             conversationDivPrivate.style.display="none";
             document.querySelector(".panel-heading").innerHTML = "Admin not available";
-            console.log(adminId);
+
         }
     }
 
@@ -251,6 +266,7 @@
         document.getElementById('dialog-box').innerHTML = '';
         document.querySelector(".chat").style.display = "none";
     }
+
 
 
 
