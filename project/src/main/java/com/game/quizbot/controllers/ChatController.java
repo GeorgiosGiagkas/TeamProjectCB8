@@ -28,8 +28,11 @@ public class ChatController {
     UserDao userDao;
 
     @GetMapping("/admin-chat")
-    public String showAdminChat(){
-        return  "test-chat-admin";
+    public ModelAndView showAdminChat(ModelAndView modelAndView, HttpSession session){
+        modelAndView.setViewName("test-chat-admin");
+        String userNickname=((UserDto)(session.getAttribute("login-admin"))).getUserNickname();
+        modelAndView.addObject("userNickname",userNickname);
+        return  modelAndView;
     }
 
     @GetMapping("/user-chat")

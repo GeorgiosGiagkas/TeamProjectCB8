@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: giagkas
@@ -26,9 +27,9 @@
 <%--chat--%>
     <div onload="disconnect()">
         <div>
-            <input type="text" id="from" placeholder="Choose a nickname"/>
+            <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+
         </div>
-        <br />
         <div>
             <button id="connect" onclick="connect();">Connect</button>
             <button id="disconnect" disabled="disabled" onclick="disconnect();">
@@ -73,7 +74,6 @@
         //add Event Listener
         userData.addEventListener("click",handleClickOnUserBox);
 
-        //create row and append
         ul.appendChild(userData)
     }
 
@@ -114,12 +114,11 @@
         const btnSend = document.createElement("button");
         btnSend.textContent="Send";
         btnSend.addEventListener("click",()=>{
-           sendPrivateMessage("Admin",sessionId,messageArea.value);
+            sendPrivateMessage("Admin",sessionId,messageArea.value);
+            const dialog = {from:"Admin",text:messageArea.value,timestamp:getTimestamp()};
+            saveDialog(userNickname,dialog);
+            displayDialog(userNickname);
 
-           const dialog = {from:"Admin",text:messageArea.value,timestamp:getTimestamp()};
-
-           saveDialog(userNickname,dialog);
-           displayDialog(userNickname);
         });
 
         //dialog box
@@ -258,6 +257,7 @@
     const sendPrivateMessage =(from, to, text)=>{
         stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:getTimestamp()}));
     }
+
 
 
 </script>

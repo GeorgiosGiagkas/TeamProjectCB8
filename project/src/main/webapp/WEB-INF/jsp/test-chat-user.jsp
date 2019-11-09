@@ -130,22 +130,23 @@
     let stompClient = null;
     let adminAvailableId;
     let adminAvailableAvatar;
+    let storageKeyId= "QuizbotService-" +document.getElementById('from').value;
     document.querySelector("#conversationDivPrivate").style.display="none";
 
     const sendMessageBtn = document.getElementById("sendMessageBtn");
     sendMessageBtn.addEventListener("click",function(){
         let data = getMessageTextData();
         sendPrivateMessage(adminAvailableId,data);
-        saveDialog(adminAvailableId,data);
-        displayDialog(adminAvailableId);
+        saveDialog(storageKeyId,data);
+        displayDialog(storageKeyId);
     });
 
 
-    const  displayDialog=(admin) =>{
+    const  displayDialog=(storageKeyId) =>{
         const dialogBox = document.getElementById('dialog-box');
 
         dialogBox.innerHTML="";
-        const dialog=fetchDialogFromStorage(admin);
+        const dialog=fetchDialogFromStorage(storageKeyId);
         //create displaying message
         dialog.forEach(function(data){
             const p = document.createElement("p");
@@ -158,8 +159,8 @@
     const createDeleteHistoryListener=()=>{
         const deleteHistoryBtn = document.getElementById("delete-history-btn");
         deleteHistoryBtn.addEventListener("click",()=>{
-            deleteDialogInStorage(adminAvailableId);
-            displayDialog(adminAvailableId);
+            deleteDialogInStorage(storageKeyId);
+            displayDialog(storageKeyId);
         });
     }
 
@@ -177,8 +178,8 @@
                 stompClient.subscribe("/user/queue/private", function(message){
                     console.log(message.body);
                     const data = JSON.parse(message.body);
-                    saveDialog(adminAvailableId,data);
-                    displayDialog(adminAvailableId);
+                    saveDialog(storageKeyId,data);
+                    displayDialog(storageKeyId);
                 });
 
             }
@@ -205,7 +206,7 @@
             adminAvailableAvatar=admin.avatarId;
             conversationDivPrivate.style.display="block";
             createDeleteHistoryListener();
-            displayDialog(adminAvailableId);
+            displayDialog(storageKeyId);
             document.querySelector(".panel-heading").innerHTML = "Hello! How can i help you?";
         }
         else{
@@ -234,28 +235,28 @@
 
 
     //retrieve dialog in json from local storage  based on userNickname
-    const fetchDialogFromStorage =(admin)=>{
+    const fetchDialogFromStorage =(storageKeyId)=>{
         let dialog = [];
-        if(localStorage.getItem(admin)===null){
+        if(localStorage.getItem(storageKeyId)===null){
             dialog = [];
         }
         else{
-            dialog = JSON.parse(localStorage.getItem(admin))
+            dialog = JSON.parse(localStorage.getItem(storageKeyId))
         }
         return dialog;
     }
 
 
     //save dialog in json in local storage
-    const saveDialog=(admin, data)=>{
-        const dialog = fetchDialogFromStorage(admin);
+    const saveDialog=(storageKeyId, data)=>{
+        const dialog = fetchDialogFromStorage(storageKeyId);
         dialog.push(data);
-        localStorage.setItem(admin,JSON.stringify(dialog));
+        localStorage.setItem(storageKeyId,JSON.stringify(dialog));
     }
 
     //delete dialog in json in local storage
-    const deleteDialogInStorage=(admin)=>{
-        localStorage.removeItem(admin);
+    const deleteDialogInStorage=(storageKeyId)=>{
+        localStorage.removeItem(storageKeyId);
     }
 
     function openChat() {
