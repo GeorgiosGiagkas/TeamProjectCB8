@@ -27,7 +27,7 @@
 <%--chat--%>
     <div onload="disconnect()">
         <div>
-            <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+            <input id="adminNickname" type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
 
         </div>
         <div>
@@ -53,8 +53,8 @@
 
 
     const ul = document.querySelector("ul");
-
-
+    const adminNickname = document.getElementById("adminNickname").value;
+    let currentlyActiveUserBox;
 
     const handleClickOnUserBox =(e)=>{
         const userId = e.target.getAttribute("id");
@@ -104,9 +104,23 @@
 
     //create private user chat window
     const createPrivateChatWindow=(sessionId, userId, userNickname)=>{
+
+        let privateChatWindowExists = document.getElementById("private-chat-window-"+userId);
+        if(privateChatWindowExists){
+            return;
+        }
+
         const messageBoard = document.querySelector("#messageboard");
         const div = document.createElement("div");
+        div.id = "private-chat-window-"+userId;
+        div.style.border="1px black solid";
+        div.addEventListener("click",()=>{
+            const userBox = document.getElementById(userId);
+            userBox.style.backgroundColor="white";
+            userBox.style.color="black";
+        });
         const p = document.createElement("p");
+
         p.textContent="Send message to: "+userNickname;
         const messageArea = document.createElement("input");
         messageArea.setAttribute("type","text");
@@ -114,8 +128,8 @@
         const btnSend = document.createElement("button");
         btnSend.textContent="Send";
         btnSend.addEventListener("click",()=>{
-            sendPrivateMessage("Admin",sessionId,messageArea.value);
-            const dialog = {from:"Admin",text:messageArea.value,timestamp:getTimestamp()};
+            sendPrivateMessage(adminNickname,sessionId,messageArea.value);
+            const dialog = {from:adminNickname,text:messageArea.value,timestamp:getTimestamp()};
             saveDialog(userNickname,dialog);
             displayDialog(userNickname);
 
@@ -124,13 +138,21 @@
         //dialog box
         const dialog  = displayDialog(userNickname);
 
+        const deleteHistoryBtn =  createDeleteHistoryBtn(userId,userNickname);
+
 
         div.appendChild(p);
         div.appendChild(messageArea);
         div.appendChild(btnSend);
+        div.appendChild(deleteHistoryBtn);
         div.appendChild(dialog);
         messageBoard.appendChild(div);
     }
+
+
+
+
+
 
     const createDialogBox=(userNickname)=>{
         const dialogBox  = document.createElement("div");
@@ -256,6 +278,18 @@
 
     const sendPrivateMessage =(from, to, text)=>{
         stompClient.send("/user/"+to+"/queue/private",{}, JSON.stringify({from:from, text:text, timestamp:getTimestamp()}));
+    }
+
+
+    const createDeleteHistoryBtn= (userId, userNickname)=>{
+        const btn = document.createElement("button");
+        btn.id="delete-history-btn-"+userId;
+        btn.textContent="Delete history";
+        btn.addEventListener("click",()=>{
+            deleteDialogInStorage(userNickname);
+            displayDialog(userNickname);
+        });
+        return btn;
     }
 
 
