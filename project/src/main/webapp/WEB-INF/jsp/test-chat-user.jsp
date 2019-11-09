@@ -9,80 +9,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <title>User Chat</title>
-    <style>
-        body {font-family: Arial, Helvetica, sans-serif;}
-        * {box-sizing: border-box;}
-
-        .open-button,
-        .close-button {
-            padding: 10px;
-            position: fixed;
-            bottom: 23px;
-            right: 28px;
-            width: 280px;
-            font-size: 20px;
-            border-radius: 40px;
-            text-align: center;
-            box-shadow: none;
-        }
+    <link rel="stylesheet" type="text/css" href="/css/user-chat.css">
 
 
-        .icon {
-            margin-right: 15px;
-            size: 7rem;
-        }
-
-        .send-button {
-            padding: 11px 12px;
-            /* opacity: 0.8; */
-            float:left;
-            border-radius: 10px;
-        }
-
-        .chat {
-            display: none;
-            position: fixed;
-            bottom: 78px;
-            right: 15px;
-            border: 3px solid #f1f1f1;
-            border-radius: 10px;
-            width: 400px;
-            max-width: 600px;
-            padding: 10px;
-            background-color: white;
-
-        }
-
-        textarea {
-            width: 80%;
-            padding: 10px;
-            margin: 0px 10px  5px 0;
-            border-radius: 10px;
-            border: 1px solid;
-            background: #f1f1f1;
-            resize: none;
-            height: 50px;
-            float: left;
-        }
-
-        .chat textarea:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        .chat{
-            display: none;
-        }
-    </style>
 </head>
 <body>
 
@@ -91,37 +41,25 @@
         class="far fa-question-circle icon"></i>Need help?</button>
 
 
-<div class="chat panel panel-default">
-    <div>
-        <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+<section class="container chat">
+        <div>
+            <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+        </div>
 
-    </div>
+        <div class="chat-header bg-light p-2 m-1"></div>
 
-    <div class="panel-heading"></div>
+        <div id="chat-body">
+            <div id="dialog-box"></div>
 
-    <div id="dialog-box"></div>
+            <div id="conversationDivPrivate" >
+                <button id="delete-history-btn" type="button" class="btn btn-secondary">Clear History</button>
+                <textarea id="textPrivate" placeholder="Write a Private message..." class="col-9" required></textarea>
+                <button id="sendMessageBtn" class="col-2 btn btn-secondary send-button">Send</button>
+            </div>
+        </div>
 
-    <%--<div>--%>
-        <%--<button id="connect" onclick="connect();">Connect</button>--%>
-        <%--<button id="disconnect" disabled="disabled" onclick="disconnect();">--%>
-            <%--Disconnect--%>
-        <%--</button>--%>
-    <%--</div>--%>
-
-    <div id="conversationDivPrivate">
-        <textarea id="textPrivate" placeholder="Write a Private message..." required></textarea>
-        <button id="delete-history-btn" type="button" class="btn btn-warning">Delete History</button>
-        <button id="sendMessageBtn" class=" btn btn-secondary send-button">Send</button>
-    </div>
-
-    <div>
         <button type="button" class="btn btn-info close-button" onclick="closeChat(); disconnect();"><i class="far fa-window-close icon"></i>Close</button>
-    </div>
-
-
-
-
-</div>
+</section>
 
 
 
@@ -141,20 +79,52 @@
         displayDialog(storageKeyId);
     });
 
+    sendMessageBtn.addEventListener("click", clearMessage);
 
-    const  displayDialog=(storageKeyId) =>{
+
+    const displayDialog=(storageKeyId) =>{
         const dialogBox = document.getElementById('dialog-box');
 
         dialogBox.innerHTML="";
         const dialog=fetchDialogFromStorage(storageKeyId);
         //create displaying message
         dialog.forEach(function(data){
+            const div1 = document.createElement("div");
+            div1.className = "message";
+            const div2 = document.createElement("div");
+            div2.className = "photo";
+            div2.textContent = data.from + ": Avatar";
+            div1.appendChild(div2);
+            const div3 = document.createElement("div");
+            div3.className = "online";
+            div2.appendChild(div3);
+            const p1 =document.createElement("p");
+            p1.className = "text";
+            p1.textContent = data.text;
+            div1.appendChild(p1);
             const p = document.createElement("p");
-            p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
+            p.className = "time";
+            p.textContent = data.timestamp;
+            dialogBox.appendChild(div1);
             dialogBox.appendChild(p);
         });
         return dialogBox;
     }
+
+
+    // const displayDialog=(storageKeyId) =>{
+    //     const dialogBox = document.getElementById('dialog-box');
+    //
+    //     dialogBox.innerHTML="";
+    //     const dialog=fetchDialogFromStorage(storageKeyId);
+    //     //create displaying message
+    //     dialog.forEach(function(data){
+    //         const p = document.createElement("p");
+    //         p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
+    //         dialogBox.appendChild(p);
+    //     });
+    //     return dialogBox;
+    // }
 
     const createDeleteHistoryListener=()=>{
         const deleteHistoryBtn = document.getElementById("delete-history-btn");
@@ -201,17 +171,20 @@
 
     const adminAvailable=(admin)=>{
         const conversationDivPrivate = document.querySelector("#conversationDivPrivate");
+        const chatBody = document.querySelector("#chat-body");
+        const chat = document.querySelector(".chat");
         if(admin.sessionId!=="not available"){
             adminAvailableId=admin.sessionId;
             adminAvailableAvatar=admin.avatarId;
             conversationDivPrivate.style.display="block";
             createDeleteHistoryListener();
             displayDialog(storageKeyId);
-            document.querySelector(".panel-heading").innerHTML = "Hello! How can i help you?";
+            document.querySelector(".chat-header").innerHTML = "Hello! How can i help you?";
         }
         else{
-            conversationDivPrivate.style.display="none";
-            document.querySelector(".panel-heading").innerHTML = "Admin not available";
+            chatBody.style.display="none";
+            chat.style.width = "300px";
+            document.querySelector(".chat-header").innerHTML = "Admin not available";
 
         }
     }
@@ -264,12 +237,14 @@
     }
 
     function closeChat() {
-        document.getElementById('dialog-box').innerHTML = '';
+        // document.getElementById("#dialog-box").innerHTML = '';
         document.querySelector(".chat").style.display = "none";
     }
 
-
-
+    function clearMessage() {
+        const textarea = document.querySelector("#textPrivate");
+        textarea.value = " ";
+    }
 
 </script>
 
