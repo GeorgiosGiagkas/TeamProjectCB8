@@ -8,6 +8,7 @@ public class UserDto {
     private String userEmail;
     private int wallet;
     private Integer roleId;
+    private Integer selectedAvatarId;
 
     public Integer getUserId() {
         return userId;
@@ -55,5 +56,13 @@ public class UserDto {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public Integer getSelectedAvatarId() {
+        return selectedAvatarId;
+    }
+
+    public void setSelectedAvatarId(Integer selectedAvatarId) {
+        this.selectedAvatarId = selectedAvatarId;
     }
 }

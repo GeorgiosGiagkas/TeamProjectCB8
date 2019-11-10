@@ -20,8 +20,8 @@ public class PaypalController {
     @Autowired
     PaypalService service;
 
-    public static final String SUCCESS_URL = "pay/success";
-    public static final String CANCEL_URL = "pay/cancel";
+    public static final String SUCCESS_URL = "payment-success";
+    public static final String CANCEL_URL = "payment-cancel";
 
     @GetMapping("/payment")
     public String showPayment() {
@@ -49,7 +49,7 @@ public class PaypalController {
 
     @GetMapping(value = CANCEL_URL)
     public String cancelPay() {
-        return "cancel";
+        return "payment-cancel";
     }
 
     @GetMapping(value = SUCCESS_URL)
@@ -58,7 +58,7 @@ public class PaypalController {
             Payment payment = service.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                return "success";
+                return "payment-success";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());

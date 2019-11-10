@@ -7,6 +7,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserDaoImpl implements UserDao {
 
@@ -37,6 +39,15 @@ public class UserDaoImpl implements UserDao {
         ur.save(user);
     }
 
+    @Override
+    public Iterable<User> getAllUsers() {
+        return ur.findAll();
+    }
+
+    @Override
+    public void updateUser(User user) {
+        if(ur.existsById(user.getUserId())) ur.save(user);
+    }
 
 
 }

@@ -186,7 +186,7 @@
 
 
 
-                    const image = "<img src = /images/"+data.avatarId+".png>";
+                    const image = "<img src = /images/"+data.avatarId+".jpg>";
 
                     $("#image").html(image);
 

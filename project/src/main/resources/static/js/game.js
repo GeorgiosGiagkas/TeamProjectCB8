@@ -180,8 +180,17 @@ $(document).ready(function(){
     }
 
 
+    function getPrize(){
+        $.ajax({
+            url:"/get-wallet-update"
+        }).then(function(data){
+            console.log("Prize earned: "+data+" Gold!");
+        });
+    }
+
     function endGame(){
-        window.location.href = "/main-menu";
+        // window.location.href = "/main-menu";
+        getPrize();
     }
 
 
