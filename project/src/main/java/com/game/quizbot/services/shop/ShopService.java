@@ -44,7 +44,6 @@ public class ShopService {
 
         Iterable<Integer> allOwnedAvatarsByUserId = ad.getAllOwnedAvatarsByUserId(userId);
 
-
         sd.setAllAvatars(avatarPack);
         sd.setAllOwnedAvatars(allOwnedAvatarsByUserId);
         return sd;

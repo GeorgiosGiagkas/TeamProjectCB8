@@ -12,4 +12,5 @@ public interface AvatarDao {
     Avatar getAvatarById(int id);
     Iterable<Integer> getAllOwnedAvatarsByUserId(int id);
     Page<Avatar> gelAllAvatarsByPageNo(int pageNo, Pageable pageable);
+    int getAvatarCount();
 }

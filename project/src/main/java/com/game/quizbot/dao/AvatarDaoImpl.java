@@ -49,4 +49,10 @@ public class AvatarDaoImpl implements AvatarDao{
         return allOwnedAvatarsByUserId;
     }
 
+    @Override
+    public int getAvatarCount(){
+        int avatarCount = avatarRepo.getAvatarCount();
+        return avatarCount;
+    }
+
 }

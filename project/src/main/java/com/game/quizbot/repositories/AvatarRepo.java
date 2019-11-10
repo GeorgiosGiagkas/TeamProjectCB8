@@ -10,6 +10,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+
 @Repository
 public interface AvatarRepo extends PagingAndSortingRepository<Avatar,Integer> {
 
@@ -27,5 +29,10 @@ public interface AvatarRepo extends PagingAndSortingRepository<Avatar,Integer> {
 
     @Query("SELECT a FROM Avatar a")
     Page<Avatar> getAllAvatarsByPageNo(@Param("pageNo") int somethingelseid, Pageable pageable);
+
+    @Query(value = "SELECT COUNT(*) FROM avatar;", nativeQuery = true)
+    int getAvatarCount();
+
+
 
 }

@@ -63,6 +63,11 @@ public class AvatarService {
         }
     }
 
+    public int getAvatarCount(){
+        int avatarCount = ad.getAvatarCount();
+        return avatarCount;
+    }
+
 
 }
 

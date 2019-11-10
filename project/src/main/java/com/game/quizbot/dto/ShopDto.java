@@ -29,4 +29,6 @@ public class ShopDto {
     public void setAllOwnedAvatars(Iterable<Integer> allOwnedAvatars) {
         this.allOwnedAvatars = allOwnedAvatars;
     }
+
+
 }
