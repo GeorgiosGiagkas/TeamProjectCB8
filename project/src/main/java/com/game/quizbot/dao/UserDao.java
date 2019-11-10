@@ -16,4 +16,5 @@ public interface UserDao {
 
     Iterable<User> getAllUsers();
 
+    void updateUser(User user);
 }

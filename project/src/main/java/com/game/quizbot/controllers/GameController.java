@@ -4,6 +4,8 @@ package com.game.quizbot.controllers;
 import com.game.quizbot.dto.QuestionPackDto;
 import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.services.game.*;
+import com.game.quizbot.services.wallet.WalletPrize;
+import com.game.quizbot.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ public class GameController {
 
    @Autowired
    GameState gameState;
+
+   @Autowired
+    WalletService walletService;
 
     @GetMapping("/start-game")
     public ModelAndView startGame(ModelAndView mv, HttpSession session, @RequestParam("category-id") int categoryId){
@@ -69,5 +74,19 @@ public class GameController {
     }
 
 
+    @ResponseBody
+    @GetMapping("/get-wallet-update")
+    public int getWalletUpdate(HttpSession session){
+        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
+        WalletPrize walletPrize = new WalletPrize();
+
+        if(gameStateSubject!=null){
+            walletPrize.setTotalRunPoints(gameStateSubject.getTotalRunPoints());
+            walletPrize.setUserId(gameStateSubject.getUserId());
+            walletService.updateWalletStatus(walletPrize);
+        }
+
+        return  walletPrize.calculateWalletPrize();
+    }
 
 }

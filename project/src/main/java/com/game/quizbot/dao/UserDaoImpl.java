@@ -44,5 +44,10 @@ public class UserDaoImpl implements UserDao {
         return ur.findAll();
     }
 
+    @Override
+    public void updateUser(User user) {
+        if(ur.existsById(user.getUserId())) ur.save(user);
+    }
+
 
 }
