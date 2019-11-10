@@ -42,195 +42,216 @@
 
 
 <section class="container chat">
-        <div>
-            <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+    <div>
+        <input type="text" hidden id="from" value=<c:out value="${userNickname}"/> />
+        <input type="text" hidden id="userAvatarId" value=<c:out value="${userAvatarId}"/> />
+    </div>
+
+    <div class="header">
+        <div class="chat-header"></div>
+        <button id="delete-history-btn" type="button" class="btn"  data-toggle="tooltip" data-placement="left" title="Delete history"><i class="fas fa-trash-alt"></i></button>
+    </div>
+
+    <div class="chat-body">
+        <div id="dialog-box"></div>
+    </div>
+
+    <div class="chat-body row">
+        <div id="conversationDivPrivate">
+            <textarea id="textPrivate" placeholder="Write a Private message..." required></textarea>
+            <button id="sendMessageBtn" class="btn"><i class="fas fa-paper-plane"></i></button>
         </div>
+     </div>
 
-        <div class="chat-header bg-light p-2 m-1"></div>
-
-        <div id="chat-body">
-            <div id="dialog-box"></div>
-
-            <div id="conversationDivPrivate" >
-                <button id="delete-history-btn" type="button" class="btn btn-secondary">Clear History</button>
-                <textarea id="textPrivate" placeholder="Write a Private message..." class="col-9" required></textarea>
-                <button id="sendMessageBtn" class="col-2 btn btn-secondary send-button">Send</button>
-            </div>
-        </div>
-
-        <button type="button" class="btn btn-info close-button" onclick="closeChat(); disconnect();"><i class="far fa-window-close icon"></i>Close</button>
+    <div class="chat-footer row">
+        <button type="button" class="btn btn-info close-button" onclick="closeChat(); disconnect();"><i class="far fa-times-circle icon"></i>Quizbot Help</button>
+    </div>
 </section>
 
 
 
 <script type="text/javascript">
-    //Chat Functionality
+    // -----------Chat Functionality-----------
+
     let stompClient = null;
     let adminAvailableId;
     let adminAvailableAvatar;
-    let storageKeyId= "QuizbotService-" +document.getElementById('from').value;
-    document.querySelector("#conversationDivPrivate").style.display="none";
+    let storageKeyId = "QuizbotService-" + document.getElementById('from').value;
+    let chatHeader = document.querySelector('.chat-header');
+    const userNickname = document.querySelector('#from');
+    const deleteHistoryBtn = document.querySelector('#delete-history-btn');
+    const userAvatarId = document.querySelector('#userAvatarId');
+    const dialogBox = document.getElementById('dialog-box');
+    const conversationDivPrivate = document.querySelector('#conversationDivPrivate');
+    conversationDivPrivate.style.display = "none";
+    deleteHistoryBtn.style.display = "none";
 
+    // -----------SEND BUTTON-----------
     const sendMessageBtn = document.getElementById("sendMessageBtn");
-    sendMessageBtn.addEventListener("click",function(){
+
+    sendMessageBtn.addEventListener("click", function () {
         let data = getMessageTextData();
-        sendPrivateMessage(adminAvailableId,data);
-        saveDialog(storageKeyId,data);
+        sendPrivateMessage(adminAvailableId, data);
+        saveDialog(storageKeyId, data);
         displayDialog(storageKeyId);
     });
 
-    sendMessageBtn.addEventListener("click", clearMessage);
+    // clear message from textarea
+    sendMessageBtn.addEventListener("click", function () {
+        const textarea = document.querySelector("#textPrivate");
+        textarea.value = " ";
+    });
 
-
-    const displayDialog=(storageKeyId) =>{
-        const dialogBox = document.getElementById('dialog-box');
-
-        dialogBox.innerHTML="";
-        const dialog=fetchDialogFromStorage(storageKeyId);
-        //create displaying message
-        dialog.forEach(function(data){
-            const div1 = document.createElement("div");
-            div1.className = "message";
-            const div2 = document.createElement("div");
-            div2.className = "photo";
-            div2.textContent = data.from + ": Avatar";
-            div1.appendChild(div2);
-            const div3 = document.createElement("div");
-            div3.className = "online";
-            div2.appendChild(div3);
-            const p1 =document.createElement("p");
-            p1.className = "text";
-            p1.textContent = data.text;
-            div1.appendChild(p1);
-            const p = document.createElement("p");
-            p.className = "time";
-            p.textContent = data.timestamp;
-            dialogBox.appendChild(div1);
-            dialogBox.appendChild(p);
-        });
-        return dialogBox;
+    function scrollToBottom() {
+        dialogBox.scrollTop = dialogBox.scrollHeight;
     }
 
-
-    // const displayDialog=(storageKeyId) =>{
-    //     const dialogBox = document.getElementById('dialog-box');
-    //
-    //     dialogBox.innerHTML="";
-    //     const dialog=fetchDialogFromStorage(storageKeyId);
-    //     //create displaying message
-    //     dialog.forEach(function(data){
-    //         const p = document.createElement("p");
-    //         p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
-    //         dialogBox.appendChild(p);
-    //     });
-    //     return dialogBox;
-    // }
-
-    const createDeleteHistoryListener=()=>{
-        const deleteHistoryBtn = document.getElementById("delete-history-btn");
-        deleteHistoryBtn.addEventListener("click",()=>{
-            deleteDialogInStorage(storageKeyId);
-            displayDialog(storageKeyId);
-        });
-    }
-
-
-    const connect =()=>{
-        let socket = new SockJS("/chat");
-        stompClient = Stomp.over(socket);
-        stompClient.connect(
-            {}, function(frame){
-                console.log('Connected: ' + frame);
-
-                stompClient.subscribe("/user/queue/errors", function(message){
-                });
-
-                stompClient.subscribe("/user/queue/private", function(message){
-                    console.log(message.body);
-                    const data = JSON.parse(message.body);
-                    saveDialog(storageKeyId,data);
-                    displayDialog(storageKeyId);
-                });
-
-            }
-        );
-    }
-
-    const disconnect=()=>{
-        if(stompClient!=null){
-            stompClient.disconnect();
-        }
-        console.log("Disconnected");
-    }
-
-
-    //fetch admin
-    const getAdmin =()=>{
-        fetch("/user-get-available-admin").then((data)=> data.json()).then((res)=> adminAvailable(res));
-    }
-
-    const adminAvailable=(admin)=>{
-        const conversationDivPrivate = document.querySelector("#conversationDivPrivate");
-        const chatBody = document.querySelector("#chat-body");
-        const chat = document.querySelector(".chat");
-        if(admin.sessionId!=="not available"){
-            adminAvailableId=admin.sessionId;
-            adminAvailableAvatar=admin.avatarId;
-            conversationDivPrivate.style.display="block";
-            createDeleteHistoryListener();
-            displayDialog(storageKeyId);
-            document.querySelector(".chat-header").innerHTML = "Hello! How can i help you?";
-        }
-        else{
-            chatBody.style.display="none";
-            chat.style.width = "300px";
-            document.querySelector(".chat-header").innerHTML = "Admin not available";
-
-        }
-    }
-
-    const sendPrivateMessage =(sendTo, data)=>{
-
-        stompClient.send("/user/"+sendTo+"/queue/private",{}, JSON.stringify(data));
-        return(data);
-    }
-
-    const getMessageTextData=()=>{
+    const getMessageTextData = () => {
         const from = document.getElementById('from').value;
         const text = document.getElementById('textPrivate').value;
         const dt = new Date();
         const utcDate = dt.toUTCString();
 
-        const data ={from:from, text:text, timestamp:utcDate};
+        const data = { from: from, text: text, timestamp: utcDate };
         return data;
     }
 
+    const sendPrivateMessage = (sendTo, data) => {
+        stompClient.send("/user/" + sendTo + "/queue/private", {}, JSON.stringify(data));
+        return (data);
+    }
 
+    //save dialog in json in local storage
+    const saveDialog = (storageKeyId, data) => {
+        const dialog = fetchDialogFromStorage(storageKeyId);
+        dialog.push(data);
+        localStorage.setItem(storageKeyId, JSON.stringify(dialog));
+    }
 
     //retrieve dialog in json from local storage  based on userNickname
-    const fetchDialogFromStorage =(storageKeyId)=>{
+    const fetchDialogFromStorage = (storageKeyId) => {
         let dialog = [];
-        if(localStorage.getItem(storageKeyId)===null){
+        if (localStorage.getItem(storageKeyId) === null) {
             dialog = [];
         }
-        else{
+        else {
             dialog = JSON.parse(localStorage.getItem(storageKeyId))
         }
         return dialog;
     }
 
-
-    //save dialog in json in local storage
-    const saveDialog=(storageKeyId, data)=>{
-        const dialog = fetchDialogFromStorage(storageKeyId);
-        dialog.push(data);
-        localStorage.setItem(storageKeyId,JSON.stringify(dialog));
+    const displayDialog = (storageKeyId) => {
+        dialogBox.innerHTML = "";
+        const dialog=fetchDialogFromStorage(storageKeyId);
+        // create displaying message
+        dialog.forEach(function(data){
+            if (data.from !== userNickname.value) {
+                console.log("DATA FROM" + data.from);
+                console.log("USER NICKNAME" + userNickname);
+                addAdminChatMessage(data);
+            } else {
+                addUserChatMessage(data);
+            }
+        });
+        return dialogBox;
     }
+
+    const addUserChatMessage = (data) => {
+        const div1 = document.createElement("div");
+        div1.className = "message";
+        const div2 = document.createElement("div");
+        div2.className = "response";
+        div1.appendChild(div2);
+        const img = document.createElement("img");
+        img.className = "photo";
+        img.src = "/images/" + userAvatarId.value + ".jpg";
+        img.alt = "user's avatar";
+        div2.appendChild(img);
+        const div3 = document.createElement("div");
+        div3.className = "online";
+        div2.appendChild(div3);
+        const p1 = document.createElement("p");
+        p1.className = "text";
+        p1.textContent = data.text;
+        div2.appendChild(p1);
+        const p = document.createElement("p");
+        p.className = "time";
+        p.textContent = data.timestamp;
+        dialogBox.appendChild(div1);
+        dialogBox.appendChild(p);
+        scrollToBottom();
+    }
+
+    const addAdminChatMessage = (data) => {
+        const div1 = document.createElement("div");
+        div1.className = "message";
+        const img = document.createElement("img");
+        img.className = "photo";
+        img.src = "/images/" + adminAvailableAvatar + ".jpg";
+        img.alt = "admin's avatar";
+        div1.appendChild(img);
+        const div2 = document.createElement("div");
+        div2.className = "online";
+        div1.appendChild(div2);
+        const p1 = document.createElement("p");
+        p1.className = "text";
+        p1.textContent = data.text;
+        div1.appendChild(p1);
+        const p = document.createElement("p");
+        p.className = "time";
+        p.textContent = data.timestamp;
+        dialogBox.appendChild(div1);
+        dialogBox.appendChild(p);
+        scrollToBottom();
+    }
+
+    // -----------DELETE HISTORY BUTTON-----------
+
+    const createDeleteHistoryListener = () => {
+        deleteHistoryBtn.addEventListener("click", () => {
+            deleteDialogInStorage(storageKeyId);
+            displayDialog(storageKeyId);
+        });
+    }
+
+    //Tooltip
+    deleteHistoryBtn.addEventListener("mouseover", () => {
+        $('[data-toggle="tooltip"]').tooltip({hide: 500});
+    });
 
     //delete dialog in json in local storage
-    const deleteDialogInStorage=(storageKeyId)=>{
+    const deleteDialogInStorage = (storageKeyId) => {
         localStorage.removeItem(storageKeyId);
     }
+
+    // -----------CONNECT / DISCONNECT-----------
+
+    const connect = () => {
+        let socket = new SockJS("/chat");
+        stompClient = Stomp.over(socket);
+        stompClient.connect(
+            {}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe("/user/queue/errors", function (message) {
+                });
+                stompClient.subscribe("/user/queue/private", function (message) {
+                    console.log(message.body);
+                    const data = JSON.parse(message.body);
+                    saveDialog(storageKeyId, data);
+                    displayDialog(storageKeyId);
+                });
+            }
+        );
+    }
+
+    const disconnect = () => {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        console.log("Disconnected");
+    }
+
+    // -----------OPEN / CLOSE CHAT-----------
 
     function openChat() {
         document.querySelector(".chat").style.display = "block";
@@ -241,9 +262,29 @@
         document.querySelector(".chat").style.display = "none";
     }
 
-    function clearMessage() {
-        const textarea = document.querySelector("#textPrivate");
-        textarea.value = " ";
+    // -----------CHECK FOR AVAILABLE ADMIN - GET ADMIN-----------
+
+    //fetch admin
+    const getAdmin = () => {
+        fetch("/user-get-available-admin").then((data) => data.json()).then((res) => adminAvailable(res));
+    }
+
+    const adminAvailable = (admin) => {
+        const conversationDivPrivate = document.querySelector("#conversationDivPrivate");
+        const chatBody = document.querySelector("#chat-body");
+        const chat = document.querySelector(".chat");
+        if (admin.sessionId !== "not available") {
+            adminAvailableId = admin.sessionId;
+            adminAvailableAvatar = admin.avatarId;
+            conversationDivPrivate.style.display = "block";
+            deleteHistoryBtn.style.display = "block";
+            createDeleteHistoryListener();
+            displayDialog(storageKeyId);
+            chatHeader.innerHTML = "Quizbot Chat";
+        }
+        else {
+            chatHeader.innerHTML = "No chat agents currently available";
+        }
     }
 
 </script>

@@ -40,7 +40,9 @@ public class ChatController {
     {
         modelAndView.setViewName("test-chat-user");
         String userNickname=((UserDto)(session.getAttribute("login-user"))).getUserNickname();
+        Integer userAvatarId=((UserDto)(session.getAttribute("login-user"))).getSelectedAvatarId();
         modelAndView.addObject("userNickname",userNickname);
+        modelAndView.addObject("userAvatarId",userAvatarId);
         return  modelAndView;
     }
 
