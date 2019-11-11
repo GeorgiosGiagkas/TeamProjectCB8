@@ -30,8 +30,10 @@ public class ChatController {
     @GetMapping("/admin-chat")
     public ModelAndView showAdminChat(ModelAndView modelAndView, HttpSession session){
         modelAndView.setViewName("test-chat-admin");
-        String userNickname=((UserDto)(session.getAttribute("login-admin"))).getUserNickname();
-        modelAndView.addObject("userNickname",userNickname);
+        String adminNickname=((UserDto)(session.getAttribute("login-admin"))).getUserNickname();
+        Integer adminAvatarId=((UserDto)(session.getAttribute("login-admin"))).getSelectedAvatarId();
+        modelAndView.addObject("adminNickname",adminNickname);
+        modelAndView.addObject("adminAvatarId",adminAvatarId);
         return  modelAndView;
     }
 
