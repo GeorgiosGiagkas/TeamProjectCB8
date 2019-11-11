@@ -20,7 +20,6 @@
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <title>Admin</title>
-</head>
 
 <style>
     .container{max-width:1170px; margin:auto;}
@@ -364,9 +363,8 @@
         size: 7rem;
     }
 
-
 </style>
-
+</head>
 
 
 <body>
