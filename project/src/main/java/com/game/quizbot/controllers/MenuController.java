@@ -2,12 +2,15 @@ package com.game.quizbot.controllers;
 
 
 import com.game.quizbot.dto.CategoryDto;
+import com.game.quizbot.dto.PlayerStats;
+import com.game.quizbot.dto.PlayerStatsDto;
 import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
 import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +25,9 @@ public class MenuController {
 
     @Autowired
     CategoryService cs;
+
+    @Autowired
+    PlayerStats playerStats;
 
 
 
@@ -39,6 +45,13 @@ public class MenuController {
 
         return cs.getActiveCategories();
 
+    }
+
+
+    @ResponseBody
+    @GetMapping("/get-user-stats")
+    public List<PlayerStatsDto> getPlayerStats(@RequestParam("userId") int userId){
+       return playerStats.getList(userId);
     }
 
 
