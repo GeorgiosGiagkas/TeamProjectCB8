@@ -23,64 +23,22 @@
 </head>
 <body>
 
-
-    <div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
-    </div>
+<div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
 
 <div class ="container mt-4 bg-light border shadow mb-5">
-
     <div class="row">
-
-        <h1>QuizBot Shop LOGO</h1>
+        <div class="col-12"><h1>QuizBot Shop LOGO</h1></div>
     </div>
-    <hr>
-    <div class="row carousel">
-
-    
-
-
-    <div id="tempImage"></div>
-
     <div class="w3-content w3-display-container">
-
-        <table class="table table-borderless mySlides" style="width:100%">
-            <tr>
-                <td><img src="/images/1.jpg"></td>
-                <td><img src="/images/2.jpg"></td>
-                <td><img src="/images/3.jpg"></td>
-                <td><img src="/images/4.jpg"></td>
-                <td><img src="/images/5.jpg"></td>    
-            </tr>         
-        </table>
-
-        <table class="table table-borderless mySlides" style="width:100%">
-            <tr>
-                <td><img src="/images/6.jpg"></td>
-                <td><img src="/images/7.jpg"></td>
-                <td><img src="/images/8.jpg"></td>
-                <td><img src="/images/9.jpg"></td>
-                <td><img src="/images/10.jpg"></td>    
-            </tr>         
-        </table>
-
-        <table class="table table-borderless mySlides" style="width:100%">
-            <tr>
-                <td><img src="/images/11.jpg"></td>
-                <td><img src="/images/12.jpg"></td>
-                <td><img src="/images/13.jpg"></td>
-                <td><img src="/images/14.jpg"></td>
-                <td><img src="/images/15.jpg"></td>    
-            </tr>         
-        </table>
-
+    <div id="showRoom">
+    </div>
         <button class="w3-button w3-black w3-display-left">&#10094;</button>
         <button class="w3-button w3-black w3-display-right">&#10095;</button>
     </div>
+    <div id="goldContent"></div>
+
 
 </div>
-<!-- end of carusel row -->
-
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -88,6 +46,6 @@
     <script src="/js/shop.js"></script>
 
 
-</div>
+
 </body>
 </html>

@@ -14,6 +14,8 @@ public class ShopDto {
 
     private Iterable<Integer> allOwnedAvatars = new ArrayList<>();
 
+    private int userWallet = 0;
+
     public Iterable<Avatar> getAllAvatars() {
         return allAvatars;
     }
@@ -30,5 +32,11 @@ public class ShopDto {
         this.allOwnedAvatars = allOwnedAvatars;
     }
 
+    public int getUserWallet() {
+        return userWallet;
+    }
 
+    public void setUserWallet(int userWallet) {
+        this.userWallet = userWallet;
+    }
 }
