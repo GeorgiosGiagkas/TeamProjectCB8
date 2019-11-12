@@ -71,7 +71,7 @@
 
 
 <script type="text/javascript">
-    // -----------Chat Functionality-----------
+    // -----------User Chat Functionality-----------
 
     let stompClient = null;
     let adminAvailableId;
