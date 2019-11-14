@@ -7,6 +7,7 @@ $(document).ready(function() {
     const leftButton = document.querySelector(".w3-display-left");
     const RightButton = document.querySelector(".w3-display-right");
     const invisible = document.querySelector(".invisible");
+    const display = document.querySelector("#shopDisplay");
     const currentUserId = invisible.getAttribute("current-user-id");
 
 
@@ -32,12 +33,13 @@ $(document).ready(function() {
 
 
         let content = `<div class="row d-flex justify-content-between">`
-        let costContent = `<div class="row d-flex justify-content-between">`
+        let costContent = `<div class="row d-flex justify-content-between mb-400">`
         let itemClass;
 
         for (let i = 0; i<data.allAvatars.length ; i++)
         {
             let currentAvatarId = data.allAvatars[i].avatarId;
+            let currentAvatarIndex = i;
             let currentAvatarCost = data.allAvatars[i].avatarCost;
             let overlayURL="";
 
@@ -55,8 +57,8 @@ $(document).ready(function() {
 
 
             content +=`                  
-                       <div class="avatar text-center ${itemClass}" nopadding> <img src="/images/${currentAvatarId}.jpg" alt="Avatar" width="200px" height="200px">
-                       <div class="overlay text-center nopadding"><img src="/images/${overlayURL}" alt="Avatar" width="200px" height="200px"></div>
+                       <div class="avatar text-center" nopadding> <img src="/images/${currentAvatarId}.jpg" alt="Avatar" width="200px" height="200px">
+                       <div class="overlay text-center nopadding  ${itemClass}" avatarIndex="${currentAvatarIndex}"><img src="/images/${overlayURL}" alt="Avatar" width="200px" height="200px"></div>
                        </div> 
                         
                         `
@@ -78,26 +80,46 @@ $(document).ready(function() {
         showRoom.innerHTML = content;
         goldContent.innerHTML = costContent;
 
-
+        return data;
 
     }
 
     function toggleSelected(event){
         event.target.classList.toggle("active");
-        console.log("hovered!");
+
     }
 
-    function activateShopping(){
+    function displayBuyPrompt(event, data){
+        const selectedAvatarIndex = event.srcElement.parentElement.attributes[1].value;
+        console.log("in:", event.srcElement.parentElement.attributes[1].value);
+        console.log("Name: ",data.allAvatars[selectedAvatarIndex].avatarName);
+        console.log("Name: ",data.allAvatars[selectedAvatarIndex].avatarCost);
+        const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
+        const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
+        display.innerHTML = `Click to Buy <br /> <span class="tomato">${avatarName}</span> <br /> for <span class="tomato">${avatarCost}</span> Gold!`;
+    }
+
+    function removeBuyPrompt(){
+        console.log("out:");
+        display.innerHTML = `Select an Avatar <br /> to Buy <br /> with Gold!`;
+    }
+
+
+    function activateShopping(data){
         const shoppableAvatars = document.getElementsByClassName("normal");
+
         console.log("Shoppable: ",shoppableAvatars );
         for (let i = 0 ; i < shoppableAvatars.length; i++) {
             shoppableAvatars[i].addEventListener('mouseover' , function(event){
+                const data2 = data;
                 toggleSelected(event);
-            }, true ) ;
+                displayBuyPrompt(event, data2);
+            }, false ) ;
 
             shoppableAvatars[i].addEventListener('mouseout' , function(event){
                 toggleSelected(event);
-            }, true ) ;
+                removeBuyPrompt();
+            }, false ) ;
 
         }
 

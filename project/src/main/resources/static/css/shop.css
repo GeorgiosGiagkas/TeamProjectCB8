@@ -1,4 +1,14 @@
-﻿.avatar {
+﻿
+body{
+    background-color: #ddffff;
+}
+
+#showRoom{
+    background-color: #ddffff;
+}
+
+
+.avatar {
     position: relative;
     /*border: solid 5px green;*/
 }
@@ -18,9 +28,9 @@
 }
 
 .cost {
-    position: absolute;
-    top: 35px;
-    left: 120px;
+    position: relative;
+    top: -60px;
+    left: -8px;
     font-weight: bold;
     font-size: 20px;
 
@@ -36,6 +46,22 @@
     border-color: tomato;
 }
 
+#shopBubble{
+    position: absolute;
+    left: 100px;
+
+}
+
+#shopDisplay {
+    font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    top: -228px;
+    font-size: 25px;
+}
+
+.tomato{
+    color: tomato;
+}
 
 /*.normal{*/
     /*background-repeat: no-repeat;*/

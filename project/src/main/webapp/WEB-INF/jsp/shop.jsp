@@ -18,6 +18,9 @@
     <style>
         .mySlides {display:none;}
     </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:700i&display=swap');
+    </style>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 </head>
@@ -25,20 +28,46 @@
 
 <div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
 
-<div class ="container mt-4 bg-light border shadow mb-5">
+<div class ="container mt-4 bg-light border mb-5 logo">
     <div class="row">
-        <div class="col-12"><h1>QuizBot Shop LOGO</h1></div>
+        <div class="col-12"><img src="/images/quizbot-shop-logo-100.png" alt="logo"></div>
     </div>
-    <div class="w3-content w3-display-container">
+</div>
+
+<div class ="container mt-4 bg-light shadow mb-5">
+    <div class="row">
+    <div class="w3-content w3-display-container col-12">
     <div id="showRoom">
     </div>
         <button class="w3-button w3-black w3-display-left">&#10094;</button>
         <button class="w3-button w3-black w3-display-right">&#10095;</button>
+        <div id="goldContent"></div>
     </div>
-    <div id="goldContent"></div>
+    </div>
+
 
 
 </div>
+
+<div class ="container mt-100 bg-light border shadow mb-5">
+    <div class="row">
+        <div class="col-3"></div>
+
+        <div class="col-9">
+
+        <div id="shopBubble"><img src="/images/shop-robot-bubble-300.png" alt=""><div class="text-center align-middle" id="shopDisplay">Select an Avatar <br /> to Buy <br /> with Gold!</div></div>
+        
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-1">
+            <img src="/images/robot-shop.gif" alt="">
+        </div>
+    </div>
+</div>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
