@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class MenuController {
 
     @GetMapping("/show-categories")
     @ResponseBody
-    public List<CategoryDto> showCategories(){
-
+    public List<CategoryDto> showCategories(HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return cs.getActiveCategories();
 
     }

@@ -25,6 +25,9 @@ public interface CategoryRepo extends CrudRepository<Category,Integer> {
     @Query("SELECT c.categoryName FROM Category c WHERE c.categoryId = ?1")
     String getCategoryNameById(Integer id);
 
+    @Query("SELECT c.categoryId FROM Category c WHERE c.categoryName = ?1")
+    int getCategoryIdByName(String categoryName);
+
 
 
 }
