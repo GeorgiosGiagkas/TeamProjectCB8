@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: giagkas
-  Date: 16/10/19
-  Time: 10:16
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -46,7 +40,8 @@
                         <button class = "btn-warning btn">Show Stats</button>
                         <button class = "btn-warning btn">Shop</button>
                         <button class = "btn-warning btn">Live Support</button>
-                        <button class = "btn-warning btn">Sign out</button>
+                        <a href="/logout" class = "btn-warning btn">Sign out</a>
+
                     </div>
 
                 </div>

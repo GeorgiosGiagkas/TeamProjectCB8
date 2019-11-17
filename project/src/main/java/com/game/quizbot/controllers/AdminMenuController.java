@@ -24,7 +24,7 @@ public class AdminMenuController {
     QuestionDao qd;
 
     @GetMapping("/admin-menu")
-    public ModelAndView showAdminMenu(ModelAndView modelAndView, ModelMap m){
+    public ModelAndView showAdminMenu(ModelAndView modelAndView){
         modelAndView.setViewName("admin-menu");
         return modelAndView;
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,31 +24,24 @@ import java.util.List;
 public class MenuController {
 
 
-
     @Autowired
     CategoryService cs;
 
     @Autowired
     PlayerStats playerStats;
 
-
-
     @GetMapping("/main-menu")
-    public ModelAndView showMainMenu(HttpSession session,ModelAndView modelAndView){
-        UserDto userDto =(UserDto)session.getAttribute("login-user");
+    public ModelAndView showMainMenu(ModelAndView modelAndView){
         modelAndView.setViewName("main-menu");
         return  modelAndView;
     }
-
 
     @GetMapping("/show-categories")
     @ResponseBody
     public List<CategoryDto> showCategories(HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         return cs.getActiveCategories();
-
     }
-
 
     @ResponseBody
     @GetMapping("/get-user-stats")

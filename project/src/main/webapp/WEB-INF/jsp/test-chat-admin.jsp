@@ -117,7 +117,7 @@
     .chat_list {
         border-bottom: 1px solid #c4c4c4;
         margin: 0;
-        padding: 18px 16px 10px;
+        padding: 10px 16px;
     }
 
     .active_chat{
@@ -159,11 +159,12 @@
 
 
     .newMsg {
-        width: 45px;
-        display: inline-block;
-        border-radius: 50%;
+        width: 30px;
+        /*display: inline-block;*/
         align-self: flex-start;
         display: none;
+        position: relative;
+        /*height: 10px;*/
     }
 
 
@@ -654,9 +655,7 @@
          dialogBox.scrollTop = dialogBox.scrollHeight;
      }
 
-     function scrollToTop(dialogBox) {
-         dialogBox.scrollBottom = dialogBox.scrollHeight;
-     }
+
 
 
      //retrieve dialog in json from local storage based on userNickname
@@ -693,20 +692,30 @@
 
     //check if userNickname matches  user id
     const fetchUserId=(userNickname)=>{
-        // const newMsg = document.querySelectorll('#data .newMsg');
+
         const URL = "/admin-get-user-id-by-nickname?userNickname="+userNickname;
         fetch(URL).then(res=>res.text()).then(data=>{
             if(data!==undefined){
-                const userBox = document.getElementById(data);
-                if(userBox!==null){
-                    userBox.style.backgroundColor="green";
-                    // newMsg.style.display = "block";
-                    userBox.style.color="white";
-                    scrollToTop(inboxChat);
+                const userData = document.getElementById(data);
+                const userBox =userData.parentNode.parentNode.parentNode;
+                const userBox2 = userData.parentNode.parentNode;
+                if(userData!==null){
+                    userBox.style.backgroundColor = "white";
+                    userData.style.fontWeight = "700";
+                    const newMsg = userBox2.children[2].children[0];
+                    newMsg.style.display = "block";
+                    removeToTop(userBox);
+                    userBox.scrollIntoView();
                 }
             }
         });
     }
+
+    const removeToTop =(userBox)=> {
+        userBox.parentNode.removeChild(userBox);
+        const inboxChat = document.querySelector(".inbox_chat");
+        inboxChat.insertBefore(userBox, inboxChat.childNodes[0]);
+     }
 
 
     const getTimestamp=()=>{
@@ -824,6 +833,8 @@
              }
          })
      })
+
+
 
 
 </script>
