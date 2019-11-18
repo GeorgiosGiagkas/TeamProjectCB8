@@ -55,4 +55,9 @@ public class UserHighscoreDaoImpl implements UserHighscoreDao {
         return leaderboardByCategoryid;
     }
 
+    public ArrayList getLeaderboardByCategoryNameAll(String categoryName){
+        ArrayList leaderdboardByCategoryName = userHighscoreRepo.getLeaderboardByCategoryNameAll(categoryName);
+        return leaderdboardByCategoryName;
+    }
+
 }

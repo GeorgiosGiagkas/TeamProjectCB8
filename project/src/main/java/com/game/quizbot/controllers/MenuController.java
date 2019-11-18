@@ -45,7 +45,8 @@ public class MenuController {
 
     @ResponseBody
     @GetMapping("/get-user-stats")
-    public List<PlayerStatsDto> getPlayerStats(@RequestParam("userId") int userId){
+    public List<PlayerStatsDto> getPlayerStats(@RequestParam("userId") int userId, HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
        return playerStats.getList(userId);
     }
 

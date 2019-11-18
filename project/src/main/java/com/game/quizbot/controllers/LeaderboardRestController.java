@@ -38,6 +38,21 @@ CategoryDao cd;
 
     }
 
+    @GetMapping(value = "/getPositionByCategoryName/{categoryName}")
+    public int getPositionByCategoryName(@PathVariable("categoryName") String categoryName, HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        ArrayList<UserHighscore> leaderboardByCategoryName = ls.getLeaderboardByCategoryNameAll(categoryName);
+        String thisnickname = "user12";
+        int position;
+        for(int i = 0; i < leaderboardByCategoryName.size(); i++){
+            if(leaderboardByCategoryName.get(i).getUser().getUserNickname().equals(thisnickname)){
+                position = i + 1;
+                return position;
+            }
+        }
+        return -1;
+    }
+
 
 
 }
