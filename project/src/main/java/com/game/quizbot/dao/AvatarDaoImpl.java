@@ -22,6 +22,7 @@ public class AvatarDaoImpl implements AvatarDao{
 
     @Override
     public Avatar saveAvatar(Avatar a){
+
         return avatarRepo.save(a);
     }
 

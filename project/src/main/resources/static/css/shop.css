@@ -7,6 +7,10 @@ body{
     background-color: #ddffff;
 }
 
+.noBackground{
+    background-color: #ddffff;
+}
+
 
 .avatar {
     position: relative;
@@ -46,9 +50,25 @@ body{
     border-color: tomato;
 }
 
+#shopRobot{
+    position: relative;
+    top: 50px;
+}
+
+
 #shopBubble{
     position: absolute;
-    left: 100px;
+    top: -25px;
+    left: 350px;
+
+}
+
+#buyPanel{
+
+    font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    /*top: 50px;*/
+    font-size: 50px;
 
 }
 
@@ -62,6 +82,26 @@ body{
 .tomato{
     color: tomato;
 }
+
+.goodChoice{
+    font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    top: 25px;
+    font-size: 40px;
+    color: green;
+}
+
+.modal {
+    position: absolute;
+    top: 470px;
+    /*right: -200px;*/
+    bottom: 0;
+    left: 0;
+    z-index: 10040;
+    overflow: auto;
+    overflow-y: auto;
+}
+
 
 /*.normal{*/
     /*background-repeat: no-repeat;*/

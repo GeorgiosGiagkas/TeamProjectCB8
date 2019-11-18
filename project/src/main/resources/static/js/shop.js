@@ -8,6 +8,7 @@ $(document).ready(function() {
     const RightButton = document.querySelector(".w3-display-right");
     const invisible = document.querySelector(".invisible");
     const display = document.querySelector("#shopDisplay");
+    const buyPanel = document.querySelector("#buyPanel");
     const currentUserId = invisible.getAttribute("current-user-id");
 
 
@@ -96,6 +97,7 @@ $(document).ready(function() {
         console.log("Name: ",data.allAvatars[selectedAvatarIndex].avatarCost);
         const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
         const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
+
         display.innerHTML = `Click to Buy <br /> <span class="tomato">${avatarName}</span> <br /> for <span class="tomato">${avatarCost}</span> Gold!`;
     }
 
@@ -105,13 +107,85 @@ $(document).ready(function() {
     }
 
 
+    function showBuyPanel(event,data){
+        let modalConfirm = function(callback){
+        const selectedAvatarIndex = event.srcElement.parentElement.attributes[1].value;
+        const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
+        const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
+        const avatarId = data.allAvatars[selectedAvatarIndex].avatarId;
+
+        const buyButton = document.getElementById("modal-btn-buy");
+        buyButton.setAttribute("selected-avatar-id",avatarId);
+
+
+        buyPanel.innerHTML = `<div class="text-center">Buy <span class="tomato">${avatarName}</span> for <span class="tomato">${avatarCost}</span> Gold?"</div>`;
+        $("#mi-modal").modal('show');
+
+        // confirmation modal
+
+
+            $("#modal-btn-buy").on("click", function(event){
+                callback(true, event);
+                $("#mi-modal").modal('hide');
+            });
+
+            $("#modal-btn-cancel").on("click", function(){
+                callback(false);
+                $("#mi-modal").modal('hide');
+            });
+        };
+
+        function checkout(data, event){
+
+            // add avatar to user's collection
+            // remove money from user's wallet (update session userDto and database)
+            // refresh shop page at the same point position, only this time new avatar is owned
+            const avatarId = event.currentTarget.attributes[3].nodeValue;
+
+
+            const shopTranscactionURL = "/doShopTranscation/"+currentUserId+"/"+avatarId;
+
+            const success = (response) => {
+                return response.json();
+            };
+
+            const handleData = (data) => {
+                console.log("transaction ok")
+                plusDivs(0);
+
+            }
+
+            const error = (err) => {
+                console.error("Fetch error", err);
+            };
+
+            fetch(`${shopTranscactionURL}`)
+                .then(success) // successful response
+                .then(handleData)
+                .catch(error); // error
+
+
+
+
+        }
+
+        modalConfirm(function(confirm, event){
+            if(confirm){
+                checkout(data, event);
+            }
+        });
+
+        // confirmation modal end
+
+    }
+
     function activateShopping(data){
         const shoppableAvatars = document.getElementsByClassName("normal");
 
         console.log("Shoppable: ",shoppableAvatars );
         for (let i = 0 ; i < shoppableAvatars.length; i++) {
+            const data2 = data;
             shoppableAvatars[i].addEventListener('mouseover' , function(event){
-                const data2 = data;
                 toggleSelected(event);
                 displayBuyPrompt(event, data2);
             }, false ) ;
@@ -120,6 +194,10 @@ $(document).ready(function() {
                 toggleSelected(event);
                 removeBuyPrompt();
             }, false ) ;
+
+            shoppableAvatars[i].addEventListener("click", function(event){
+                showBuyPanel(event, data2);
+            }, false)
 
         }
 

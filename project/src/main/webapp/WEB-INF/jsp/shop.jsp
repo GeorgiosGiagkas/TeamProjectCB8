@@ -28,20 +28,23 @@
 
 <div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
 
-<div class ="container mt-4 bg-light border mb-5 logo">
+<div class ="container-fluid mt-4 bg-light border mb-5 logo">
     <div class="row">
         <div class="col-12"><img src="/images/quizbot-shop-logo-100.png" alt="logo"></div>
     </div>
 </div>
 
-<div class ="container mt-4 bg-light shadow mb-5">
-    <div class="row">
-    <div class="w3-content w3-display-container col-12">
+<div class ="container mt-4 bg-light mb-5">
+    <div class="row noBackground">
+    <div class="w3-content w3-display-container col-12 noBackground">
     <div id="showRoom">
     </div>
         <button class="w3-button w3-black w3-display-left">&#10094;</button>
         <button class="w3-button w3-black w3-display-right">&#10095;</button>
         <div id="goldContent"></div>
+        <div class="noBackground"><p>&nbsp;</p></div>
+        <div class="noBackground"><p>&nbsp;</p></div>
+
     </div>
     </div>
 
@@ -49,7 +52,7 @@
 
 </div>
 
-<div class ="container mt-100 bg-light border shadow mb-5">
+<div class ="container-fluid mt-100 bg-light border shadow mb-5">
     <div class="row">
         <div class="col-3"></div>
 
@@ -60,13 +63,45 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row"><p>&nbsp;</p></div>
 
-        <div class="col-1">
-            <img src="/images/robot-shop.gif" alt="">
+
+    <div class="row">
+        
+        <div class="col-5"></div>
+
+
+    </div>
+
+
+    <div class="row"><p>&nbsp;</p></div>
+
+
+    <div class="row">
+        <div class="col-4"></div>
+
+        <div class="col-8" id="shopRobot">
+            <img src="/images/robot-shop.gif" alt="shop robot" height="250px">
         </div>
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
+                <%--<h4 class="modal-title" id="myModalLabel">Confirm</h4>--%>
+            </div>
+            <div class="col-7" id="buyPanel"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modal-btn-buy" selected-avatar-id="">Buy</button>
+                <button type="button" class="btn btn-secondary btn-lg" id="modal-btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
