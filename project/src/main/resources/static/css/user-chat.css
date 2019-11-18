@@ -93,7 +93,7 @@ body {
 .text {
     margin: 0 10px;
     background-color: #5BC0DE;
-    padding: 15px;
+    padding: 10px 15px;
     border-radius: 12px;
     word-break: break-all
 }

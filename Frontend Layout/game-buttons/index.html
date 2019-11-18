@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="answers-container" class="row">
+            <div id="a1" data-answer-position="top-left" class="answer-btn  button_slide slide_left ">Answer 1</div>
+            <div id="a2" data-answer-position="top-right" class="answer-btn  button_slide slide_left ">Answer 2</div>
+            <div id="a3" data-answer-position="bottom-left" class="answer-btn  button_slide slide_left ">Answer 3</div>
+            <div id="a4" data-answer-position="bottom-right" class="answer-btn  button_slide slide_left ">Answer 4</div>
+        </div>
+    </div>
+
+    <script>
+
+
+        const a1 = document.getElementById("a1");
+
+
+        const animateAnswers = (correctAnswerBtn, userAnswer) => {
+
+            const allAnswers = document.querySelectorAll(".answer-btn");
+
+            allAnswers.forEach(function (answer) {
+
+                if (answer === correctAnswerBtn && answer === userAnswer) {
+                    addTaDa(answer);
+                    setTimeoutForFadeOut(answer);
+                }
+
+                else if (answer !== correctAnswerBtn && answer !== userAnswer) {
+                    addBounceOut(answer);
+                }
+                else if (answer === correctAnswerBtn && answer !== userAnswer) {
+                    addTaDa(answer);
+                    setTimeoutForFadeOut(answer);
+                }
+                else {
+                    addShake(answer);
+                    setTimeoutForFadeOut(answer);
+                }
+                answer.className += " un-clickable ";
+
+            });
+        }
+
+        const addBounceOut = (answerBtn) => {
+            if (answerBtn.getAttribute("data-answer-position") === "top-left") {
+                answerBtn.className += "animated bounceOutUp";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "top-right") {
+                answerBtn.className += "animated bounceOutUp";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
+                answerBtn.className += "animated bounceOutLeft";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
+                answerBtn.className += "animated bounceOutRight";
+            };
+        }
+
+        const addTaDa = (answerBtn) => {
+
+            answerBtn.className += "animated tada ";
+        }
+
+        const addShake = (answerBtn) => {
+            answerBtn.className += "animated shake";
+        }
+
+        const addSlideIn = (answerBtn) => {
+            if (answerBtn.getAttribute("data-answer-position") === "top-left") {
+                answerBtn.className += "animated slideInDown";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "top-right") {
+                answerBtn.className += "animated slideInDown";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
+                answerBtn.className += "animated slideInLeft";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
+                answerBtn.className += "animated slideInRight";
+            };
+        }
+
+        const addFadeOut = (answerBtn) => {
+            if (answerBtn.getAttribute("data-answer-position") === "top-left") {
+                answerBtn.className += "animated fadeOutLeft";
+            }
+            if (answerBtn.getAttribute("data-answer-position") === "top-right") {
+                answerBtn.className += "animated fadeOutRight";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
+                answerBtn.className += "animated fadeOutLeft";
+            }
+            else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
+                answerBtn.className += "animated fadeOutRight";
+            };
+        }
+
+        const setTimeoutForFadeOut = (answer) => {
+            setTimeout(function () {
+                addFadeOut(answer);
+            }, 3000)
+        }
+
+
+        const allAnswers = document.querySelectorAll(".answer-btn");
+        allAnswers.forEach(function (answer) {
+            addSlideIn(answer);
+            answer.addEventListener("click", function () {
+                animateAnswers(a1, answer);
+            });
+        });
+
+
+        const noAnswerGiven=(correctAnswer)=>{
+            const allAnswers = document.querySelectorAll(".answer-btn");
+            allAnswers.forEach(function(answer){
+                if(answer===correctAnswer){
+                    addTaDa(answer);
+                    setTimeoutForFadeOut(answer);
+                }
+                else {
+                    addShake(answer);
+                    setTimeoutForFadeOut(answer);
+                }
+                answer.className += " un-clickable ";
+            });
+        }
+
+        // setTimeout(function(){
+        //     noAnswerGiven(a1);
+        // },3000);
+
+
+
+
+    </script>
+
+</body>
+
+</html>

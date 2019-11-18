@@ -146,8 +146,6 @@
         // create displaying message
         dialog.forEach(function(data){
             if (data.from !== userNickname.value) {
-                console.log("DATA FROM" + data.from);
-                console.log("USER NICKNAME" + userNickname);
                 addAdminChatMessage(data);
             } else {
                 addUserChatMessage(data);

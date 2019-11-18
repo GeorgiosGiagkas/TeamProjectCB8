@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <div id="main-container">
+        <aside id="user-section">
+            <!-- <div class="section-container"> -->
+            <img id="logo" src="../quizbot-logo(200x50).png">
+            <div class="section-content-wrap">
+
+
+
+                <div class="container section-container">
+
+                    <div>
+                        <div class="console-container">
+                            <span id="highscore">Highscore: 992500</span>
+                            <div class="console-underscore" id="console-highscore">
+                                &#95;
+                            </div>
+                        </div>
+                        <div class="console-container">
+                            <span id="currentscore">Current Score: 10500</span>
+                            <div class="console-underscore" id="console-currentscore">
+                                &#95;
+                            </div>
+                        </div>
+                        <div class="console-container">
+                            <span id="round">Round 8</span>
+                            <div class="console-round" id="console-round">
+                                &#95;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <footer id="user-footer">
+                <img id="user-avatar" src="userAvatar.png" alt="User avatar">
+            </footer>
+            <!-- </div> -->
+        </aside>
+        <main id="game-section">
+                <div class="container button-container">
+                        <div id="answers-container" class="row">
+                            <div id="a1" data-answer-position="top-left" class="answer-btn  button_slide slide_left ">Answer 1</div>
+                            <div id="a2" data-answer-position="top-right" class="answer-btn  button_slide slide_left ">Answer 2</div>
+                            <div id="a3" data-answer-position="bottom-left" class="answer-btn  button_slide slide_left ">Answer 3</div>
+                            <div id="a4" data-answer-position="bottom-right" class="answer-btn  button_slide slide_left ">Answer 4</div>
+                        </div>
+                    </div>
+        </main>
+
+
+
+
+        <aside id="bot-section">
+            <!-- <div class="section-container"> -->
+            <div class="section-content-wrap">
+
+
+            </div>
+
+            <footer id="bot-footer">
+                <img id="bot-avatar" src="botAvatar.png" alt="User avatar">
+            </footer>
+            <!-- </div> -->
+        </aside>
+    </div>
+
+
+
+    <script src="app.js"></script>
+</body>
+
+</html>

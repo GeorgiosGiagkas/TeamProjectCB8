@@ -1,0 +1,41 @@
+
+*{
+    box-sizing: border-box;
+}
+#user-avatar {
+    border-radius: 50%;
+    border: 2px solid grey;
+    box-shadow: 5px 10px #888888;
+    margin-bottom: 10px;
+  }
+
+
+  #bot-avatar {
+    border-radius: 50%;
+    border: 2px solid grey;
+    box-shadow: -5px 10px #888888;
+    margin-bottom: 10px;
+  }
+
+  #user-section, #bot-section{
+      width:16.5%;
+      max-width: 16.5%;
+      min-width: 204px;
+      min-height: 100vh;
+      margin: 0;
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+
+  #main-container{
+    
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #logo{
+      width:200px;
+      height: 50px;
+  }

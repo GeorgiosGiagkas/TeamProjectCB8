@@ -11,70 +11,63 @@
 <html>
     <head>
         <title>Login Page</title>
-
-
-        <!--Bootsrap 4 CDN-->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-        <!--Fontawesome CDN-->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-              integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Custom styles-->
-        <link rel="stylesheet" type="text/css" href = "/css/login-and-register.css">
+        <link rel="stylesheet" type="text/css" href="/css/login.css">
     </head>
 
     <body>
 
-        <div class="container">
-
-            <div class="d-flex justify-content-center h-100">
-
-                <div class="card">
-
-                    <div class="card-header">
-                        <h3>Sign in</h3>
-
+        <section id="LoginContent">
+            <spring:form modelAttribute="userDto" id="loginForm" action="loginUser" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="login">
+                    <div class="QuizbotHeader">
+                        <h2>Quizbot</h2>
+                        <h3>${logoutMessage}</h3>
+                        <p>Test your coding skills!</p>
                     </div>
-                    <div class="card-body">
-                    <spring:form modelAttribute="userDto" id="loginForm" action="loginUser" method="post">
-
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                                </div>
-                                    <spring:input path="userNickname" cssclass="form-control" placeholder="nickname"/>
-                                    <spring:errors path="userNickname" cssClass="error"/>
-                            </div>
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                </div>
-                                    <spring:password id="pass" path="userPassword" cssclass="form-control" placeholder="password"/>
-                                    <spring:errors path="userPassword" cssClass="error"/>
-                            </div>
-
-                            <div class="form-group align-items-center">
-                                <input type="submit" value="Login" class="btn float-right login_btn">
-                            </div>
-                    </spring:form>
+                    <div class="login_title">
+                        <span>Login Page</span>
                     </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-center links">
-                            Don't have an account?<a href="register.html">Sign Up</a>
+                    <div class="login_fields">
+                        <div class="login_fields__user">
+                            <div class="icon">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png">
+                            </div>
+                            <spring:input path="userNickname" id="userNickname" placeholder="Nickname"/>
+                            <spring:errors path="userNickname" class="error"/>
+                            <div class="validation">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#">Forgot your password?</a>
+                        <div class="login_fields__password">
+                             <div class="icon">
+                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png">
+                              </div>
+                             <spring:password  path="userPassword" id="userPass" placeholder="Password"/>
+                             <spring:errors path="userPassword" class="error"/>
+                             <div class="validation">
+                                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
+                             </div>
                         </div>
-                    </div>
+                        <div class="login_fields__submit">
+                            <input type="submit" value="Log In" id="loginButton">
+                            <div class="signUp">
+                                <p>Don't have an account?</p>
+                                <a href="/register">Sign Up</a>
+                            </div>
+                        </div>
+                        </div>
                 </div>
-            </div>
-        </div>
+            </spring:form>
+        </section>
 
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
         <script src="js/loginValidation.js"></script>
     </body>
+
 
 </html>

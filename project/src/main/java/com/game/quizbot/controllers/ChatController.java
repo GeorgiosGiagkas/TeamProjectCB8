@@ -56,6 +56,7 @@ public class ChatController {
             UserDto userDto = new UserDto();
             userDto.setUserId(u.getUserId());
             userDto.setUserNickname(u.getUserNickname());
+            userDto.setSelectedAvatarId(u.getSelectedAvatarId().getAvatarId());
             usersDtoList.add(userDto);
         }
         return usersDtoList;

@@ -8,23 +8,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-public class UserLoginController {
+public class LoginLogoutController {
 
     @Autowired
     UserDao userDao;
 
     @Autowired
     UserLoginValidator userLoginValidator;
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("logoutMessage", "You have been logged out");
+        return "redirect:/login";
+    }
 
     @InitBinder
     private void initBinder (WebDataBinder binder) {
@@ -52,12 +62,21 @@ public class UserLoginController {
             userDto.setSelectedAvatarId(dbUser.getSelectedAvatarId().getAvatarId());
             if(userDto.getRoleId() == 1){
                 session.setAttribute("login-admin", userDto);
-                return "redirect:/admin-menu";
             } else {
                 session.setAttribute("login-user", userDto);
-                return "redirect:/main-menu";
             }
+            return "loginAuth";
         }
+    }
 
+    @GetMapping("/loginSuccess")
+    public String loginSuccess(HttpSession session){
+        String view = "login";
+        if(session.getAttribute("login-admin") != null){
+            view = "redirect:/admin-menu";
+        } else if (session.getAttribute("login-user") != null){
+            view = "redirect:/main-menu";
+        }
+        return view;
     }
 }

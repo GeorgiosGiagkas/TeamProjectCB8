@@ -55,4 +55,9 @@ public class CategoryDaoImpl implements CategoryDao {
     public String getCategoryNameById(int id){
         return cr.getCategoryNameById(id);
     }
+
+    @Override
+    public int getCategoryIdByName(String name){
+        return cr.getCategoryIdByName(name);
+    }
 }
