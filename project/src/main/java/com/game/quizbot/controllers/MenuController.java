@@ -36,6 +36,12 @@ public class MenuController {
         return  modelAndView;
     }
 
+    @GetMapping("/menu")
+    public ModelAndView showMenu(ModelAndView modelAndView){
+        modelAndView.setViewName("menu");
+        return  modelAndView;
+    }
+
     @GetMapping("/show-categories")
     @ResponseBody
     public List<CategoryDto> showCategories(HttpServletResponse response){
