@@ -11,3 +11,17 @@ http://cssmenumaker.com/
 
 terminal text=>
 https://codepen.io/Tbgse/pen/dYaJyJ
+
+
+
+#74bce6
+gia pio light -> #a6d0ee
+twra apo tin photo ti last gia ta koumpia:
+
+mple -> #0a69e1
+portokali -> #fca959
+laxani -> #7edb80
+lila -> #ec018a
+
+
+yellow->#f9ed99
