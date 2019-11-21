@@ -1,37 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: giagkas
-  Date: 31/10/19
-  Time: 11:35
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <%--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--%>
     <link rel="stylesheet" type="text/css" href="/css/admin-chat.css">
-    <%--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>--%>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
-
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-
     <title>Admin</title>
 
 <style>
     /* ----------------- GENERAL SETTINGS ----------------- */
+    * {
+        box-sizing: border-box;
+    }
+
+
     .container{
         max-width:1170px;
         margin:auto;
@@ -47,6 +30,7 @@
         border: 1px solid #c4c4c4;
         clear: both;
         overflow: hidden;
+        height: 595px;
     }
 
 
@@ -152,9 +136,15 @@
     }
 
     .chat_ib h5 {
-        font-size:15px;
-        color:#464646;
-        margin:0 0 8px 0;
+         font-size:15px;
+         color:#464646;
+         margin:0 0 8px 0;
+         cursor: pointer;
+     }
+
+    .chat_ib h5:hover {
+        text-decoration: underline;
+        opacity: 0.8
     }
 
 
@@ -192,13 +182,13 @@
         color: #05728f;
     }
 
-    #connect {
-        background-color: #7ae061be;
-    }
+    /*#connect {*/
+        /*background-color: #7ae061be;*/
+    /*}*/
 
-    #disconnect {
-        background-color: #e07f61be;
-    }
+    /*#disconnect {*/
+        /*background-color: #e07f61be;*/
+    /*}*/
 
     /* MESSAGEBOARD */
 
@@ -209,8 +199,8 @@
     .nav-link {
         background-color: #f8f8f8;
         color: #05728f;
-        margin-right: 5px;
     }
+
 
     .tab-content {
         padding-bottom: 0;
@@ -254,7 +244,7 @@
     .message .photo {
         display: block;
         width: 45px;
-        height: 45px;
+        max-height: 50px;
         background-color: #E6E7ED;
         border-radius: 50px;
         background-position: center;
@@ -262,30 +252,36 @@
         background-repeat: no-repeat;
     }
 
-    .online {
-        position: relative;
-        top: 16px;
-        left: -10px;
-        width: 13px;
-        height: 13px;
-        background-color: #8BC34A;
-        border-radius: 13px;
-        border: 3px solid #FAFAFA;
-    }
+    /*.online {*/
+        /*position: relative;*/
+        /*top: 16px;*/
+        /*left: -10px;*/
+        /*width: 13px;*/
+        /*height: 13px;*/
+        /*background-color: #8BC34A;*/
+        /*border-radius: 13px;*/
+        /*border: 3px solid #FAFAFA;*/
+    /*}*/
 
     .text {
         margin: 0 10px;
         background-color: #5BC0DE;
         padding: 10px 15px;
         border-radius: 12px;
-        word-break: break-all
+        word-break: break-all;
     }
 
     .time {
         font-size: 10px;
         color: lightgrey;
         margin-bottom: 10px;
-        margin-left: 70px;
+        margin-left: 56px;
+    }
+
+    .responseTime {
+        width: 100%;
+        text-align: right;
+        padding-right: 115px;
     }
 
     .response {
@@ -300,11 +296,11 @@
         order: 2;
     }
 
-    .response .online {
-        order: 2;
-        top: 28px;
-        left: -50px;
-    }
+    /*.response .online {*/
+        /*order: 2;*/
+        /*top: 28px;*/
+        /*left: -50px;*/
+    /*}*/
 
     .response .text {
         background-color: #e3effd !important;
@@ -365,6 +361,7 @@
             <div>
                 <input id="adminNickname" type="text" hidden id="from" value=<c:out value="${adminNickname}"/> />
                 <input id="adminAvatarId" type="text" hidden value=<c:out value="${adminAvatarId}"/> />
+                <div id="sound" hidden></div>
             </div>
 
             <div class="inbox_players">
@@ -400,7 +397,7 @@
 
                 <div class="type_msg">
                     <div class="input_msg_write">
-                        <textarea class="write_msg" placeholder="Type a message"></textarea>
+                        <textarea class="write_msg" placeholder="Type a message" onfocus="clearContents(this);"></textarea>
                         <button id="sendMessageBtn" class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
@@ -417,7 +414,8 @@
     const inboxChat = document.querySelector(".inbox_chat");
     const adminNickname = document.getElementById("adminNickname").value;
     const adminAvatarId = document.getElementById("adminAvatarId").value;
-    let currentlyActiveUserBox;
+    const sendMessageBtn = document.getElementById("sendMessageBtn");
+    const writeMsg = document.querySelector(".write_msg");
 
      // -----------CREATE LIST OF USERS-----------
 
@@ -469,27 +467,37 @@
     const handleClickOnUserBox =(e)=>{
         const userId = e.target.getAttribute("id");
         const userNickname = e.target.textContent;
+        const userTab = document.getElementById("tab-" + userId);
         console.log(userId);
         retrieveUserSessionId(userId, userNickname);
+        if(userTab !== null){
+            switchTabColors(userTab);
+            const inboxUser = document.getElementById(userId);
+            switchInboxUserColor(inboxUser);
+        }
      }
 
     const retrieveUserSessionId=(userId, userNickname)=>{
         const URL = "/admin-get-user-session-id?user-id="+userId;
-        const privateChatWindow = document.getElementById("tab-" + userId);
+        const currentTab = document.getElementById("tab-" + userNickname);
         fetch(URL).then(res=>res.text()).then(data=>{
             console.log(data)
-            if(data!=="not available" && privateChatWindow === null){
+            if(data!=="not available" && currentTab === null){
                 createPrivateChatWindow(data, userId, userNickname);
+                formatUserInNewMsg(userId, "#f8f8f8", "500", "none");
+            } else if (data!=="not available" && currentTab !== null){
+                const inboxUser = document.getElementById(userId);
+                currentTab.classList.add("active");
+                removeActiveClassFromSiblings(currentTab);
+                switchInboxUserColor(inboxUser);
             }
         });
     }
-
 
      // -----------CREATE PRIVATE USER CHAT WINDOW-----------
     const createPrivateChatWindow=(sessionId, userId, userNickname)=>{
         const navTab = document.querySelector("#myTab");
         const tabContent = document.querySelector("#myTabContent");
-
         const li = document.createElement("li");
         li.className = "nav-item";
         const tab = document.createElement("a");
@@ -499,14 +507,13 @@
         tab.setAttribute("data-toggle", "tab");
         tab.setAttribute("role", "tab");
         tab.textContent = userNickname;
+        tab.addEventListener("click", handleClickOnUserTab);
         li.appendChild(tab);
         navTab.appendChild(li);
-
         const currentTabPane = document.createElement("div");
         currentTabPane.className = "tab-pane fade show p-3 active";
         currentTabPane.id = "tab-" + userNickname;
         currentTabPane.setAttribute("role", "tabpanel");
-
         let privateChatWindowExists = document.getElementById("private-chat-window-"+userId);
         if(privateChatWindowExists){
             return;
@@ -514,35 +521,64 @@
         const div = document.createElement("div");
         div.id = "private-chat-window-"+userId;
         div.style.height="430px"
-        div.addEventListener("click",()=>{
-            const userBox = document.getElementById(userId);
-            // userBox.style.backgroundColor="white";
-        });
-
         //dialog box
         const dialog = displayDialog(userNickname);
         const deleteHistoryBtn =  createDeleteHistoryBtn(userId,userNickname);
-
         div.appendChild(deleteHistoryBtn);
         div.appendChild(dialog);
         currentTabPane.appendChild(div);
         tabContent.appendChild(currentTabPane);
+        let dialogBox = document.querySelector("#"+userNickname);
+        scrollToBottom(dialogBox);
 
-        // -----------SEND BUTTON-----------
-        const sendMessageBtn = document.getElementById("sendMessageBtn");
-        const writeMsg = document.querySelector(".write_msg");
-
-        sendMessageBtn.addEventListener("click", ()=>{
-            sendPrivateMessage(adminNickname,sessionId,writeMsg.value);
-            const dialog = {from:adminNickname,text:writeMsg.value,timestamp:getTimestamp()};
-            saveDialog(userNickname,dialog);
-            displayDialog(userNickname);
+        writeMsg.addEventListener("click", ()=> {
+            if(currentTabPane.classList.contains("active")) {
+                formatUserInNewMsg(userId, "#f8f8f8", "500", "none");
+            }
         });
 
+        // -----------SEND BUTTON-----------
+        sendMessageBtn.addEventListener("click", ()=>{
+            if(currentTabPane.classList.contains("active")) {
+                sendPrivateMessage(adminNickname, sessionId, writeMsg.value);
+                const dialog = {from: adminNickname, text: writeMsg.value, timestamp: getTimestamp()};
+                saveDialog(userNickname, dialog);
+                displayDialog(userNickname);
+            }
+        });
         const currentTab = document.getElementById("tab-" + userNickname);
         removeActiveClassFromSiblings(currentTab);
-
     }
+
+     // USER TAB
+     const handleClickOnUserTab = (e) => {
+         // Activate private chat window for user in tab
+         const userNickname = e.target.textContent;
+         const currentTab = document.getElementById("tab-" + userNickname);
+         currentTab.classList.add("active");
+         removeActiveClassFromSiblings(currentTab);
+         // Change tab colors
+         switchTabColors(e.target);
+         // Change user colors in user List
+         const URL = "/admin-get-user-id-by-nickname?userNickname=" + userNickname;
+         fetch(URL).then(res => res.text()).then(data => {
+             const inboxUser = document.getElementById(data);
+             switchInboxUserColor(inboxUser, "none");
+         });
+     }
+
+     function switchTabColors(element) {
+         const tabList = document.getElementsByTagName("a") ;
+         for (var i = 0 ; i < tabList.length ; i ++) {
+             tabList.item(i).style.fontWeight = "500";
+             tabList.item(i).style.backgroundColor = "white";
+             tabList.item(i).style.borderBottom = "1px solid #dee2e6";
+         }
+         element.style.fontWeight = "700";
+         element.style.color = "black";
+         element.style.backgroundColor = "#f8f8f8";
+         element.style.borderBottom = "1px solid #f8f8f8";
+     }
 
      const removeActiveClassFromSiblings = (elem)=>{
         if(getSiblings(elem) !== null) {
@@ -576,7 +612,6 @@
          }
      };
 
-
     const createDialogBox=(userNickname)=>{
         const dialogBox  = document.createElement("div");
         dialogBox.id=userNickname;
@@ -585,19 +620,15 @@
     }
 
     const displayDialog=(userNickname)=>{
-        const userAvatarSrc = document.querySelector("img").src;
+        const userAvatarSrc = document.querySelector(".userImg").src;
         let dialogBox = document.querySelector("#"+userNickname);
         if(dialogBox===null){
             dialogBox= createDialogBox(userNickname);
         }
             dialogBox.innerHTML="";
             const dialog=fetchDialogFromStorage(userNickname);
-
-            //create displaying message
+            //create displaying messages
             dialog.forEach(function(data){
-               // const p = document.createElement("p");
-               // p.textContent= "From: "+data.from + " Text: "+ data.text +" Timestamp: "+data.timestamp;
-               // dialogBox.appendChild(p);
                 if (data.from !== adminNickname) {
                     const div1 = document.createElement("div");
                     div1.className = "message";
@@ -606,9 +637,9 @@
                     img.src = userAvatarSrc;
                     img.alt = "user's avatar";
                     div1.appendChild(img);
-                    const div2 = document.createElement("div");
-                    div2.className = "online";
-                    div1.appendChild(div2);
+                    // const div2 = document.createElement("div");
+                    // div2.className = "online";
+                    // div1.appendChild(div2);
                     const p1 = document.createElement("p");
                     p1.className = "text";
                     p1.textContent = data.text;
@@ -631,15 +662,15 @@
                     img.src = "/images/" + adminAvatarId + ".jpg";
                     img.alt = "admin's avatar";
                     div2.appendChild(img);
-                    const div3 = document.createElement("div");
-                    div3.className = "online";
-                    div2.appendChild(div3);
+                    // const div3 = document.createElement("div");
+                    // div3.className = "online";
+                    // div2.appendChild(div3);
                     const p1 = document.createElement("p");
                     p1.className = "text";
                     p1.textContent = data.text;
                     div2.appendChild(p1);
                     const p = document.createElement("p");
-                    p.className = "time";
+                    p.className = "time responseTime";
                     p.textContent = data.timestamp;
                     dialogBox.appendChild(div1);
                     dialogBox.appendChild(p);
@@ -654,8 +685,6 @@
      function scrollToBottom(dialogBox) {
          dialogBox.scrollTop = dialogBox.scrollHeight;
      }
-
-
 
 
      //retrieve dialog in json from local storage based on userNickname
@@ -687,40 +716,54 @@
     //notification
     const notify=(userNickname)=>{
         fetchUserId(userNickname);
+        playSound("new_message_sound");
     }
 
 
     //check if userNickname matches  user id
-    const fetchUserId=(userNickname)=>{
-
-        const URL = "/admin-get-user-id-by-nickname?userNickname="+userNickname;
-        fetch(URL).then(res=>res.text()).then(data=>{
-            if(data!==undefined){
-                const userData = document.getElementById(data);
-                const userBox =userData.parentNode.parentNode.parentNode;
-                const userBox2 = userData.parentNode.parentNode;
-                if(userData!==null){
-                    userBox.style.backgroundColor = "white";
-                    userData.style.fontWeight = "700";
-                    const newMsg = userBox2.children[2].children[0];
-                    newMsg.style.display = "block";
-                    removeToTop(userBox);
-                    userBox.scrollIntoView();
-                }
+    const fetchUserId=(userNickname)=> {
+        const URL = "/admin-get-user-id-by-nickname?userNickname=" + userNickname;
+        fetch(URL).then(res => res.text()).then(data => {
+            if (data !== undefined) {
+                formatUserInNewMsg(data, "white", "700", "block");
             }
         });
     }
 
-    const removeToTop =(userBox)=> {
-        userBox.parentNode.removeChild(userBox);
-        const inboxChat = document.querySelector(".inbox_chat");
-        inboxChat.insertBefore(userBox, inboxChat.childNodes[0]);
+     function switchInboxUserColor(inboxUser) {
+         const h5 = document.getElementsByTagName("h5");
+         for (var i = 0 ; i < h5.length ; i ++) {
+             h5.item(i).style.color="#464646";
+             h5.item(i).style.fontWeight = "500"
+         }
+         inboxUser.style.color = "#05728";
+         inboxUser.style.fontWeight = "700";
      }
 
+     const moveToTop =(userBox)=> {
+            userBox.parentNode.removeChild(userBox);
+            const inboxChat = document.querySelector(".inbox_chat");
+            inboxChat.insertBefore(userBox, inboxChat.childNodes[0]);
+        }
+
+
+        const formatUserInNewMsg = (userId, bcgColor, fWeight, display) => {
+            const userData = document.getElementById(userId);
+            const userBox = userData.parentNode.parentNode.parentNode;
+            const userBox2 = userData.parentNode.parentNode;
+            if (userData !== null) {
+                userBox.style.backgroundColor = bcgColor;
+                userData.style.fontWeight = fWeight;
+                const newMsg = userBox2.children[2].children[0];
+                newMsg.style.display = display;
+                moveToTop(userBox);
+                userBox.scrollIntoView();
+            }
+        }
 
     const getTimestamp=()=>{
         const dt = new Date();
-        const utcDate = dt.toUTCString();
+        const utcDate = dt.toLocaleString();
         return utcDate;
     }
 
@@ -734,6 +777,13 @@
         const disconnectBtn = document.getElementById('disconnect');
         disconnectBtn.disabled = !connected;
         disableMessages(connected);
+        if(connected){
+            connectBtn.style.backgroundColor = "#C0C0C0";
+            disconnectBtn.style.backgroundColor = "#e07f61be";
+        } else {
+            connectBtn.style.backgroundColor = "#7ae061be";
+            disconnectBtn.style.backgroundColor = "#C0C0C0";
+        }
     }
 
     const disableMessages = (connected)=> {
@@ -742,13 +792,17 @@
         const sendBtn = document.querySelector('#sendMessageBtn');
         sendBtn.disabled = !connected;
         const messageboard = document.querySelector('#messageboard');
-        const typeMsg = document.querySelector(".type_msg");
-        if(textarea.disabled){
+        const typeMsg = document.querySelector('.type_msg');
+        const navLink = document.querySelector('a');
+        if(!connected){
             textarea.value = "";
             textarea.placeholder = "Currently disconnected...";
             messageboard.style.color = "#93969691";
             messageboard.style.backgroundColor = "#f8f8f8";
             typeMsg.style.backgroundColor = "#f8f8f8";
+            if(navLink !== null){
+                navLink.href='';
+            }
         } else {
             textarea.placeholder = "Type a message...";
             messageboard.style.color = "#212529";
@@ -768,10 +822,8 @@
              {}, function(frame){
                  setConnected(true);
                  console.log('Connected: ' + frame);
-
                  stompClient.subscribe("/user/queue/errors", function(message){
                  });
-
                  stompClient.subscribe("/user/queue/private", function(message){
                      console.log(message.body);
                      let data = JSON.parse(message.body);
@@ -779,6 +831,7 @@
                      notify(data.from);
                      displayDialog(data.from);
                  });
+
 
              }
          );
@@ -834,9 +887,23 @@
          })
      })
 
+     // -----------CLEAR CONTENTS-----------
+     function clearContents(element) {
+         element.value = '';
+     }
 
+     function playSound(filename){
+         var mp3Source = '<source src="/sound/'+ filename +'.mp3" type="audio/mpeg">';
+         document.getElementById("sound").innerHTML='<audio autoplay="autoplay">' + mp3Source +'</audio>';
+     }
 
 
 </script>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </body>
 </html>

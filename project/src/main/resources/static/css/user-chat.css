@@ -7,7 +7,6 @@ body {
 }
 
 /* ----------------CONTAINER CHAT---------------- */
-
 .chat {
     display: none;
     position: fixed;
@@ -79,30 +78,26 @@ body {
     background-repeat: no-repeat;
 }
 
-.online {
-    position: relative;
-    top: 16px;
-    left: -10px;
-    width: 13px;
-    height: 13px;
-    background-color: #8BC34A;
-    border-radius: 13px;
-    border: 3px solid #FAFAFA;
-}
-
 .text {
     margin: 0 10px;
     background-color: #5BC0DE;
     padding: 10px 15px;
     border-radius: 12px;
-    word-break: break-all
+    word-break: break-all;
+    max-width: 265px;
 }
 
 .time {
     font-size: 10px;
     color: lightgrey;
     margin-bottom: 10px;
-    margin-left: 70px;
+    margin-left: 56px;
+}
+
+.responseTime {
+    width: 100%;
+    text-align: right;
+    padding-right: 115px;
 }
 
 .response {
@@ -117,11 +112,11 @@ body {
     order: 2;
 }
 
-.response .online {
-    order: 2;
-    top: 28px;
-    left: -50px;
-}
+/*.response .online {*/
+    /*order: 2;*/
+    /*top: 28px;*/
+    /*left: -50px;*/
+/*}*/
 
 .response .text {
     background-color: #e3effd !important;
