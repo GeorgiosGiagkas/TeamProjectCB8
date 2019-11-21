@@ -222,8 +222,36 @@ function loadLeaderboard(categoryName) {
     });
 }
 
+function setUserInfo(){
+    $.ajax(
+        {
+            url: "http://localhost:8080/get-user-info"
+        }
+    ).then(function (user) {
+        let nickname = user.userNickname;
+        $("#nickname").html("");
+        $("#nickname").html(nickname);
+        $("#avatar").css({"backgroundImage" : "url(/images/"+user.selectedAvatarId+".jpg)"});
+        return user;
+    });
+}
+
+
+function fetchUser(){
+    $.ajax(
+        {
+            url: "http://localhost:8080/get-user-info",
+            async: false
+        }
+    ).then(function (user) {
+        var thisuser = user;
+    });
+    return thisuser;
+}
+
 function init() {
     $(document).ready(function () {
+        let user = setUserInfo();
         $("#change-avatar").click(function () {
             $(".btn").click(function () {
                 playClick();
@@ -242,7 +270,7 @@ function init() {
                 let carousel = `<div class = "scene"><div class = "carousel">`;
                 $("#avatar-modal-body").html("");
                 for (let avatarId of shop.allOwnedAvatars) {
-                    let avatar = `<div id = "avatar-${avatarId}" class = "carousel__cell"> <img class = "avatar-img" src = "/images/${avatarId}.jpg" alt = ""></div>`;
+                    let avatar = `<div id = "avatar-${avatarId}" class = "carousel__cell"> <img class = "avatar-img" data-avatarId = ${avatarId} src = "/images/${avatarId}.jpg" alt = ""></div>`;
                     carousel += avatar;
                 }
                 carousel += `</div></div>`;
@@ -256,10 +284,6 @@ function init() {
                 $("#avatar-modal-body").append(carousel);
                 
                 $("#avatar-modal").modal("show");
-
-                $(".avatar-img").click(function(){
-                    playClick();
-                });
 
 
                 let carouselElem = document.querySelector('.carousel');
@@ -287,8 +311,11 @@ function init() {
                 });
 
                 $(".avatar-img").click(function(e){
+                    playClick();
                     let img = e.target;
                     let imageFile = img.getAttribute("src");
+                    let avatarId = img.getAttribute("data-avatarId");
+
                     $("#avatar").css({"backgroundImage" : "url("+imageFile+")"});
                 });
             });
@@ -352,10 +379,12 @@ function init() {
     });
 
     $("#statistics").click(function () {
+        let user = fetchUser();
+        console.log(user);
         $(".contain").html("");
         $.ajax(
             {
-                url: "http://localhost:8080/get-user-stats?userId=" + 12
+                url: "http://localhost:8080/get-user-stats?userId=" + user.userId
             }
         ).then(function (categoryScores) {
             $(".box, .box-init").click(function () {

@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Main menu</title>
+    <title>Quizbot</title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -28,7 +28,7 @@
 <!-- <img id = "logo" src = "https://upload.wikimedia.org/wikipedia/commons/d/d5/Hey_Machine_Learning_Logo.png">  -->
 <button id = "avatar" class = "dropdown-toggle" data-toggle = "dropdown"></button>
 <div class="dropdown-menu">
-    <small class = "center">SharkyBoy21</small>
+    <small id = "nickname" class = "center"></small>
     <hr>
     <button id = "change-avatar" class = "btn">Change Avatar</button>
     <a class="dropdown-item" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign out</a>
