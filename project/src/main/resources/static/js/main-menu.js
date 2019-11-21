@@ -1,4 +1,5 @@
 
+let user;
 
 function playClick() {
     $("#audio-click")[0].currentTime = 0;
@@ -99,8 +100,13 @@ function appendCategorySelector(categories) {
             max = userScores[0][1];
         }
         for (let userScore of userScores) {
+            let nicknameData;
+            if(userScore[0] == user.userNickname){ nicknameData = `<td><strong>${userScore[0]}</strong></td>`;}
+            else{
+                nicknameData = `<td>${userScore[0]}</td>`;
+            }
             let row = `<tr>
-            <td>${userScore[0]}</td>
+            ${nicknameData}
             <td><progress id = "progress-${userScore[0]}" value=0 max="100"></progress></td>
             <td>${userScore[1]}</td>
             </tr>`;
@@ -187,7 +193,7 @@ async function slowlyLoad(max, thisScore, id) {
 }
 
 function loadLeaderboard(categoryName) {
-
+    getUser();
     $.ajax(
         {
             url: "http://localhost:8080/getLeaderboardByCategoryName/" + categoryName
@@ -204,8 +210,13 @@ function loadLeaderboard(categoryName) {
         $("thead").html("");
         $("thead").append(thead);
         for (let userScore of userScores) {
+            let nicknameData;
+            if(userScore[0] == user.userNickname){ nicknameData = `<td><strong>${userScore[0]}</strong></td>`;}
+            else{
+                 nicknameData = `<td>${userScore[0]}</td>`;
+            }
             let row = `<tr>
-            <td>${userScore[0]}</td>
+            ${nicknameData}
             <td><progress id = "progress-${userScore[0]}" value=0 max="100"></progress></td>
             <td>${userScore[1]}</td>
             </tr>`;
@@ -232,26 +243,37 @@ function setUserInfo(){
         $("#nickname").html("");
         $("#nickname").html(nickname);
         $("#avatar").css({"backgroundImage" : "url(/images/"+user.selectedAvatarId+".jpg)"});
-        return user;
     });
 }
 
+function getUser() {
+    $.ajax({
+        url: 'http://localhost:8080/get-user-info',
+        type: 'GET',
+        async: false,
+        success: function(user) {
 
-function fetchUser(){
-    $.ajax(
-        {
-            url: "http://localhost:8080/get-user-info",
-            async: false
+
+            var thisuser = user;
+            getUserInfo(thisuser); // dont use the value till the ajax promise resolves here
+
         }
-    ).then(function (user) {
-        var thisuser = user;
-    });
-    return thisuser;
+    })
 }
+
+
+function getUserInfo(thisuser){
+    user = thisuser;
+}
+
+
+
 
 function init() {
     $(document).ready(function () {
-        let user = setUserInfo();
+        getUser();
+        console.log(user);
+        setUserInfo();
         $("#change-avatar").click(function () {
             $(".btn").click(function () {
                 playClick();
@@ -315,8 +337,31 @@ function init() {
                     let img = e.target;
                     let imageFile = img.getAttribute("src");
                     let avatarId = img.getAttribute("data-avatarId");
-
                     $("#avatar").css({"backgroundImage" : "url("+imageFile+")"});
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/set-selected-avatar?avatarId="+avatarId,
+                        success: function (data) {
+
+                            var json = "<h4>Ajax Response</h4><pre>"
+                                + JSON.stringify(data, null, 4) + "</pre>";
+                            $('#feedback').html(json);
+
+                            console.log("SUCCESS : ", data);
+                            $("#btn-search").prop("disabled", false);
+
+                        },
+                        error: function (e) {
+
+                            var json = "<h4>Ajax Response</h4><pre>"
+                                + e.responseText + "</pre>";
+                            $('#feedback').html(json);
+
+                            console.log("ERROR : ", e);
+                            $("#btn-search").prop("disabled", false);
+
+                        }
+                    });
                 });
             });
 
@@ -379,12 +424,10 @@ function init() {
     });
 
     $("#statistics").click(function () {
-        let user = fetchUser();
-        console.log(user);
         $(".contain").html("");
         $.ajax(
             {
-                url: "http://localhost:8080/get-user-stats?userId=" + user.userId
+                url: "http://localhost:8080/get-user-stats"
             }
         ).then(function (categoryScores) {
             $(".box, .box-init").click(function () {

@@ -1,6 +1,8 @@
 package com.game.quizbot.controllers;
 
 
+import com.game.quizbot.dao.AvatarDao;
+import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.dto.CategoryDto;
 import com.game.quizbot.dto.PlayerStats;
 import com.game.quizbot.dto.PlayerStatsDto;
@@ -10,6 +12,7 @@ import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +32,12 @@ public class MenuController {
 
     @Autowired
     PlayerStats playerStats;
+
+    @Autowired
+    UserDao ud;
+
+    @Autowired
+    AvatarDao ad;
 
     @GetMapping("/main-menu")
     public ModelAndView showMainMenu(ModelAndView modelAndView){
@@ -50,10 +59,31 @@ public class MenuController {
     }
 
     @ResponseBody
-    @GetMapping("/get-user-stats")
-    public List<PlayerStatsDto> getPlayerStats(@RequestParam("userId") int userId, HttpServletResponse response){
+    @GetMapping("/get-user-stats-by-id")
+    public List<PlayerStatsDto> getPlayerStatsById(@RequestParam("userId") int userId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
        return playerStats.getList(userId);
+    }
+
+    @ResponseBody
+    @GetMapping("/get-user-stats")
+    public List<PlayerStatsDto> getPlayerStats(HttpServletResponse response, HttpSession session){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        int userId = ((UserDto)session.getAttribute("login-user")).getUserId();
+        return playerStats.getList(userId);
+    }
+
+    @PostMapping("/set-selected-avatar")
+    @ResponseBody
+    public void setSelectedAvatar(@RequestParam("avatarId") int avatarId, HttpSession session){
+        UserDto userdto = (UserDto) session.getAttribute("login-user");
+        User user = ud.getUserById(userdto.getUserId());
+
+        userdto.setSelectedAvatarId(avatarId);
+        session.setAttribute("login-user", userdto);
+
+        user.setSelectedAvatarId(ad.getAvatarById(avatarId));
+        ud.updateUser(user);
     }
 
 
