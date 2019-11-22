@@ -1,8 +1,11 @@
 package com.game.quizbot.services.avatars;
 
 import com.game.quizbot.dao.AvatarDao;
+import com.game.quizbot.dao.UserDao;
 import com.game.quizbot.dto.AvatarDto;
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.Avatar;
+import com.game.quizbot.model.User;
 import com.game.quizbot.utils.PartUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +27,9 @@ public class AvatarService {
 
     @Autowired
     AvatarDao ad;
+
+    @Autowired
+    UserDao ud;
 
 
 
@@ -61,6 +68,17 @@ public class AvatarService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setSelectedAvatar(int avatarId, HttpSession session){
+        UserDto userdto = (UserDto) session.getAttribute("login-user");
+        User user = ud.getUserById(userdto.getUserId());
+
+        userdto.setSelectedAvatarId(avatarId);
+        session.setAttribute("login-user", userdto);
+
+        user.setSelectedAvatarId(ad.getAvatarById(avatarId));
+        ud.updateUser(user);
     }
 
 

@@ -8,6 +8,7 @@ import com.game.quizbot.dto.PlayerStats;
 import com.game.quizbot.dto.PlayerStatsDto;
 import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.User;
+import com.game.quizbot.services.avatars.AvatarService;
 import com.game.quizbot.services.categories.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,10 +35,7 @@ public class MenuController {
     PlayerStats playerStats;
 
     @Autowired
-    UserDao ud;
-
-    @Autowired
-    AvatarDao ad;
+    AvatarService as;
 
     @GetMapping("/main-menu")
     public ModelAndView showMainMenu(ModelAndView modelAndView){
@@ -76,14 +74,7 @@ public class MenuController {
     @PostMapping("/set-selected-avatar")
     @ResponseBody
     public void setSelectedAvatar(@RequestParam("avatarId") int avatarId, HttpSession session){
-        UserDto userdto = (UserDto) session.getAttribute("login-user");
-        User user = ud.getUserById(userdto.getUserId());
-
-        userdto.setSelectedAvatarId(avatarId);
-        session.setAttribute("login-user", userdto);
-
-        user.setSelectedAvatarId(ad.getAvatarById(avatarId));
-        ud.updateUser(user);
+        as.setSelectedAvatar(avatarId, session);
     }
 
 
