@@ -62,7 +62,7 @@ public class MenuController {
     @GetMapping("/get-user-stats-by-id")
     public List<PlayerStatsDto> getPlayerStatsById(@RequestParam("userId") int userId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-       return playerStats.getList(userId);
+       return playerStats.getFullList(userId);
     }
 
     @ResponseBody
