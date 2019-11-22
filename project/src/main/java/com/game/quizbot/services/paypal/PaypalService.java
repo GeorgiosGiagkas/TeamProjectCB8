@@ -5,6 +5,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.game.quizbot.dao.UserDao;
+import com.game.quizbot.dto.UserDto;
+import com.game.quizbot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +20,17 @@ import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class PaypalService {
 
     @Autowired
     private APIContext apiContext;
+
+    @Autowired
+    private UserDao ud;
+
 
 
     public Payment createPayment(
@@ -65,6 +74,16 @@ public class PaypalService {
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
         return payment.execute(apiContext, paymentExecute);
+    }
+
+    public void incrementGold(HttpSession session){
+        UserDto thisuser = (UserDto) session.getAttribute("login-user");
+        thisuser.setWallet(thisuser.getWallet() + 1000);
+        session.setAttribute("login-user", thisuser);
+
+        User u = ud.getUserById(thisuser.getUserId());
+        u.setWallet(u.getWallet() + 1000);
+        ud.updateUser(u);
     }
 
 }

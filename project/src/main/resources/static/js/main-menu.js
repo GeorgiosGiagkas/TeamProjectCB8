@@ -286,7 +286,7 @@ function init() {
             });
             $.ajax(
                 {
-                    url: "http://localhost:8080/getShopDtoByUserId/21"
+                    url: "http://localhost:8080/getShopDtoByUserId/"+user.userId
                 }
             ).then(function (shop) {
                 let carousel = `<div class = "scene"><div class = "carousel">`;
