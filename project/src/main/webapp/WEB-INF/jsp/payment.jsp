@@ -12,11 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/payment.css">
+
+    <title>Quizbot</title>
 </head>
 <body>
-<div class="row">
-    <div class="col-75">
-        <div class="container">
+        <div class="container col-md-8">
             <form method="post"  action="/pay">
                 <div class="col-50">
                     <h3>Payment</h3>
@@ -27,31 +27,33 @@
                         <i class="fa fa-cc-mastercard" style="color:red;"></i>
                         <i class="fa fa-cc-discover" style="color:orange;"></i>
                     </div>
-                    <label for="price">Total</label>
-                    <input type="text" id="price" name="price" value="10" readonly >
-                    <label for="currency">Currency</label>
-                    <input type="text" id="currency" name="currency" value = "EUR" placeholder="Enter Currency" readonly>
-                    <label for="method">Payment Method</label>
-                    <input type="text" id="method" name="method" value = "paypal" placeholder="Payment Method" readonly>
-                    <label for="intent">Intent</label>
-                    <input type="text" id="intent" name="intent" value="sale" readonly>
+                    <input type="hidden" id="price" name="price" value="4.99" readonly >
+                    <input type="hidden" id="currency" name="currency" value = "EUR" placeholder="Enter Currency" readonly>
+                    <input type="hidden" id="method" name="method" value = "paypal" placeholder="Payment Method" readonly>
+                    <input type="hidden" id="intent" name="intent" value="sale" readonly>
 
+                    <div class="col-md-6">
+                        <div>
+                            <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+                            <p>1000 Gold <span class="price">5€</span></p>
+                            <hr>
+                            <p>Total <span class="price" style="color:black"><b>5€</b></span></p>
+                        </div>
+                    </div>
 
                 </div>
+
+
+
+
 
                 <input type="submit" value="Continue to checkout" class="btn">
             </form>
         </div>
-    </div>
-    <div class="col-25">
-        <div class="container">
-            <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
-            <p><a href="#">Gold Amount</a> <span class="price">$10</span></p>
-            <hr>
-            <p>Total <span class="price" style="color:black"><b>$10</b></span></p>
-        </div>
-    </div>
-</div>
+
+
+
+
 
 </body>
 </html>
