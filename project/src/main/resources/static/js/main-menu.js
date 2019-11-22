@@ -159,7 +159,7 @@ function loadStatistics(categoryScores) {
         let row = `<tr>
         <td>${categoryScore.category}</td>
         <td>${categoryScore.score}</td>
-        <td> TODO </td>
+        <td> ${categoryScore.position} </td>
         </tr>`;
         table += row;
     }

@@ -68,7 +68,7 @@ public class MenuController {
     public List<PlayerStatsDto> getPlayerStats(HttpServletResponse response, HttpSession session){
         response.setHeader("Access-Control-Allow-Origin", "*");
         int userId = ((UserDto)session.getAttribute("login-user")).getUserId();
-        return playerStats.getList(userId);
+        return playerStats.getFullList(userId);
     }
 
     @PostMapping("/set-selected-avatar")
