@@ -13,7 +13,8 @@ $(document).ready(function() {
     const buyPanel = document.querySelector("#buyPanel");
     const myWallet = document.querySelector("#myWallet");
     const currentUserId = invisible.getAttribute("current-user-id");
-        const clickSound = document.querySelector("#clickSound");
+    const clickSound = document.querySelector("#clickSound");
+    const cashRegisterSound = document.querySelector("#cashRegisterSound");
 
 
     leftButton.addEventListener("click", function(){
@@ -164,6 +165,7 @@ $(document).ready(function() {
 
             const handleData = (data) => {
                 console.log("transaction ok")
+                cashRegisterSound.play();
                 plusDivs(0);
 
             }

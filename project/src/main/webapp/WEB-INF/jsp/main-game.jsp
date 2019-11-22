@@ -152,7 +152,7 @@
 
 <%--mousic--%>
 <audio  loop id="background-music" controls>
-    <source src="/sound/335571__magntron__gamemusic.mp3" type="audio/mp3">
+    <source src="/sound/killerLooks.mp3" type="audio/mp3">
 </audio>
 <%--buttons--%>
 <audio id="button-sound" controls>

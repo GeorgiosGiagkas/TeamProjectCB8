@@ -38,6 +38,10 @@
     <source src="/sound/click.mp3" type="audio/mp3">
 </audio>
 
+<audio id="cashRegisterSound">
+    <source src="/sound/cashRegister.mp3" type="audio/mp3">
+</audio>
+
 
 <div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
 

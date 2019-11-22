@@ -119,9 +119,9 @@
     <source src="/sound/335906__littlerainyseasons__fail.mp3" type="audio/wav">
 </audio>
 
-<%--mousic--%>
+<%--music--%>
 <audio autoplay loop id="background-music" controls>
-    <source src="sound/335571__magntron__gamemusic.mp3" type="audio/mp3">
+    <source src="sound/killerLooks.mp3" type="audio/mp3">
 </audio>
 
 
