@@ -60,7 +60,7 @@ public class MenuController {
     @GetMapping("/get-user-stats-by-id")
     public List<PlayerStatsDto> getPlayerStatsById(@RequestParam("userId") int userId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-       return playerStats.getList(userId);
+       return playerStats.getFullList(userId);
     }
 
     @ResponseBody
@@ -68,7 +68,7 @@ public class MenuController {
     public List<PlayerStatsDto> getPlayerStats(HttpServletResponse response, HttpSession session){
         response.setHeader("Access-Control-Allow-Origin", "*");
         int userId = ((UserDto)session.getAttribute("login-user")).getUserId();
-        return playerStats.getList(userId);
+        return playerStats.getFullList(userId);
     }
 
     @PostMapping("/set-selected-avatar")
