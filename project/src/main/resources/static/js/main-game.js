@@ -11,8 +11,11 @@ let pointsMultiplayer = 0;
 let totalScore=0;
 let highscore = 0;
 
+//update game status
+
+
 //Rest
-const getUpdatedScoreStatus =()=>{
+const fetchUpdatedScoreStatus =()=>{
     fetch("/get-updated-score-status").then(res=>res.json()).then(data=>{
         totalRounds=data.totalRounds;
         totalScore= data.currentScore;
@@ -26,15 +29,17 @@ const getUpdatedScoreStatus =()=>{
             displayNewHighscore();
         }
 
-        getNextQuestion();
+        fetchNextQuestion();
 
     }).catch(err=>console.error(err));
 }
 
-const getNextQuestion=()=>{
+const fetchNextQuestion=()=>{
     if(currentRound<totalRounds){
         fetch("/get-next-question").then(res=>res.json()).then(data=>{
         console.log(data);
+            createQuestionContent(data.questionContent);
+            createAnswersButtons(data.answersDto);
             displayWheel(true);
             resetWheel();
             startSpin();
@@ -44,6 +49,26 @@ const getNextQuestion=()=>{
     else{
         //end game
     }
+}
+
+
+const fetchCorrectAnswer=(answer)=>{
+    const userAnswerId = answer.getAttribute("data-answer-id");
+    isTimePaused = true;
+    fetch("/answer-verification?answer-id="+userAnswerId+"&timer="+time+"&points="+pointsMultiplayer).then(res=>res.json()).then(data=>{
+        console.log(data);
+        animateAnswersQuestion(data.correctAnswer, answer);
+
+        totalRounds=data.totalRounds;
+        totalScore= data.currentScore;
+        currentRound=data.currentRound;
+        highscore= data.highscore;
+        displayScore(totalScore);
+        if(totalScore>highscore){
+            displayNewHighscore();
+        }
+
+    }).catch(err=>console.error(err));
 }
 
 //UI
@@ -131,7 +156,8 @@ const updatePoints = (wheelPoints) => {
 //scoreboard
 const displayScore = (score)=>{
     // const currentscore = document.getElementById("currentscore");
-    consoleText([score+""], "currentscore", "console-currentscore");
+    // "console-currentscore"
+    consoleText([score+""], "currentscore");
 }
 
 const displayNewHighscore = () => {
@@ -146,12 +172,12 @@ const displayNewHighscore = () => {
 
 function consoleText(words, id, consoleId, colors) {
     if (colors === undefined) colors = ["white"];
-    var visible = true;
-    var con = document.getElementById(consoleId);
-    var letterCount = 1;
-    var x = 1;
-    var waiting = false;
-    var target = document.getElementById(id)
+    // var visible = true;
+    // var con = document.getElementById(consoleId);
+    let letterCount = 1;
+    let x = 1;
+    let waiting = false;
+    let target = document.getElementById(id)
     target.setAttribute("style", "color:" + colors[0])
     window.setInterval(function () {
 
@@ -159,9 +185,9 @@ function consoleText(words, id, consoleId, colors) {
             waiting = true;
             target.innerHTML = words[0].substring(0, letterCount)
             window.setTimeout(function () {
-                var usedColor = colors.shift();
+                let usedColor = colors.shift();
                 colors.push(usedColor);
-                var usedWord = words.shift();
+                let usedWord = words.shift();
                 words.push(usedWord);
                 x = 1;
                 target.setAttribute("style", "color:" + colors[0]);
@@ -183,7 +209,27 @@ function consoleText(words, id, consoleId, colors) {
 
 
 //Answer Buttons
-const a3 = document.getElementById("a3");
+let a3 = 0;
+
+const createAnswersButtons=(answerList)=>{
+    const answerContainer = document.getElementById("answers-container");
+    answerContainer.innerHTML="";
+    position = ["top-left","top-right","bottom-left","bottom-right"];
+    positionIndex=0;
+    for(let a in answerList){
+        const div = document.createElement("div");
+        div.classList.add("answer-btn","button_slide","slide_left");
+
+        div.textContent=answerList[a].answerContent;
+        div.setAttribute("data-answer-id",answerList[a].answerId);
+        div.setAttribute("data-answer-position",position[positionIndex]);
+        if(answerList[a].answerCorrect ===true){
+            a3=div;
+        }
+        positionIndex++;
+        answerContainer.appendChild(div);
+    }
+}
 
 
 const animateAnswersQuestion = (correctAnswerBtn, userAnswer) => {
@@ -216,7 +262,7 @@ const animateAnswersQuestion = (correctAnswerBtn, userAnswer) => {
             addShake(answer);
             setTimeoutForFadeOut(answer);
         }
-        answer.className += " un-clickable ";
+        answer.classList.add("un-clickable");
 
     });
 
@@ -234,57 +280,60 @@ const animateAnswersQuestion = (correctAnswerBtn, userAnswer) => {
 }
 
 const addBounceOut = (answerBtn) => {
+    answerBtn.classList.remove("animated","slideInDown","slideInLeft","slideInRight");
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
-        answerBtn.className += "animated bounceOutUp";
+        answerBtn.classList.add("animated","bounceOutUp");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "top-right") {
-        answerBtn.className += "animated bounceOutUp";
+        answerBtn.classList.add("animated","bounceOutUp");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
-        answerBtn.className += "animated bounceOutLeft";
+        answerBtn.classList.add("animated","bounceOutLeft");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
-        answerBtn.className += "animated bounceOutRight";
+        answerBtn.classList.add("animated","bounceOutRight");
     };
 }
 
 const addTaDa = (answerBtn) => {
-
-    answerBtn.className += "animated tada ";
+    answerBtn.classList.remove("animated","slideInDown","slideInLeft","slideInRight");
+    answerBtn.classList.add("animated","tada");
 }
 
 
 const addShake = (answerBtn) => {
-    answerBtn.className += "animated shake";
+    answerBtn.classList.remove("animated","slideInDown","slideInLeft","slideInRight");
+    answerBtn.classList.add("animated","shake");
 }
 
 const addSlideIn = (answerBtn) => {
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
-        answerBtn.className += "animated slideInDown";
+        answerBtn.classList.add("animated","slideInDown");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "top-right") {
-        answerBtn.className += "animated slideInDown";
+        answerBtn.classList.add("animated","slideInDown");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
-        answerBtn.className += "animated slideInLeft";
+        answerBtn.classList.add("animated","slideInLeft");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
-        answerBtn.className += "animated slideInRight";
+        answerBtn.classList.add("animated","slideInRight");
     };
 }
 
 const addFadeOut = (answerBtn) => {
+    answerBtn.classList.remove("animated","bounceOutUp","bounceOutLeft","bounceOutRight");
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
-        answerBtn.className += "animated fadeOutLeft";
+        answerBtn.classList.add("animated","fadeOutLeft");
     }
     if (answerBtn.getAttribute("data-answer-position") === "top-right") {
-        answerBtn.className += "animated fadeOutRight";
+        answerBtn.classList.add("animated","fadeOutRight");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-left") {
-        answerBtn.className += "animated fadeOutLeft";
+        answerBtn.classList.add("animated","fadeOutLeft");
     }
     else if (answerBtn.getAttribute("data-answer-position") === "bottom-right") {
-        answerBtn.className += "animated fadeOutRight";
+        answerBtn.classList.add("animated","fadeOutRight");
     };
 }
 
@@ -345,7 +394,10 @@ const displayQuestion = (toggle) => {
     // displayElements(quizContainer, toggle);
 }
 
-
+const createQuestionContent =(content)=>{
+    const questionContent = document.getElementById("question-content");
+    questionContent.textContent=content
+}
 
 
 //Display/hide elements
@@ -373,8 +425,10 @@ const setTimeoutForQuestionAnswerDisplay = () => {
         allAnswers.forEach(function (answer) {
             addSlideIn(answer);
             answer.addEventListener("click", function () {
-                animateAnswersQuestion(a3, answer);
-                isTimePaused = true;
+
+                //FETCH-HERE!!
+                fetchCorrectAnswer(answer);
+
             });
         });
     }, 3500)
@@ -596,14 +650,14 @@ function alertPrize(indicatedSegment) {
     // wheelDiv.style.display="none";
     let prize = indicatedSegment.text;
     prize = prize.split(" ")[0];
-    // pointsFromWheel = Number(prize);
-    // resetWheel();
+    pointsMultiplayer=Number(prize);
+    console.log("points:" + pointsMultiplayer);
     updatePoints(Number(prize));
     setTimeout(function () {
         displayWheel(false);
     }, 2000);
 
-    // setTimeoutForQuestionAnswerDisplay();
+    setTimeoutForQuestionAnswerDisplay();
     // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
 
 }
@@ -660,6 +714,6 @@ function animateCSS(node, animationName, callback) {
 
 
 
-    getUpdatedScoreStatus();
+    fetchUpdatedScoreStatus();
 
 });

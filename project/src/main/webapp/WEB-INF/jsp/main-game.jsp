@@ -47,7 +47,7 @@
 
             <div id="score-container">
                 <div id="score-label">SCORE</div>
-                <span id="currentscore">10000</span>
+                <span id="currentscore"></span>
                 <div id="new-highscore-label">New HighScore!</div>
             </div>
         </div>
@@ -104,7 +104,7 @@
 
 
         <div id="quiz-container" class="container">
-                <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim officia consectetur nostrum nobis,
+                <span id="question-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim officia consectetur nostrum nobis,
                     tempore tenetur expedita adipisci error nam repudiandae, dolorem ea delectus? Ipsa corrupti itaque
                     deleniti
                     reiciendis architecto! Fugiat! </span>
