@@ -23,6 +23,7 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body>
 
@@ -80,7 +81,7 @@
     <div class="row">
         <div class="col-4"></div>
 
-        <div class="col-8" id="shopRobot">
+        <div class="col-8 bounceInLeft" id="shopRobot">
             <img src="/images/robot-shop.gif" alt="shop robot" height="250px">
         </div>
     </div>

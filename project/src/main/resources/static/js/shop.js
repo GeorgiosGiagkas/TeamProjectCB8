@@ -201,6 +201,17 @@ $(document).ready(function() {
 
         }
 
+        // TOGGLE ANIMATE HERE
+        const robot = document.querySelector("#shopRobot")
+
+        function activateShopRobotAnimation(){
+            robot.classList.toggle("animated");
+        }
+
+        setTimeout(function(){ alert("Hello"); }, 3000);
+
+
+
 
     }
 
@@ -216,6 +227,8 @@ $(document).ready(function() {
 
 // slideshow code
 
+    // START
+
     var slideIndex = 1;
 
     function plusDivs(n) {
@@ -225,6 +238,7 @@ $(document).ready(function() {
 
 
     showDivs(slideIndex);
+
 
 
 
