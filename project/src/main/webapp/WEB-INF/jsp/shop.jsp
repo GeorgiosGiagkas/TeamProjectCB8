@@ -26,25 +26,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body>
+<audio id="shop-sound" autoplay>
+    <source src="/sound/shop-sound-effect.mp3" type="audio/mp3">
+</audio>
+
+<audio id="hoverSound"y>
+    <source src="/sound/157538__nenadsimic__double-click.wav" type="audio/wav">
+</audio>
+
+<audio id="clickSound">
+    <source src="/sound/click.mp3" type="audio/mp3">
+</audio>
+
 
 <div class="invisible" current-user-id="${currentUserId}" avatarCount="${avatarCount}"current-avatar-page="1"></div>
 
-<div class ="container-fluid mt-4 bg-light border mb-5 logo">
-    <div class="row">
-        <div class="col-12"><img src="/images/quizbot-shop-logo-100.png" alt="logo"></div>
+<div class ="container-fluid mt-5 bg-light border mb-5 logo blue">
+    <div class="row yellow">
+        <div class="col-2 bounceInLeft animated" id="logo"><img src="/images/quizbot-logo2-230.png" alt="logo"></div>
+        <div class="col-4" id="loading"><img src="/images/robot-loading.gif" alt="logo" height="70px"></div>
+
+
     </div>
+
+
 </div>
 
-<div class ="container mt-4 bg-light mb-5">
-    <div class="row noBackground">
-    <div class="w3-content w3-display-container col-12 noBackground">
-    <div id="showRoom">
+<div id="avatars" class ="container mt-5 bg-light mb-5 bounceInRight animated">
+    <div class="row blue">
+    <div class="w3-content w3-display-container col-12 blue">
+    <div id="showRoom" class="blue">
     </div>
-        <button class="w3-button w3-black w3-display-left">&#10094;</button>
-        <button class="w3-button w3-black w3-display-right">&#10095;</button>
+        <button class="w3-button w3-green w3-display-left">&#10094;</button>
+        <button class="w3-button w3-green w3-display-right">&#10095;</button>
         <div id="goldContent"></div>
-        <div class="noBackground"><p>&nbsp;</p></div>
-        <div class="noBackground"><p>&nbsp;</p></div>
+        <div class="blue"><p>&nbsp;</p></div>
+        <div class="blue"><p>&nbsp;</p></div>
 
     </div>
     </div>
@@ -53,15 +70,16 @@
 
 </div>
 
-<div class ="container-fluid mt-100 bg-light border shadow mb-5">
+<div class ="container-fluid mt-100 bg-light border shadow mb-5 yellow">
     <div class="row">
         <div class="col-3"></div>
 
         <div class="col-9">
 
-        <div id="shopBubble"><img src="/images/shop-robot-bubble-300.png" alt=""><div class="text-center align-middle" id="shopDisplay">Select an Avatar <br /> to Buy <br /> with Gold!</div></div>
+        <div id="shopBubble"><img src="/images/shop-robot-bubble-300.png" alt="robot bubble"><div class="text-center align-middle" id="shopDisplay">Select an Avatar <br /> to Buy <br /> with Gold!</div></div>
         
         </div>
+
     </div>
 
     <div class="row"><p>&nbsp;</p></div>
@@ -78,12 +96,28 @@
     <div class="row"><p>&nbsp;</p></div>
 
 
-    <div class="row">
-        <div class="col-4"></div>
+    <div class="row" id="foot">
+        <div class="col-1"></div>
 
-        <div class="col-8 bounceInLeft" id="shopRobot">
-            <img src="/images/robot-shop.gif" alt="shop robot" height="250px">
+        <div class="col-3 bounceInLeft animated" id="shopRobot">
+            <img src="/images/robot-shop.gif" alt="shop robot" height="350px">
         </div>
+        <div class="col-5 bounceInRight animated text-left" id="instructions">
+            <pre>
+<u>Not Enough Gold?</u>
+- Earn more by playing or
+- Buy some through Paypal!
+
+
+            </pre>
+        </div>
+        <div class="col-1 bounceInRight animated" id="potGold">
+            <img src="/images/potGold-350.png" alt="pot of gold" height="350px">
+        </div>
+        <div class="col-1 bounceInUp animated" id="paypal">
+            <img src="/images/paypal-gold-150.png" alt="logo" height = "100px" class="rounded hvr-shrink">
+        </div>
+        <div class="col-1 bounceInDown animated" id="myWallet"></div>
     </div>
 </div>
 

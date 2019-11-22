@@ -7,9 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script type="text/javascript" src="Winwheel.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
     <link rel="stylesheet" href="style.css">
 
-    <title>Document</title>
+    <title>Game</title>
 </head>
 
 <body>
@@ -21,11 +23,7 @@
             <!-- <div class="section-container"> -->
             <img id="logo" src="../quizbot-logo(200x50).png">
             <div class="section-content-wrap">
-
-
-
                 <div class="container section-container">
-
                     <div>
                         <div class="console-container">
                             <span id="highscore">Highscore: 992500</span>
@@ -47,8 +45,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <footer id="user-footer">
@@ -56,15 +52,44 @@
             </footer>
             <!-- </div> -->
         </aside>
+
         <main id="game-section">
-                <div class="container button-container">
-                        <div id="answers-container" class="row">
-                            <div id="a1" data-answer-position="top-left" class="answer-btn  button_slide slide_left ">Answer 1</div>
-                            <div id="a2" data-answer-position="top-right" class="answer-btn  button_slide slide_left ">Answer 2</div>
-                            <div id="a3" data-answer-position="bottom-left" class="answer-btn  button_slide slide_left ">Answer 3</div>
-                            <div id="a4" data-answer-position="bottom-right" class="answer-btn  button_slide slide_left ">Answer 4</div>
-                        </div>
+            <div id="wheel" class="mt-5">
+                <div id="indicator">
+                    <i class="fas fa-angle-double-down fa-2x"></i>
+                </div>
+                <div width="438" height="582" class="the_wheel" align="center" valign="center">
+                    <canvas id="canvas" width="434" height="434">
+                        <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try
+                            another.
+                        </p>
+                        
+                    </canvas>
+                    <div class="inner"></div>
+                </div>
+            </div>
+
+
+
+            <div id="quiz-container" class="container">
+                <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim officia consectetur nostrum nobis,
+                    tempore tenetur expedita adipisci error nam repudiandae, dolorem ea delectus? Ipsa corrupti itaque
+                    deleniti
+                    reiciendis architecto! Fugiat! </span>
+            </div>
+
+            <div id="button-container" class="container">
+                <div id="answers-container" class="row">
+                    <div id="a1" data-answer-position="top-left" class="answer-btn  button_slide slide_left ">Answer 1
                     </div>
+                    <div id="a2" data-answer-position="top-right" class="answer-btn  button_slide slide_left ">Answer 2
+                    </div>
+                    <div id="a3" data-answer-position="bottom-left" class="answer-btn  button_slide slide_left ">Answer
+                        3</div>
+                    <div id="a4" data-answer-position="bottom-right" class="answer-btn  button_slide slide_left ">Answer
+                        4</div>
+                </div>
+            </div>
         </main>
 
 
@@ -72,9 +97,10 @@
 
         <aside id="bot-section">
             <!-- <div class="section-container"> -->
-            <div class="section-content-wrap">
-
-
+            <div id="timer-container">
+                <img id="stopwatch" src="stopwatch.png">
+                <div id="timer"></div>
+                
             </div>
 
             <footer id="bot-footer">

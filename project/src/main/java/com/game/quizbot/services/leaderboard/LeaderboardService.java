@@ -21,6 +21,11 @@ public class LeaderboardService {
         return leaderboardByCategoryId;
     }
 
+    public ArrayList getLeaderboardByCategoryNameAll(String categoryName){
+        ArrayList leaderboardByCategoryName = uhd.getLeaderboardByCategoryNameAll(categoryName);
+        return leaderboardByCategoryName;
+    }
+
 
 
 }

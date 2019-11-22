@@ -38,7 +38,7 @@
                         <button id="btn-start-game" class = "btn-warning btn">Start Game</button>
                         <button class = "btn-warning btn">Leaderboard</button>
                         <button class = "btn-warning btn">Show Stats</button>
-                        <button class = "btn-warning btn">Shop</button>
+                        <button class = "btn-warning btn" onclick="window.location.href='/show-shop'">Shop</button>
                         <button class = "btn-warning btn">Live Support</button>
                         <a href="/logout" class = "btn-warning btn">Sign out</a>
 
@@ -52,8 +52,6 @@
     <script type="application/javascript">
         $(document).ready(function(){
 
-
-            
             $("#btn-start-game").click(restShowCategories);
 
             function restShowCategories(){

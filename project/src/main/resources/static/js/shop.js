@@ -4,20 +4,25 @@
 
 $(document).ready(function() {
 
+    setTimeout(function(){
+
     const leftButton = document.querySelector(".w3-display-left");
     const RightButton = document.querySelector(".w3-display-right");
     const invisible = document.querySelector(".invisible");
     const display = document.querySelector("#shopDisplay");
     const buyPanel = document.querySelector("#buyPanel");
+    const myWallet = document.querySelector("#myWallet");
     const currentUserId = invisible.getAttribute("current-user-id");
-
+        const clickSound = document.querySelector("#clickSound");
 
 
     leftButton.addEventListener("click", function(){
+        clickSound.play();
         plusDivs(-1);
     });
 
     RightButton.addEventListener("click", function(){
+        clickSound.play();
         plusDivs(1);
     });
 
@@ -32,9 +37,11 @@ $(document).ready(function() {
     {
         console.log("data", data);
 
-
-        let content = `<div class="row d-flex justify-content-between">`
-        let costContent = `<div class="row d-flex justify-content-between mb-400">`
+        let myWalletData = data.userWallet;
+        let myWalletContent = `<p><img src="/images/money-bag.png" alt="my wallet" height="120px""><div class="text-center" id="myGold">${myWalletData}<div class="bounceInUp animated" id="arrow-parent"><div class="pulse animated infinite" id="arrow"><img src="/images/curvedArrow-160.png" alt="arrow"></div></div></div> </p>`;
+        myWallet.innerHTML = `${myWalletContent}`;
+        let content = `<div class="row d-flex justify-content-between">`;
+        let costContent = `<div class="row d-flex justify-content-between mb-400">`;
         let itemClass;
 
         for (let i = 0; i<data.allAvatars.length ; i++)
@@ -58,8 +65,8 @@ $(document).ready(function() {
 
 
             content +=`                  
-                       <div class="avatar text-center" nopadding> <img src="/images/${currentAvatarId}.jpg" alt="Avatar" width="200px" height="200px">
-                       <div class="overlay text-center nopadding  ${itemClass}" avatarIndex="${currentAvatarIndex}"><img src="/images/${overlayURL}" alt="Avatar" width="200px" height="200px"></div>
+                       <div class="avatar text-center nopadding hvr-shrink"> <img src="/images/${currentAvatarId}.jpg" alt="Avatar" width="200px" height="200px">
+                       <div class="overlay text-center nopadding ${itemClass}" avatarIndex="${currentAvatarIndex}"><img src="/images/${overlayURL}" alt="Avatar" width="200px" height="200px"></div>
                        </div> 
                         
                         `
@@ -88,9 +95,14 @@ $(document).ready(function() {
     function toggleSelected(event){
         event.target.classList.toggle("active");
 
+
+
+
+
     }
 
     function displayBuyPrompt(event, data){
+        const hoverSound = document.querySelector("#hoverSound");
         const selectedAvatarIndex = event.srcElement.parentElement.attributes[1].value;
         console.log("in:", event.srcElement.parentElement.attributes[1].value);
         console.log("Name: ",data.allAvatars[selectedAvatarIndex].avatarName);
@@ -99,6 +111,7 @@ $(document).ready(function() {
         const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
 
         display.innerHTML = `Click to Buy <br /> <span class="tomato">${avatarName}</span> <br /> for <span class="tomato">${avatarCost}</span> Gold!`;
+        hoverSound.play();
     }
 
     function removeBuyPrompt(){
@@ -201,14 +214,7 @@ $(document).ready(function() {
 
         }
 
-        // TOGGLE ANIMATE HERE
-        const robot = document.querySelector("#shopRobot")
 
-        function activateShopRobotAnimation(){
-            robot.classList.toggle("animated");
-        }
-
-        setTimeout(function(){ alert("Hello"); }, 3000);
 
 
 
@@ -228,6 +234,17 @@ $(document).ready(function() {
 // slideshow code
 
     // START
+    const loading = document.querySelector("#loading");
+    loading.style.opacity="0";
+
+
+    const shopBubble = document.querySelector("#shopBubble");
+    shopBubble.style.opacity="1";
+
+
+
+
+
 
     var slideIndex = 1;
 
@@ -279,4 +296,8 @@ $(document).ready(function() {
 
 
 
+    }, 2000);
+
 })
+
+

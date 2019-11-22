@@ -14,4 +14,6 @@ public interface UserHighscoreDao {
 
     public ArrayList getLeaderboardByCategoryId(int categoryId);
 
+    public ArrayList getLeaderboardByCategoryNameAll(String categoryName);
+
 }

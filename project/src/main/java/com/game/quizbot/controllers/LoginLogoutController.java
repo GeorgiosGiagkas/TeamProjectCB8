@@ -75,7 +75,7 @@ public class LoginLogoutController {
         if(session.getAttribute("login-admin") != null){
             view = "redirect:/admin-menu";
         } else if (session.getAttribute("login-user") != null){
-            view = "redirect:/main-menu";
+            view = "redirect:/menu";
         }
         return view;
     }
