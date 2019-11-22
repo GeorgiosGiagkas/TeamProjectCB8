@@ -41,8 +41,20 @@ public class GameController {
         gameStateSubject.notifyAllGameObservers();
 
         session.setAttribute("gameStateSubject",gameStateSubject);
-        mv.setViewName("game");
+
+        int selectedAvatarId = ((UserDto) session.getAttribute("login-user")).getSelectedAvatarId();
+        mv.addObject("selectedAvatarId",selectedAvatarId);
+
+        mv.setViewName("main-game");
         return mv;
+    }
+
+
+    @ResponseBody
+    @GetMapping("/get-updated-score-status")
+    public UpdatedScoreStatus getUpdatedScoreStatus(HttpSession session){
+        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
+        return gameStateSubject.getUpdatedScoreStatus();
     }
 
     //Rest return a question . Even the first one.

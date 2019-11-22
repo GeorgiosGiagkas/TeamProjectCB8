@@ -1,14 +1,50 @@
 //document ready!
-document.addEventListener("DOMContentLoaded",function(){
+window.addEventListener("load",function(){
 
 
 //global variables
 let time = 20;
 let isTimePaused = true;
-let totalRounds = 10;
-let currentRound = 1;
+let totalRounds = 0;
+let currentRound = 0;
 let pointsMultiplayer = 0;
+let totalScore=0;
+let highscore = 0;
 
+//Rest
+const getUpdatedScoreStatus =()=>{
+    fetch("/get-updated-score-status").then(res=>res.json()).then(data=>{
+        totalRounds=data.totalRounds;
+        totalScore= data.currentScore;
+        currentRound=data.currentRound;
+        highscore= data.highscore;
+        console.log("total rounds: " +totalRounds);
+        console.log("total run points: "+totalScore)
+        console.log("current round: " + currentRound);
+        displayScore(totalScore);
+        if(totalScore>highscore){
+            displayNewHighscore();
+        }
+
+        getNextQuestion();
+
+    }).catch(err=>console.error(err));
+}
+
+const getNextQuestion=()=>{
+    if(currentRound<totalRounds){
+        fetch("/get-next-question").then(res=>res.json()).then(data=>{
+        console.log(data);
+            displayWheel(true);
+            resetWheel();
+            startSpin();
+
+        }).catch(err=>console.error(err));
+    }
+    else{
+        //end game
+    }
+}
 
 //UI
 const displayAnimationIn = (elem, animationIn) => {
@@ -51,8 +87,6 @@ const beginCountDown = () => {
     let interval = window.setInterval(function () {
         displayTime(time);
         time -= 1;
-        console.log(time);
-
         if(time < 0 || isTimePaused){
             clearInterval(interval);
             time=20;
@@ -95,7 +129,11 @@ const updatePoints = (wheelPoints) => {
 
 
 //scoreboard
-const currentscore = document.getElementById("currentscore");
+const displayScore = (score)=>{
+    // const currentscore = document.getElementById("currentscore");
+    consoleText([score+""], "currentscore", "console-currentscore");
+}
+
 const displayNewHighscore = () => {
     const newHighscore = document.getElementById("new-highscore-label");
     newHighscore.style.display = "block";
@@ -103,8 +141,7 @@ const displayNewHighscore = () => {
 }
 
 
-consoleText([currentscore.textContent], "currentscore", "console-currentscore");
-displayNewHighscore();
+
 
 
 function consoleText(words, id, consoleId, colors) {
@@ -566,7 +603,7 @@ function alertPrize(indicatedSegment) {
         displayWheel(false);
     }, 2000);
 
-    setTimeoutForQuestionAnswerDisplay();
+    // setTimeoutForQuestionAnswerDisplay();
     // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
 
 }
@@ -575,9 +612,7 @@ function alertPrize(indicatedSegment) {
 
 
 
-displayWheel(true);
-resetWheel();
-startSpin();
+
 
 // displayBubble(true,"Hello World!");
 
@@ -617,5 +652,14 @@ function animateCSS(node, animationName, callback) {
 }
 
 
+
+//Audio
+
+    const backgroundMusic = document.getElementById("background-music");
+    backgroundMusic.play();
+
+
+
+    getUpdatedScoreStatus();
 
 });

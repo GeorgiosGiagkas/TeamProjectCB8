@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: giagkas
@@ -53,7 +54,7 @@
 
 
         <footer id="user-footer">
-            <img id="user-avatar" src="/images/1.jpg" alt="User avatar">
+            <img id="user-avatar" src="/images/${selectedAvatarId}.jpg" alt="User avatar">
         </footer>
 
     </aside>
@@ -66,7 +67,7 @@
                         to do next?</span>
             </div>
             <div id="end-game-options">
-                <a href="#" id="end-game-btn" class="underline">End Game</a>
+                <a href="/menu" id="end-game-btn" class="underline">End Game</a>
                 <a href="#" id="replay-btn">Play Again</a>
             </div>
             <img id="end-bubble-icon" src="/images/botaki-bubble-big2-600.png" alt="end bubble text">
@@ -150,12 +151,12 @@
 
 
 <%--mousic--%>
-<audio autoplay loop id="background-music" controls>
-    <source src="sound/335571__magntron__gamemusic.mp3" type="audio/mp3">
+<audio  loop id="background-music" controls>
+    <source src="/sound/335571__magntron__gamemusic.mp3" type="audio/mp3">
 </audio>
 <%--buttons--%>
 <audio id="button-sound" controls>
-    <source src="sound/157538__nenadsimic__double-click.wav" type="audio/wav">
+    <source src="/sound/157538__nenadsimic__double-click.wav" type="audio/wav">
 </audio>
 
 <%--success--%>
