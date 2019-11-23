@@ -222,9 +222,17 @@ body{
     pointer-events: none;
 }
 
-/* .correct-answer-color{
-    background: greenyellow;
-} */
+.selected-answer-color{
+    background: #eb7504;
+    color: white;
+}
+.correct-answer-color{
+    border-color:#7edb80;
+}
+.no-answer-color-time-out{
+    background: #9c27b0;
+    color:white;
+}
 
 
 /* question-wheel */

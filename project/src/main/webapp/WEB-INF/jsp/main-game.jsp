@@ -63,8 +63,7 @@
 
         <div id="end-bubble">
             <div id="end-bubble-text-container">
-                    <span id="end-bubble-text"><strong>Congratulations!!!</strong> You won 100000 Gold! What do you want
-                        to do next?</span>
+                    <span id="end-bubble-text"></span>
             </div>
             <div id="end-game-options">
                 <a href="/menu" id="end-game-btn" class="underline">End Game</a>
