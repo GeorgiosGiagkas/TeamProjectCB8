@@ -9,11 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Edit existing Categories</title>
+    <title>Categories</title>
 
     <!--Bootsrap 4 CDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 
     <!--Jquery-->
     <script
@@ -26,10 +25,29 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Custom styles-->
-    <link rel="stylesheet" type="text/css" href="/css/categories.css">
+    <%--<link rel="stylesheet" type="text/css" href="/css/categories.css">--%>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 </head>
-<body>
+
+<body class="menu menu-open">
+<header>
+    <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
+    <nav class="menu-side">
+        <ul>
+            <li id = "home">Home</li>
+            <li id = "edit-question">Questions</li>
+            <li id = "edit-category">Categories</li>
+            <li id = "edit-avatars">Avatars</li>
+
+        </ul>
+    </nav>
+</header>
+<div id="content">
     <div class = "container">
         <p class = "h1">Categories</p>
         <table class = "table table-hover">
@@ -201,50 +219,78 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        $(document).ready(function(){
+<script>
+    $(document).ready(function(){
 
-            $("#btn-create-category").click(function(){
-                $("#modalCreateCategory").modal("show");
-            });
-
-            $(".btn-edit").click(function(){
-                let categoryId = $(this).attr("data-categoryId");
-                $.ajax({
-                    url:"/get-category-by-id/" + categoryId,
-                    async: false
-                }).then(function(data){
-                    $("#categoryId-edit").val(data.categoryId);
-                    $("#categoryName-edit").val(data.categoryName);
-                    if(data.categoryActive === true){
-                        $("#active-edit").prop("checked", true);
-                    }
-                    else{
-                        $("#active-edit").prop("checked", false);
-                    }
-
-                });
-                $("#modalEditCategory").modal("show");
-            });
-
-            $(".btn-delete").click(function(){
-                let categoryId = $(this).attr("data-categoryId");
-                $.ajax({
-                    url:"/get-category-by-id/" + categoryId,
-                    async: false
-                }).then(function(data){
-                    $("#categoryId-delete").val(data.categoryId);
-                    $("#category-name-delete").html("");
-                    $("#category-name-delete").append(data.categoryName);
-
-
-                });
-                $("#modalDeleteCategory").modal("show");
-            });
-
+        $("#btn-create-category").click(function(){
+            $("#modalCreateCategory").modal("show");
         });
-    </script>
+
+        $(".btn-edit").click(function(){
+            let categoryId = $(this).attr("data-categoryId");
+            $.ajax({
+                url:"/get-category-by-id/" + categoryId,
+                async: false
+            }).then(function(data){
+                $("#categoryId-edit").val(data.categoryId);
+                $("#categoryName-edit").val(data.categoryName);
+                if(data.categoryActive === true){
+                    $("#active-edit").prop("checked", true);
+                }
+                else{
+                    $("#active-edit").prop("checked", false);
+                }
+
+            });
+            $("#modalEditCategory").modal("show");
+        });
+
+        $(".btn-delete").click(function(){
+            let categoryId = $(this).attr("data-categoryId");
+            $.ajax({
+                url:"/get-category-by-id/" + categoryId,
+                async: false
+            }).then(function(data){
+                $("#categoryId-delete").val(data.categoryId);
+                $("#category-name-delete").html("");
+                $("#category-name-delete").append(data.categoryName);
+
+
+            });
+            $("#modalDeleteCategory").modal("show");
+        });
+
+        $("#home").click(function(){
+            location.href = "/admin-menu" ;
+        });
+
+        $("#edit-category").click(function () {
+            location.href = "/show-all-categories";
+        });
+
+        $("#edit-question").click(function () {
+            location.href = "/show-all-questions";
+        });
+
+        $("#edit-avatars").click(function() {
+            location.href = "/show-all-avatars";
+        });
+
+
+        $('.menu-toggle').on('click', function() {
+            $('body').toggleClass('menu-open');
+        });
+
+    });
+</script>
 
 </body>
+<%--<body>--%>
+    <%----%>
+
+    <%----%>
+
+<%--</body>--%>
 </html>

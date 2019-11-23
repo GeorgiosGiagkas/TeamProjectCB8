@@ -11,6 +11,10 @@
 <head>
     <title>Questions</title>
 
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
     <!--Bootsrap 4 CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -28,7 +32,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Custom styles-->
 </head>
-<body>
+
+<body class="menu menu-open">
+<header>
+    <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
+    <nav class="menu-side">
+        <ul>
+            <li id = "home">Home</li>
+            <li id = "edit-question">Questions</li>
+            <li id = "edit-category">Categories</li>
+            <li id = "edit-avatars">Avatars</li>
+
+        </ul>
+    </nav>
+</header>
+<div id="content">
     <div class = "container">
         <p class = "h1">Questions</p>
 
@@ -265,106 +283,131 @@
             </div>
         </div>
     </div>
+</div>
+<script>
+    $(document).ready(function(){
 
-    <script>
-        $(document).ready(function(){
+        $("#btn-create-question").click(function(){
+            $.ajax({
+                url:"/get-all-categories",
+                async: false
+            }).then(function(data){
+                const selector = document.querySelector("#category-selector");
+                selector.innerHTML = "";
+                for(let i in data){
+                    const option = document.createElement("option");
 
-            $("#btn-create-question").click(function(){
+                    option.innerText= data[i].categoryName;
+
+
+                    selector.append(option);
+                }
+            });
+            $("#modalCreateQuestion").modal("show");
+        });
+
+        $(".btn-edit").click(function(){
+            let id = $(this).attr("data-questionId");
+            $("#questionId-edit").val(id);
+            $.ajax({
+                url:"/get-all-categories",
+                async: false
+            }).then(function(data1){
+
                 $.ajax({
-                    url:"/get-all-categories",
+                    url: "/get-question-by-id/" + id,
                     async: false
-                }).then(function(data){
-                    const selector = document.querySelector("#category-selector");
+                }).then(function(data2){
+                    const selector = document.querySelector("#category-selector-edit");
                     selector.innerHTML = "";
-                    for(let i in data){
+                    for(let i in data1){
+
                         const option = document.createElement("option");
 
-                        option.innerText= data[i].categoryName;
+                        option.innerText = data1[i].categoryName;
 
+
+
+
+
+                        if(data1[i].categoryName === data2.categoryName) {
+                            option.setAttribute("selected", "true");
+                        }
 
                         selector.append(option);
                     }
-                });
-                $("#modalCreateQuestion").modal("show");
-            });
+                    const correctSelector = document.querySelector("#correct-answer-selector-edit");
+                    correctSelector.innerHTML = "";
+                    for(let i = 0; i < data2.answersDto.length; i++){
 
-            $(".btn-edit").click(function(){
-                let id = $(this).attr("data-questionId");
-                $("#questionId-edit").val(id);
-                $.ajax({
-                    url:"/get-all-categories",
-                    async: false
-                }).then(function(data1){
-
-                    $.ajax({
-                        url: "/get-question-by-id/" + id,
-                        async: false
-                    }).then(function(data2){
-                        const selector = document.querySelector("#category-selector-edit");
-                        selector.innerHTML = "";
-                        for(let i in data1){
-
-                            const option = document.createElement("option");
-
-                            option.innerText = data1[i].categoryName;
-
-
-
-
-
-                            if(data1[i].categoryName === data2.categoryName) {
-                                option.setAttribute("selected", "true");
-                            }
-
-                            selector.append(option);
+                        k = i + 1;
+                        const optionCor = document.createElement("option");
+                        optionCor.innerHTML = k;
+                        correctSelector.append(optionCor);
+                        if(data2.answersDto[i].answerCorrect === true){
+                            optionCor.setAttribute("selected", "true");
                         }
-                        const correctSelector = document.querySelector("#correct-answer-selector-edit");
-                        correctSelector.innerHTML = "";
-                        for(let i = 0; i < data2.answersDto.length; i++){
+                        let content = data2.answersDto[i].answerContent;
+                        let answerid = data2.answersDto[i].answerId;
+                        $("#answer" + k+"-edit").val(content);
+                        $("#answerId" + +"-edit").val(answerid);
 
-                            k = i + 1;
-                            const optionCor = document.createElement("option");
-                            optionCor.innerHTML = k;
-                            correctSelector.append(optionCor);
-                            if(data2.answersDto[i].answerCorrect === true){
-                                optionCor.setAttribute("selected", "true");
-                            }
-                            let content = data2.answersDto[i].answerContent;
-                            let answerid = data2.answersDto[i].answerId;
-                            $("#answer" + k+"-edit").val(content);
-                            $("#answerId" + +"-edit").val(answerid);
+                    }
 
-                        }
-
-                        $("#questionContent-edit").html("");
-                        $("#questionContent-edit").append(data2.questionContent)
-
-
-                    });
-
-                });
-                $("#modalEditQuestion").modal("show");
-            });
-
-
-            $(".btn-delete").click(function(){
-                let questionId = $(this).attr("data-questionId");
-                $.ajax({
-                    url:"/get-question-by-id/" + questionId,
-                    async: false
-                }).then(function(data){
-                    $("#questionId-delete").val(data.questionId);
-                    $("#question-name-delete").html("");
-                    $("#question-name-delete").append(data.questionId);
+                    $("#questionContent-edit").html("");
+                    $("#questionContent-edit").append(data2.questionContent)
 
 
                 });
-                $("#modalDeleteQuestion").modal("show");
+
             });
+            $("#modalEditQuestion").modal("show");
         });
 
 
-    </script>
+        $(".btn-delete").click(function(){
+            let questionId = $(this).attr("data-questionId");
+            $.ajax({
+                url:"/get-question-by-id/" + questionId,
+                async: false
+            }).then(function(data){
+                $("#questionId-delete").val(data.questionId);
+                $("#question-name-delete").html("");
+                $("#question-name-delete").append(data.questionId);
 
+
+            });
+            $("#modalDeleteQuestion").modal("show");
+        });
+
+        $("#home").click(function(){
+            location.href = "/admin-menu" ;
+        });
+
+        $("#edit-category").click(function () {
+            location.href = "/show-all-categories";
+        });
+
+        $("#edit-question").click(function () {
+            location.href = "/show-all-questions";
+        });
+
+        $("#edit-avatars").click(function() {
+            location.href = "/show-all-avatars";
+        });
+
+
+        $('.menu-toggle').on('click', function() {
+            $('body').toggleClass('menu-open');
+        });
+    });
+
+</script>
 </body>
+<%--<body>--%>
+    <%----%>
+
+    <%----%>
+
+<%--</body>--%>
 </html>

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
 <html>
     <head>
-        <title>Admin Menu</title>
+        <title>Home</title>
 
 
         <!--Bootsrap 4 CDN-->
@@ -21,64 +21,112 @@
 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <!--Custom styles-->
-        <link rel="stylesheet" type="text/css" href="/css/categories.css">
+        <%--<link rel="stylesheet" type="text/css" href="/css/categories.css">--%>
         <link rel="stylesheet" type="text/css" href="/css/menu.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
 
     </head>
 
-    <body>
-        <div class="container">
+    <body class="menu menu-open">
+        <header>
+            <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
+            <nav class="menu-side">
+                <ul>
+                    <li id = "home">Home</li>
+                    <li id = "edit-question">Questions</li>
+                    <li id = "edit-category">Categories</li>
+                    <li id = "edit-avatars">Avatars</li>
 
-            <div class="d-flex justify-content-center h-100">
-
-                <div class="card col-md-8">
-
-                    <div class="card-header">
-                        <h3>Admin menu</h3>
-
-                    </div>
-                    <div class="card-body">
-                        <button id = "btn-edit-question" class="btn-warning btn">Questions</button>
-                        <button id = "btn-edit-category" class="btn-warning btn">Categories</button>
-                        <button id = "btn-edit-avatars" class="btn-warning btn">Avatars</button>
-                        <button class="btn-warning btn">e-Shop Stats</button>
-                        <button id = "btn-show-leaderboard" class="btn-warning btn">Leaderboard</button>
-                        <button class="btn-warning btn">Stats of all Players</button>
-                        <a href="/logout" class = "btn-warning btn">Sign out</a>
-                    </div>
-                </div>
-            </div>
+                </ul>
+            </nav>
+        </header>
+        <div id="content">
+            <jsp:include page="leaderboard.jsp" />
         </div>
+        <script src="/js/leaderboard.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#home").click(function(){
+                   location.href = "/admin-menu" ;
+                });
+
+                $("#edit-category").click(function () {
+                    location.href = "/show-all-categories";
+                });
+
+                $("#edit-question").click(function () {
+                    location.href = "/show-all-questions";
+                });
+
+                $("#edit-avatars").click(function() {
+                    location.href = "/show-all-avatars";
+                });
 
 
-
-
-
-
-
-    <script>
-        $(document).ready(function(){
-
-
-
-            $("#btn-edit-category").click(function () {
-                location.href = "/show-all-categories";
+                $('.menu-toggle').on('click', function() {
+                    $('body').toggleClass('menu-open');
+                });
             });
 
-            $("#btn-edit-question").click(function () {
-                location.href = "/show-all-questions";
-            });
+        </script>
 
-            $("#btn-edit-avatars").click(function() {
-                location.href = "/show-all-avatars";
-            });
-
-            $("#btn-show-leaderboard").click(function(){
-               location.href = "/show-leaderboard";
-            });
-        });
-
-
-    </script>
     </body>
+
+    <%--<body>--%>
+    <%----%>
+        <%--<div class="container">--%>
+
+            <%--<div class="d-flex justify-content-center h-100">--%>
+
+                <%--<div class="card col-md-8">--%>
+
+                    <%--<div class="card-header">--%>
+                        <%--<h3>Admin menu</h3>--%>
+
+                    <%--</div>--%>
+                    <%--<div class="card-body">--%>
+                        <%--<button id = "btn-edit-question" class="btn-warning btn">Questions</button>--%>
+                        <%--<button id = "btn-edit-category" class="btn-warning btn">Categories</button>--%>
+                        <%--<button id = "btn-edit-avatars" class="btn-warning btn">Avatars</button>--%>
+                        <%--<button class="btn-warning btn">e-Shop Stats</button>--%>
+                        <%--<button id = "btn-show-leaderboard" class="btn-warning btn">Leaderboard</button>--%>
+                        <%--<button class="btn-warning btn">Stats of all Players</button>--%>
+                        <%--<a href="/logout" class = "btn-warning btn">Sign out</a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
+
+
+
+
+
+
+    <%--<script>--%>
+        <%--$(document).ready(function(){--%>
+
+
+
+            <%--$("#btn-edit-category").click(function () {--%>
+                <%--location.href = "/show-all-categories";--%>
+            <%--});--%>
+
+            <%--$("#btn-edit-question").click(function () {--%>
+                <%--location.href = "/show-all-questions";--%>
+            <%--});--%>
+
+            <%--$("#btn-edit-avatars").click(function() {--%>
+                <%--location.href = "/show-all-avatars";--%>
+            <%--});--%>
+
+            <%--$("#btn-show-leaderboard").click(function(){--%>
+               <%--location.href = "/show-leaderboard";--%>
+            <%--});--%>
+        <%--});--%>
+
+
+    <%--</script>--%>
+    <%--</body>--%>
 </html>

@@ -11,6 +11,10 @@
 <head>
     <title>Avatars</title>
 
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -27,8 +31,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/css/avatar.css">
 </head>
-<body>
 
+<body class="menu menu-open">
+<header>
+    <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
+    <nav class="menu-side">
+        <ul>
+            <li id = "home">Home</li>
+            <li id = "edit-question">Questions</li>
+            <li id = "edit-category">Categories</li>
+            <li id = "edit-avatars">Avatars</li>
+
+        </ul>
+    </nav>
+</header>
+<div id="content">
     <div class = "container">
         <p class = "h1">Avatars</p>
         <table class = "table table-hover">
@@ -165,38 +182,66 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function(){
 
-
-    <script>
-        $(document).ready(function(){
-            $("#btn-create-avatar").click(function(){
-                $("#modalCreateAvatar").modal("show");
-            });
-
-            $(".btn-edit").click(function(){
-                let avatarId = $(this).attr("data-avatarId");
-                $.ajax({
-                    url:"/get-avatar-by-id/" + avatarId,
-                    async: false
-                }).then(function(data){
-                    $("#avatarId-edit").val(data.avatarId);
-                    $("#avatarName-edit").val(data.avatarName);
-                    $("#avatarCost-edit").val(data.avatarCost);
-
-
-
-                    const image = "<img src = /images/"+data.avatarId+".jpg>";
-
-                    $("#image").html(image);
-
-
-                });
-                $("#modalEditAvatar").modal("show");
-            });
-
+        $("#btn-create-avatar").click(function(){
+            $("#modalCreateAvatar").modal("show");
         });
-    </script>
 
+        $(".btn-edit").click(function(){
+            let avatarId = $(this).attr("data-avatarId");
+            $.ajax({
+                url:"/get-avatar-by-id/" + avatarId,
+                async: false
+            }).then(function(data){
+                $("#avatarId-edit").val(data.avatarId);
+                $("#avatarName-edit").val(data.avatarName);
+                $("#avatarCost-edit").val(data.avatarCost);
+
+
+
+                const image = "<img src = /images/"+data.avatarId+".jpg>";
+
+                $("#image").html(image);
+
+
+            });
+            $("#modalEditAvatar").modal("show");
+        });
+
+        $("#home").click(function(){
+            location.href = "/admin-menu" ;
+        });
+
+        $("#edit-category").click(function () {
+            location.href = "/show-all-categories";
+        });
+
+        $("#edit-question").click(function () {
+            location.href = "/show-all-questions";
+        });
+
+        $("#edit-avatars").click(function() {
+            location.href = "/show-all-avatars";
+        });
+
+
+        $('.menu-toggle').on('click', function() {
+            $('body').toggleClass('menu-open');
+        });
+    });
+
+</script>
 </body>
+<%--<body>--%>
+
+    <%----%>
+
+
+    <%----%>
+
+<%--</body>--%>
 </html>
