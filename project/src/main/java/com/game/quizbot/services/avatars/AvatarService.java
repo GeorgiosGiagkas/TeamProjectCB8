@@ -70,6 +70,11 @@ public class AvatarService {
         }
     }
 
+    public int getAvatarCount(){
+        int avatarCount = ad.getAvatarCount();
+        return avatarCount;
+    }
+
     public void setSelectedAvatar(int avatarId, HttpSession session){
         UserDto userdto = (UserDto) session.getAttribute("login-user");
         User user = ud.getUserById(userdto.getUserId());
