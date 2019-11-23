@@ -35,7 +35,7 @@ const fetchUpdatedScoreStatus =()=>{
 }
 
 const fetchNextQuestion=()=>{
-    if(currentRound<totalRounds){
+    if(currentRound<=totalRounds){
         fetch("/get-next-question").then(res=>res.json()).then(data=>{
         console.log(data);
             createQuestionContent(data.questionContent);
@@ -48,6 +48,7 @@ const fetchNextQuestion=()=>{
     }
     else{
         //end game
+        displayEndBubble(true);
     }
 }
 
@@ -62,11 +63,16 @@ const fetchCorrectAnswer=(answer)=>{
         totalRounds=data.totalRounds;
         totalScore= data.currentScore;
         currentRound=data.currentRound;
-        highscore= data.highscore;
+
         displayScore(totalScore);
         if(totalScore>highscore){
             displayNewHighscore();
         }
+        highscore= data.highscore;
+        setTimeout(function(){
+            fetchNextQuestion();
+        },4000);
+
 
     }).catch(err=>console.error(err));
 }
@@ -115,6 +121,7 @@ const beginCountDown = () => {
         if(time < 0 || isTimePaused){
             clearInterval(interval);
             time=20;
+            displayTime(20);
         }
         else if (time === 5) {
             displayBotBubble("Hurry Up! You are running out of time!");
@@ -134,16 +141,15 @@ const displayGameInfoContainer = (toggle) => {
     updateRound();
     if (toggle === true) {
         gameInfoContainer.style.display = "block";
-
-        gameInfoContainer.classList.add('animated', "bounceInDown");
-        beginCountDown();
-
+        animateCSS(gameInfoContainer,"bounceInDown",()=>{
+            gameInfoContainer.classList.remove('animated', "bounceInDown");
+            beginCountDown();
+        });
     }
     else {
-        gameInfoContainer.classList.add('animated', "bounceOutUp");
-        gameInfoContainer.addEventListener('animationend', function () {
+        animateCSS(gameInfoContainer,"bounceOutUp",()=>{
+            gameInfoContainer.classList.remove('animated', "bounceOutUp");
             gameInfoContainer.style.display = "none";
-
         });
     }
 }
@@ -157,7 +163,7 @@ const updatePoints = (wheelPoints) => {
 const displayScore = (score)=>{
     // const currentscore = document.getElementById("currentscore");
     // "console-currentscore"
-    consoleText([score+""], "currentscore");
+    consoleDisplayText((score+""), "currentscore");
 }
 
 const displayNewHighscore = () => {
@@ -167,55 +173,32 @@ const displayNewHighscore = () => {
 }
 
 
-
-
-
-function consoleText(words, id, consoleId, colors) {
-    if (colors === undefined) colors = ["white"];
-    // var visible = true;
-    // var con = document.getElementById(consoleId);
-    let letterCount = 1;
-    let x = 1;
-    let waiting = false;
-    let target = document.getElementById(id)
-    target.setAttribute("style", "color:" + colors[0])
-    window.setInterval(function () {
-
-        if (letterCount === 0 && waiting === false) {
-            waiting = true;
-            target.innerHTML = words[0].substring(0, letterCount)
-            window.setTimeout(function () {
-                let usedColor = colors.shift();
-                colors.push(usedColor);
-                let usedWord = words.shift();
-                words.push(usedWord);
-                x = 1;
-                target.setAttribute("style", "color:" + colors[0]);
-                letterCount += x;
-                waiting = false;
-            }, 1000)
+const consoleDisplayText=(word,id)=>{
+    let letterCount =1;
+    const target = document.getElementById(id);
+    target.setAttribute("style", "color:white;");
+    let interval = window.setInterval(function(){
+        if(letterCount>word.length){
+            clearInterval(interval);
+            return;
         }
-        else if (waiting === false) {
-            target.innerHTML = words[0].substring(0, letterCount)
-            letterCount += x;
+        else{
+            target.textContent = word.substring(0, letterCount);
+            letterCount+=1;
         }
-    }, 500)
-
+    },500);
 }
 
 
 
-
-
-
 //Answer Buttons
-let a3 = 0;
+
 
 const createAnswersButtons=(answerList)=>{
     const answerContainer = document.getElementById("answers-container");
     answerContainer.innerHTML="";
-    position = ["top-left","top-right","bottom-left","bottom-right"];
-    positionIndex=0;
+    const position = ["top-left","top-right","bottom-left","bottom-right"];
+    let positionIndex=0;
     for(let a in answerList){
         const div = document.createElement("div");
         div.classList.add("answer-btn","button_slide","slide_left");
@@ -223,38 +206,40 @@ const createAnswersButtons=(answerList)=>{
         div.textContent=answerList[a].answerContent;
         div.setAttribute("data-answer-id",answerList[a].answerId);
         div.setAttribute("data-answer-position",position[positionIndex]);
-        if(answerList[a].answerCorrect ===true){
-            a3=div;
-        }
+
         positionIndex++;
         answerContainer.appendChild(div);
     }
 }
 
 
-const animateAnswersQuestion = (correctAnswerBtn, userAnswer) => {
-
-    if (correctAnswerBtn === userAnswer) {
+const animateAnswersQuestion = (correctAnswerId, userAnswer) => {
+    const userAnswerId = Number(userAnswer.getAttribute("data-answer-id"));
+    console.log("user"+userAnswerId);
+    console.log("corrent:"+correctAnswerId);
+    if (correctAnswerId === userAnswerId) {
         displayBotBubble("Good Job! Your answer was correct!");
+        handleSuccessSound();
     }
     else {
         displayBotBubble("Hm...That was't the right answer :(");
+        handleFailSound();
     }
 
     const allAnswers = document.querySelectorAll(".answer-btn");
     const question = document.getElementById("quiz-container");
 
     allAnswers.forEach(function (answer) {
-
-        if (answer === correctAnswerBtn && answer === userAnswer) {
+        const answerId = Number(answer.getAttribute("data-answer-id"));
+        if (answerId === correctAnswerId && answerId === userAnswerId) {
             addTaDa(answer);
             setTimeoutForFadeOut(answer);
         }
 
-        else if (answer !== correctAnswerBtn && answer !== userAnswer) {
+        else if (answerId !== correctAnswerId && answerId !== userAnswerId) {
             addBounceOut(answer);
         }
-        else if (answer === correctAnswerBtn && answer !== userAnswer) {
+        else if (answerId === correctAnswerId && answerId !== userAnswerId) {
             addTaDa(answer);
             setTimeoutForFadeOut(answer);
         }
@@ -262,23 +247,27 @@ const animateAnswersQuestion = (correctAnswerBtn, userAnswer) => {
             addShake(answer);
             setTimeoutForFadeOut(answer);
         }
-        answer.classList.add("un-clickable");
+        // answer.classList.add("un-clickable");
 
     });
 
     //question zoom out
 
-    setTimeoutForZoomOut(question);
-
+    setTimeoutForZoomOut();
+    // displayQuestion(false);
     setTimeout(function () {
         displayGameInfoContainer(false);
-        question.style.display = "none";
-        displayEndBubble(true);
-
+        // question.style.display = "none";
+        displayAnswers(false);
     }, 4000);
 
 }
-
+const setAnswerButtonsUnClickable = ()=>{
+    const allAnswers = document.querySelectorAll(".answer-btn");
+    allAnswers.forEach((a)=>{
+        a.classList.add("un-clickable");
+    });
+}
 const addBounceOut = (answerBtn) => {
     answerBtn.classList.remove("animated","slideInDown","slideInLeft","slideInRight");
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
@@ -381,17 +370,28 @@ const addZoomOut = (question) => {
     question.className += " animated zoomOut ";
 }
 
-const setTimeoutForZoomOut = (question) => {
+const setTimeoutForZoomOut = () => {
     setTimeout(function () {
-        addZoomOut(question);
+        displayQuestion(false);
     }, 3000)
 }
 
 
 const displayQuestion = (toggle) => {
     const quizContainer = document.getElementById("quiz-container");
-    quizContainer.style.display="flex";
-    // displayElements(quizContainer, toggle);
+    if(toggle){
+        quizContainer.style.display="flex";
+        animateCSS(quizContainer,"zoomIn",()=>{
+            quizContainer.classList.remove("animated","zoomIn");
+        });
+    }
+    else{
+        animateCSS(quizContainer,"zoomOut",function(){
+            quizContainer.classList.remove("animated","zoomOut");
+            quizContainer.style.display="none";
+        });
+    }
+
 }
 
 const createQuestionContent =(content)=>{
@@ -421,11 +421,12 @@ const setTimeoutForQuestionAnswerDisplay = () => {
         //Run
         const allAnswers = document.querySelectorAll(".answer-btn");
         const question = document.getElementById("quiz-container");
-        addZoomIn(question);
+        // addZoomIn(question);
         allAnswers.forEach(function (answer) {
             addSlideIn(answer);
             answer.addEventListener("click", function () {
-
+                handleButtonClickSound();
+                setAnswerButtonsUnClickable();
                 //FETCH-HERE!!
                 fetchCorrectAnswer(answer);
 
@@ -460,21 +461,32 @@ const displayBotBubble = (text) => {
 const displayWheel = (toggle) => {
     const wheel = document.getElementById("wheel");
     const indicator = document.getElementById("indicator");
-    if (toggle) {
-        displayElements(wheel, toggle);
-        addZoomIn(wheel);
-
+    if (toggle===true) {
+        wheel.style.display="block";
         indicator.style.display = "block";
-        setTimeoutForFadeInIndicatorAndPoints(1000);
+        addZoomIn(wheel);
+        animateCSS(wheel,"zoomIn",()=>{
+           wheel.classList.remove("animated","zoomIn");
+        });
+
+        setTimeout(()=>{
+            displayPointsInfo(true);
+            displayIndicatorArrow(true);
+        },1000);
+        // setTimeoutForFadeInIndicatorAndPoints(1000);
     }
     else {
+
         displayPointsInfo(toggle);
         displayIndicatorArrow(toggle);
-        addZoomOut(wheel);
-        setTimeout(function(){
-            displayElements(wheel,toggle);
-        },1000);
-
+        animateCSS(wheel,"zoomOut",()=>{
+            wheel.classList.remove("animated","zoomOut");
+            wheel.style.display="none";
+            // setTimeout(()=>{
+            //     wheel.classList.remove("animated","zoomOut");
+            //     wheel.style.display="none";
+            // },1000);
+        });
     }
 }
 
@@ -482,16 +494,17 @@ const displayIndicatorArrow = (toggle) => {
     const indicatorArrow = document.getElementById("indicator-arrow");
     if (toggle === true) {
         indicatorArrow.style.display = "block";
-        indicatorArrow.classList.add("animated", "bounceInDown");
+        animateCSS(indicatorArrow,"bounceInDown",()=>{
+            indicatorArrow.classList.remove("animated", "bounceInDown");
+        });
     }
     else {
-        indicatorArrow.classList.add("animated", "bounceOutUp");
-        indicatorArrow.addEventListener('animationend', function () {
+        animateCSS(indicatorArrow,"bounceOutUp",()=>{
+            indicatorArrow.classList.remove("animated", "bounceOutUp");
             indicatorArrow.style.display = "none";
             const indicator = document.getElementById("indicator");
             indicator.style.display = "none";
         });
-
     }
 }
 
@@ -499,11 +512,14 @@ const displayPointsInfo = (toggle) => {
     const pointsInfo = document.getElementById("points-info-container");
     if (toggle === true) {
         pointsInfo.style.display = "block";
-        pointsInfo.classList.add("animated", "bounceInUp");
+        animateCSS(pointsInfo,"bounceInUp",()=>{
+            pointsInfo.classList.remove("animated", "bounceInUp");
+        });
+
     }
     else {
-        pointsInfo.classList.add("animated", "bounceOutDown");
-        pointsInfo.addEventListener('animationend', function () {
+        animateCSS(pointsInfo,"bounceOutDown",()=>{
+            pointsInfo.classList.remove("animated", "bounceOutDown");
             pointsInfo.style.display = "none";
         });
     }
@@ -676,19 +692,7 @@ function alertPrize(indicatedSegment) {
 
 
 
-//Volume
 
-const volumeIcon = document.getElementById("volume");
-volumeIcon.addEventListener("click", function () {
-    if (this.classList.contains("fa-volume-up")) {
-        this.classList.remove("fa-volume-up");
-        this.classList.add("fa-volume-mute");
-    }
-    else if (this.classList.contains("fa-volume-mute")) {
-        this.classList.remove("fa-volume-mute");
-        this.classList.add("fa-volume-up");
-    }
-});
 
 //animate CSS
 function animateCSS(node, animationName, callback) {
@@ -707,10 +711,58 @@ function animateCSS(node, animationName, callback) {
 
 
 
-//Audio
+//Audio-sounds
 
     const backgroundMusic = document.getElementById("background-music");
     backgroundMusic.play();
+
+
+    //Event Handlers
+
+    //success
+    function handleSuccessSound(){
+        const sound = document.querySelector("#success-sound");
+        sound.play();
+    }
+
+
+    //fail
+    function handleFailSound(){
+        const sound = document.querySelector("#fail-sound");
+        sound.play();
+    }
+
+    //buttons
+    function handleButtonClickSound(){
+        const sound = document.querySelector("#button-sound");
+        sound.play();
+    }
+
+
+    //ADD BACKGROUND MUSIC
+
+    const backMusic = document.querySelector("#background-music");
+    let isPlaying = true;
+
+    const volumeIcon = document.getElementById("volume");
+    volumeIcon.addEventListener("click", function () {
+        if (isPlaying) {
+            this.classList.remove("fa-volume-mute");
+            this.classList.add("fa-volume-up");
+            backMusic.pause();
+            isPlaying = false;
+        }
+        else{
+            this.classList.remove("fa-volume-up");
+            this.classList.add("fa-volume-mute");
+            backMusic.play();
+            isPlaying = true;
+        }
+    });
+
+
+
+
 
 
 
