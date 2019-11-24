@@ -23,7 +23,7 @@
             <spring:form modelAttribute="userDto" id="loginForm" action="loginUser" method="post" enctype="application/x-www-form-urlencoded">
                 <div class="login">
                     <div class="QuizbotHeader">
-                        <h2>Quizbot</h2>
+                        <h2><img src="/images/quizbot-logo2-230.png"/></h2>
                         <h3>${logoutMessage}</h3>
                         <p>Test your coding skills!</p>
                     </div>

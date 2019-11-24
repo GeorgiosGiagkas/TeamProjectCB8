@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/user-chat.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <title>User Chat</title>
 
 </head>
@@ -34,7 +47,7 @@
 
     <div class="chat-body row">
         <div id="conversationDivPrivate">
-            <textarea id="textPrivate" placeholder="Write a Private message..." required></textarea>
+            <textarea id="textPrivate" placeholder="Write a Private message..." required onfocus="getAdmin()"></textarea>
             <button id="sendMessageBtn" class="btn"><i class="fas fa-paper-plane"></i></button>
         </div>
      </div>
@@ -59,8 +72,6 @@
     const userAvatarId = document.querySelector('#userAvatarId');
     const dialogBox = document.getElementById('dialog-box');
     const conversationDivPrivate = document.querySelector('#conversationDivPrivate');
-    conversationDivPrivate.style.display = "none";
-    deleteHistoryBtn.style.display = "none";
 
     // -----------SEND BUTTON-----------
     const sendMessageBtn = document.getElementById("sendMessageBtn");
@@ -189,10 +200,6 @@
         });
     }
 
-    //Tooltip
-    deleteHistoryBtn.addEventListener("mouseover", () => {
-        $('[data-toggle="tooltip"]').tooltip({hide: 500});
-    });
 
     //delete dialog in json in local storage
     const deleteDialogInStorage = (storageKeyId) => {
@@ -245,38 +252,26 @@
     }
 
     const adminAvailable = (admin) => {
-        const conversationDivPrivate = document.querySelector("#conversationDivPrivate");
-        const chatBody = document.querySelector("#chat-body");
-        const chat = document.querySelector(".chat");
         if (admin.sessionId !== "not available") {
             adminAvailableId = admin.sessionId;
             adminAvailableAvatar = admin.avatarId;
             conversationDivPrivate.style.display = "block";
             deleteHistoryBtn.style.display = "block";
+            dialogBox.style.display = "block";
             createDeleteHistoryListener();
             displayDialog(storageKeyId);
             chatHeader.innerHTML = "Quizbot Chat";
         }
         else {
             chatHeader.innerHTML = "No chat agents currently available";
+            conversationDivPrivate.style.display = "none";
+            dialogBox.style.display = "none";
+            deleteHistoryBtn.style.display = "none";
         }
     }
 
 </script>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </body>
 </html>
