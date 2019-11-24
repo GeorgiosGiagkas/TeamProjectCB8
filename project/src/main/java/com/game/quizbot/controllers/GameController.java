@@ -30,6 +30,7 @@ public class GameController {
 
         session.removeAttribute("gameStateSubject");
         GameStateSubject gameStateSubject = gameState.createGameStateSubject();
+
         int userId = ((UserDto) session.getAttribute("login-user")).getUserId();
         gameStateSubject.setUserId(userId);
         gameStateSubject.setCategoryId(categoryId);
@@ -38,14 +39,15 @@ public class GameController {
         gameStateSubject.setCurrentQuestionPoints(0);
         gameStateSubject.setRecordStateActive(false);
 
+
         gameStateSubject.notifyAllGameObservers();
 
         session.setAttribute("gameStateSubject",gameStateSubject);
 
         int selectedAvatarId = ((UserDto) session.getAttribute("login-user")).getSelectedAvatarId();
         mv.addObject("selectedAvatarId",selectedAvatarId);
-
         mv.setViewName("main-game");
+
         return mv;
     }
 

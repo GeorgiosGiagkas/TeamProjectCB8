@@ -1,7 +1,9 @@
 package com.game.quizbot.services.questions;
 
 import com.game.quizbot.dao.*;
+import com.game.quizbot.dto.AnswerDto;
 import com.game.quizbot.dto.QuestionPackDto;
+import com.game.quizbot.dto.QuestionPacksCreator;
 import com.game.quizbot.model.Answer;
 import com.game.quizbot.model.Question;
 
@@ -10,8 +12,7 @@ import com.game.quizbot.utils.BeanUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-
+import java.util.stream.Collectors;
 
 
 public class QuestionBundleAssembler {
@@ -21,9 +22,8 @@ public class QuestionBundleAssembler {
 
 
     QuestionDao questionDao =BeanUtil.getBean(QuestionDaoImpl.class);;
-
-
-    AnswerDao answerDao =BeanUtil.getBean(AnswerDaoImpl.class);;
+    QuestionPacksCreator questionPacksCreator = BeanUtil.getBean(QuestionPacksCreator.class);
+    
 
     public int getUserId() {
         return userId;
@@ -41,30 +41,27 @@ public class QuestionBundleAssembler {
         this.categoryId = categoryId;
     }
 
+
     public List<QuestionPackDto> getWeightedQuestionBundle(){
-        List<QuestionPackDto> bundle = new ArrayList<>();
 
-        Iterator<Integer> idIterator = getWeightedQuestionIds().iterator();
+        List<Integer> ids = getWeightedQuestionIds();
 
-        while(idIterator.hasNext()){
-            int id = idIterator.next();
-            Question question = questionDao.getQuestionById(id);
-            Iterable<Answer> answers= answerDao.getAllAnswersByQuestionId(id);
+        List<QuestionPackDto> bundle = questionPacksCreator.getQuestions(ids);
+        List<AnswerDto> answers = questionPacksCreator.getAnswersBasedOnQuestionId(ids);
+        bundle.forEach((q)->{
+            List<AnswerDto> answerList = answers.stream().filter((a)->a.getQuestionId()==q.getQuestionId()).collect(Collectors.toList());
+            q.setAnswersDto(answerList);
+        });
 
-            QuestionPackDto pack = new QuestionPackDto();
-            pack.setQuestionId(question.getQuestionId());
-            pack.setQuestionContent(question.getQuestionContent());
-            pack.setAnswersDtoFromAnswers(answers);
-
-            bundle.add(pack);
-
-        }
-        return  bundle;
+        return bundle;
     }
 
 
+
+
     private List<Integer> getWeightedQuestionIds(){
-        return questionDao.getWeightedQuestionIds(userId, categoryId);
+        List<Integer> ids = questionDao.getWeightedQuestionIds(userId, categoryId);
+        return ids;
 
     }
 

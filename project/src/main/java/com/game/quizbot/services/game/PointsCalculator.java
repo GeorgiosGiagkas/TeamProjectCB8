@@ -21,6 +21,7 @@ public class PointsCalculator implements GameObserver {
 
     @Override
     public  void update() {
+
         this.userId = gameStateSubject.getUserId();
         this.categoryId= gameStateSubject.getCategoryId();
         this.totalRunPoints = gameStateSubject.getTotalRunPoints();
@@ -40,6 +41,7 @@ public class PointsCalculator implements GameObserver {
         if(gameStateSubject.isRecordStateActive()){
             calculate();
         }
+
     }
 
     public int getHighscore(UserHighscorePK userHighscorePK){
