@@ -13,6 +13,8 @@
         <title>Login Page</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+              integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <!--Custom styles-->
         <link rel="stylesheet" type="text/css" href="/css/login.css">
     </head>
@@ -20,12 +22,18 @@
     <body>
 
         <section id="LoginContent">
+            <div class="questionMarks">
+                <video loop muted autoplay poster="/images/QuestionMarks.jpg" class="questionMarks_video">
+                    <source src="/video/Questionmark_video.webm" type="video/webm">
+                    <source src="/video/Questionmark_video.mp4" type="video/mp4">
+                </video>
+            </div>
             <spring:form modelAttribute="userDto" id="loginForm" action="loginUser" method="post" enctype="application/x-www-form-urlencoded">
                 <div class="login">
                     <div class="QuizbotHeader">
                         <h2><img src="/images/quizbot-logo2-230.png"/></h2>
                         <h3>${logoutMessage}</h3>
-                        <p>Test your coding skills!</p>
+                        <p>Test your knowledge!</p>
                     </div>
                     <div class="login_title">
                         <span>Login Page</span>
@@ -33,23 +41,17 @@
                     <div class="login_fields">
                         <div class="login_fields__user">
                             <div class="icon">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png">
+                                <i class="fas fa-user"></i>
                             </div>
-                            <spring:input path="userNickname" id="userNickname" placeholder="Nickname"/>
-                            <spring:errors path="userNickname" class="error"/>
-                            <div class="validation">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
-                            </div>
+                            <spring:input path="userNickname" id="userNickname" placeholder="Nickname" autocomplete="off"/>
+                            <div><spring:errors path="userNickname" class="error"/></div>
                         </div>
                         <div class="login_fields__password">
                              <div class="icon">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png">
+                                 <i class="fas fa-lock"></i>
                               </div>
                              <spring:password  path="userPassword" id="userPass" placeholder="Password"/>
                              <spring:errors path="userPassword" class="error"/>
-                             <div class="validation">
-                                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
-                             </div>
                         </div>
                         <div class="login_fields__submit">
                             <input type="submit" value="Log In" id="loginButton">

@@ -32,7 +32,7 @@
     <small id = "nickname" class = "center"></small>
     <hr>
     <button id = "change-avatar" class = "btn">Change Avatar</button>
-    <a class="dropdown-item" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign out</a>
+    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign out</a>
 </div>
 
 <div id = "avatar-modal" class="modal fade" tabindex="-1" role="dialog">
