@@ -350,7 +350,7 @@
                         let content = data2.answersDto[i].answerContent;
                         let answerid = data2.answersDto[i].answerId;
                         $("#answer" + k+"-edit").val(content);
-                        $("#answerId" + +"-edit").val(answerid);
+                        $("#answerId" + k).val(answerid);
 
                     }
 
