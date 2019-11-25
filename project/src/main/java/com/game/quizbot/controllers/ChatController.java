@@ -36,17 +36,6 @@ public class ChatController {
         return  modelAndView;
     }
 
-    @GetMapping("/user-chat")
-    public ModelAndView showUserChat(ModelAndView modelAndView, HttpSession session)
-    {
-        modelAndView.setViewName("chat-user");
-        String userNickname=((UserDto)(session.getAttribute("login-user"))).getUserNickname();
-        Integer userAvatarId=((UserDto)(session.getAttribute("login-user"))).getSelectedAvatarId();
-        modelAndView.addObject("userNickname",userNickname);
-        modelAndView.addObject("userAvatarId",userAvatarId);
-        return  modelAndView;
-    }
-
     @ResponseBody
     @GetMapping("/admin-get-users")
     public List<UserDto> getAllUsers(){
