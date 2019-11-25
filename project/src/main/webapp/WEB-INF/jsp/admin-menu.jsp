@@ -38,6 +38,7 @@
                     <li id = "edit-question">Questions</li>
                     <li id = "edit-category">Categories</li>
                     <li id = "edit-avatars">Avatars</li>
+                    <li id = "chat-admin">Live Support</li>
 
                 </ul>
             </nav>
@@ -45,7 +46,6 @@
         <div id="content">
             <jsp:include page="leaderboard.jsp" />
         </div>
-        <script src="/js/leaderboard.js"></script>
         <script>
             $(document).ready(function(){
                 $("#home").click(function(){
@@ -62,6 +62,10 @@
 
                 $("#edit-avatars").click(function() {
                     location.href = "/show-all-avatars";
+                });
+
+                $("#chat-admin").click(function() {
+                    location.href = "/admin-chat";
                 });
 
 
