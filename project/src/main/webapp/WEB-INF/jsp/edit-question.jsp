@@ -47,7 +47,7 @@
     </nav>
 </header>
 <div id="content">
-    <div class = "container">
+    <div class = "container mt-4 bg-light border shadow mb-5">
         <p class = "h1">Questions</p>
 
         <table class = "table table-hover">
