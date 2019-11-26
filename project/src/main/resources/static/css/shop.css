@@ -10,6 +10,9 @@ body{
     background-color: #74bce6 !important;
 }
 
+.bluefont{
+    color: #0a69e1 !important;
+}
 
 .yellow{
     background-color: #f9ed99 !important;
@@ -203,8 +206,9 @@ body{
     height: 300px;
 }
 
-.tomato{
-    color: tomato;
+
+.lila{
+    color: #ec018a;
 }
 
 .goodChoice{

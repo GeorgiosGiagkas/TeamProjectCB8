@@ -111,7 +111,7 @@ $(document).ready(function() {
         const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
         const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
 
-        display.innerHTML = `Click to Buy <br /> <span class="tomato">${avatarName}</span> <br /> for <span class="tomato">${avatarCost}</span> Gold!`;
+        display.innerHTML = `<span class="bluefont">Click to Buy</span> <br /> <span class="lila">${avatarName}</span> <br /> <span class="bluefont">for </span><span class="lila">${avatarCost}</span><span class="bluefont"> Gold!</span>`;
         hoverSound.play();
     }
 
@@ -184,7 +184,7 @@ $(document).ready(function() {
 
         buyButton.setAttribute("selected-avatar-id",avatarId);
 
-        buyPanel.innerHTML = `<div class="text-center">Buy <span class="tomato">${avatarName}</span> for <span class="tomato">${avatarCost}</span> Gold?"</div>`;
+        buyPanel.innerHTML = `<div class="text-center"><span class="bluefont">Buy </span><span class="lila">${avatarName}</span><br><span class="bluefont">for </span><span class="lila">${avatarCost}</span><span class="bluefont"> Gold?</span></div>`;
 
 
 

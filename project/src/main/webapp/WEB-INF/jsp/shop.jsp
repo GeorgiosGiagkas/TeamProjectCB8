@@ -81,7 +81,7 @@
 
         <div class="col-9">
 
-        <div id="shopBubble"><img src="/images/shop-robot-bubble-300.png" alt="robot bubble"><div class="text-center align-middle" id="shopDisplay">Select an Avatar <br /> to Buy <br /> with Gold!</div></div>
+        <div id="shopBubble"><img src="/images/shop-robot-bubble-300.png" alt="robot bubble"><div class="text-center align-middle bluefont" id="shopDisplay">Select an Avatar <br /> to Buy <br /> with Gold!</div></div>
         
         </div>
 
@@ -108,8 +108,8 @@
             <img src="/images/robot-shop.gif" alt="shop robot" height="350px">
         </div>
         <div class="col-5 bounceInRight animated text-left" id="instructions">
-            <pre>
-<u>Not Enough Gold?</u>
+            <pre class="bluefont">
+<u><span class="lila">Not Enough Gold?</span></u>
 - Earn more by playing or
 - Buy some through Paypal!
 
@@ -126,15 +126,16 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+<div class="modal fade shadow" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header blue">
                 <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
                 <%--<h4 class="modal-title" id="myModalLabel">Confirm</h4>--%>
             </div>
-            <div class="col-7" id="buyPanel"></div>
-            <div class="modal-footer">
+            <%--<div class="col-7" id="buyPanel"></div>--%>
+            <div id="buyPanel" class="yellow"></div>
+            <div class="modal-footer blue">
                 <button type="button" class="btn btn-primary btn-lg" id="modal-btn-buy" selected-avatar-id="">Buy</button>
                 <button type="button" class="btn btn-secondary btn-lg" id="modal-btn-cancel">Cancel</button>
             </div>
