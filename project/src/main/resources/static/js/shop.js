@@ -116,7 +116,7 @@ $(document).ready(function() {
         const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
         const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
 
-        display.innerHTML = `Click to Buy <br /> <span class="tomato">${avatarName}</span> <br /> for <span class="tomato">${avatarCost}</span> Gold!`;
+        display.innerHTML = `<span class="bluefont">Click to Buy</span> <br /> <span class="lila">${avatarName}</span> <br /> <span class="bluefont">for </span><span class="lila">${avatarCost}</span><span class="bluefont"> Gold!</span>`;
         hoverSound.play();
     }
 
@@ -126,35 +126,8 @@ $(document).ready(function() {
     }
 
 
-    function showBuyPanel(event,data){
-        let modalConfirm = function(callback){
-        const selectedAvatarIndex = event.srcElement.parentElement.attributes[1].value;
-        const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
-        const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
-        const avatarId = data.allAvatars[selectedAvatarIndex].avatarId;
 
-        const buyButton = document.getElementById("modal-btn-buy");
-        buyButton.setAttribute("selected-avatar-id",avatarId);
-
-
-        buyPanel.innerHTML = `<div class="text-center">Buy <span class="tomato">${avatarName}</span> for <span class="tomato">${avatarCost}</span> Gold?"</div>`;
-        $("#mi-modal").modal('show');
-
-        // confirmation modal
-
-
-            $("#modal-btn-buy").on("click", function(event){
-                callback(true, event);
-                $("#mi-modal").modal('hide');
-            });
-
-            $("#modal-btn-cancel").on("click", function(){
-                callback(false);
-                $("#mi-modal").modal('hide');
-            });
-        };
-
-        function checkout(data, event){
+        function checkout(event){
 
             // add avatar to user's collection
             // remove money from user's wallet (update session userDto and database)
@@ -168,10 +141,11 @@ $(document).ready(function() {
                 return response.json();
             };
 
-            const handleData = (data) => {
+            const handleData = () => {
                 console.log("transaction ok")
                 cashRegisterSound.play();
                 plusDivs(0);
+                console.log("show avatars after transcaction")
 
             }
 
@@ -184,20 +158,49 @@ $(document).ready(function() {
                 .then(handleData)
                 .catch(error); // error
 
-
-
-
         }
 
-        modalConfirm(function(confirm, event){
-            if(confirm){
-                checkout(data, event);
-            }
+
+
+        const buyButton = document.getElementById("modal-btn-buy");
+
+
+        const cancelButton = document.getElementById("modal-btn-cancel");
+
+
+
+        $(buyButton).on("click", function(event){
+            checkout(event)
+            $("#mi-modal").modal('hide');
         });
 
-        // confirmation modal end
+        $(cancelButton).on("click", function(){
+            $("#mi-modal").modal('hide');
+        });
 
-    }
+
+
+    function showBuyPanel(event,data){
+
+        const selectedAvatarIndex = event.srcElement.parentElement.attributes[1].value;
+        const avatarName = data.allAvatars[selectedAvatarIndex].avatarName;
+        const avatarCost = data.allAvatars[selectedAvatarIndex].avatarCost;
+        const avatarId = data.allAvatars[selectedAvatarIndex].avatarId;
+
+        buyButton.setAttribute("selected-avatar-id",avatarId);
+
+        buyPanel.innerHTML = `<div class="text-center"><span class="bluefont">Buy </span><span class="lila">${avatarName}</span><br><span class="bluefont">for </span><span class="lila">${avatarCost}</span><span class="bluefont"> Gold?</span></div>`;
+
+
+
+
+
+
+        $("#mi-modal").modal('show');
+
+    };
+
+
 
     function activateShopping(data){
         const shoppableAvatars = document.getElementsByClassName("normal");
@@ -272,7 +275,17 @@ $(document).ready(function() {
 
 
         const avatarCount = invisible.getAttribute("avatarCount");
-        const avatarPageCount = ((avatarCount-avatarCount%5)/5)+1;
+
+
+        let avatarPageCount;
+
+        if(avatarCount%5==0){
+            avatarPageCount = (avatarCount/5);
+        } else {
+            avatarPageCount = (((avatarCount) - (avatarCount%5))/5) +1;
+        }
+
+
         if (n > avatarPageCount) {slideIndex = 1}
         if (n < 1) {slideIndex = avatarPageCount} ;
         invisible.setAttribute(`current-avatar-page`,slideIndex.toString());
