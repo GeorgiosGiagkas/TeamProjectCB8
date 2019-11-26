@@ -35,6 +35,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
         Iterator<Integer> questionIdsIter = questionIds.iterator();
         List<Integer> biasedPartition = new ArrayList<>();
+
         while(questionIdsIter.hasNext()){
             int questionId = questionIdsIter.next();
             int total = uqr.getTotalNumberOfResponses(questionId, userId);

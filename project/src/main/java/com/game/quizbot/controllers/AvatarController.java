@@ -42,7 +42,7 @@ public class AvatarController {
     }
 
     @PostMapping("edit-avatar")
-    public String editAvatar(@RequestParam("avatarId") int id, @RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, @RequestParam("avatar-image") Part image, HttpServletRequest request){
+    public String editAvatar(@RequestParam("avatarId") int id, @RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, HttpServletRequest request){
         Avatar a = new Avatar();
         a.setAvatarId(id);
         a.setAvatarName(name);

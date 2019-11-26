@@ -40,7 +40,7 @@
 <div id="main-container">
     <aside id="user-section">
 
-        <img id="logo" src="/images/quizbot-logo2-230.png">
+        <a href="/main-menu"><img id="logo" src="/images/quizbot-logo2-230.png"></a>
 
         <div class="container score-container">
 
@@ -52,6 +52,14 @@
             </div>
         </div>
 
+        <div id="drop-menu" >
+            <div id = "nickname" class = "center"><c:out value="${nickname}"/></div>
+            <hr>
+            <ul>
+                <li ><a  href="/main-menu"><i class="fas fa-bars"></i>Main Menu</a></li>
+                <li ><a  href="/logout"><i class="fas fa-sign-out-alt"></i>Sign out</a></li>
+            </ul>
+        </div>
 
         <footer id="user-footer">
             <img id="user-avatar" src="/images/${selectedAvatarId}.jpg" alt="User avatar">
@@ -63,8 +71,7 @@
 
         <div id="end-bubble">
             <div id="end-bubble-text-container">
-                    <span id="end-bubble-text"><strong>Congratulations!!!</strong> You won 100000 Gold! What do you want
-                        to do next?</span>
+                    <span id="end-bubble-text"></span>
             </div>
             <div id="end-game-options">
                 <a href="/menu" id="end-game-btn" class="underline">End Game</a>

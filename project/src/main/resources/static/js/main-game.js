@@ -48,8 +48,32 @@ const fetchNextQuestion=()=>{
     }
     else{
         //end game
-        displayEndBubble(true);
+        fetch("/get-wallet-update").then(res=>res.text()).then(data=>{
+            totalScore=data;
+            displayEndBubble(true);
+        }).catch(err=>console.error(err));;
+
     }
+}
+
+
+const fetchCorrectAnswerNoUserAnswer=()=>{
+    isTimePaused = true;
+    fetch("/answer-verification?answer-id="+0+"&timer="+time+"&points="+pointsMultiplayer).then(res=>res.json()).then(data=>{
+        console.log(data);
+        noAnswerGiven(data.correctAnswer);
+        totalRounds=data.totalRounds;
+        totalScore= data.currentScore;
+        currentRound=data.currentRound;
+
+        //reset timer
+        time=20;
+
+        setTimeout(function(){
+            fetchNextQuestion();
+        },4000);
+
+    }).catch(err=>console.error(err));
 }
 
 
@@ -118,11 +142,20 @@ const beginCountDown = () => {
     let interval = window.setInterval(function () {
         displayTime(time);
         time -= 1;
-        if(time < 0 || isTimePaused){
+        if(isTimePaused){
             clearInterval(interval);
             time=20;
-            displayTime(20);
         }
+        else if (time < 0){
+            //fetch here
+            setAnswerButtonsColorForNoAnswer();
+            setAnswerButtonsUnClickable();
+            displayBotBubble("Sorry... Time run out!!");
+            fetchCorrectAnswerNoUserAnswer();
+            clearInterval(interval);
+
+        }
+
         else if (time === 5) {
             displayBotBubble("Hurry Up! You are running out of time!");
         }
@@ -140,6 +173,7 @@ const displayGameInfoContainer = (toggle) => {
     const gameInfoContainer = document.getElementById("game-info-container");
     updateRound();
     if (toggle === true) {
+        displayTime(time);
         gameInfoContainer.style.display = "block";
         animateCSS(gameInfoContainer,"bounceInDown",()=>{
             gameInfoContainer.classList.remove('animated', "bounceInDown");
@@ -215,8 +249,9 @@ const createAnswersButtons=(answerList)=>{
 
 const animateAnswersQuestion = (correctAnswerId, userAnswer) => {
     const userAnswerId = Number(userAnswer.getAttribute("data-answer-id"));
-    console.log("user"+userAnswerId);
-    console.log("corrent:"+correctAnswerId);
+    const correctAnswer = document.querySelector("[data-answer-id='"+correctAnswerId+"']");
+    correctAnswer.classList.add("correct-answer-color");
+
     if (correctAnswerId === userAnswerId) {
         displayBotBubble("Good Job! Your answer was correct!");
         handleSuccessSound();
@@ -268,6 +303,22 @@ const setAnswerButtonsUnClickable = ()=>{
         a.classList.add("un-clickable");
     });
 }
+
+const setAnswerButtonsColorForNoAnswer = ()=>{
+    const allAnswers = document.querySelectorAll(".answer-btn");
+    allAnswers.forEach((a)=>{
+            a.classList.add("no-answer-color-time-out");
+    });
+}
+
+const addClassToEachButton=(classToAdd)=>{
+    const allAnswers = document.querySelectorAll(".answer-btn");
+    allAnswers.forEach((a)=>{
+        a.classList.add(classToAdd);
+    });
+}
+
+
 const addBounceOut = (answerBtn) => {
     answerBtn.classList.remove("animated","slideInDown","slideInLeft","slideInRight");
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
@@ -311,7 +362,7 @@ const addSlideIn = (answerBtn) => {
 }
 
 const addFadeOut = (answerBtn) => {
-    answerBtn.classList.remove("animated","bounceOutUp","bounceOutLeft","bounceOutRight");
+    answerBtn.classList.remove("animated","bounceOutUp","bounceOutLeft","bounceOutRight","shake");
     if (answerBtn.getAttribute("data-answer-position") === "top-left") {
         answerBtn.classList.add("animated","fadeOutLeft");
     }
@@ -337,8 +388,11 @@ const setTimeoutForFadeOut = (answer) => {
 
 const noAnswerGiven = (correctAnswer) => {
     const allAnswers = document.querySelectorAll(".answer-btn");
+
     allAnswers.forEach(function (answer) {
-        if (answer === correctAnswer) {
+        const answerId =Number(answer.getAttribute("data-answer-id"));
+        if (answerId === Number(correctAnswer)) {
+            answer.classList.add("correct-answer-color");
             addTaDa(answer);
             setTimeoutForFadeOut(answer);
         }
@@ -346,7 +400,15 @@ const noAnswerGiven = (correctAnswer) => {
             addShake(answer);
             setTimeoutForFadeOut(answer);
         }
-        answer.className += " un-clickable ";
+
+        setTimeoutForZoomOut();
+        // displayQuestion(false);
+        setTimeout(function () {
+            displayGameInfoContainer(false);
+            // question.style.display = "none";
+            displayAnswers(false);
+        }, 4000);
+
     });
 }
 
@@ -356,10 +418,6 @@ const displayAnswers = (toggle) => {
     displayElements(buttonContainer, toggle);
 }
 
-
-// setTimeout(function(){
-//     noAnswerGiven(a1);
-// },3000);
 
 
 //question
@@ -426,6 +484,7 @@ const setTimeoutForQuestionAnswerDisplay = () => {
             addSlideIn(answer);
             answer.addEventListener("click", function () {
                 handleButtonClickSound();
+                answer.classList.add("selected-answer-color");
                 setAnswerButtonsUnClickable();
                 //FETCH-HERE!!
                 fetchCorrectAnswer(answer);
@@ -545,8 +604,9 @@ const setTimeoutForFadeOutIndicatorAndPoints = (secs) => {
 const displayEndBubble = (toggle) => {
     const bubble = document.getElementById("end-bubble");
     if (toggle === true) {
+        const bubbleText =document.getElementById("end-bubble-text");
+        bubbleText.textContent="Congratulations!!!You won "+totalScore+" Gold! What do you want to do next?";
         bubble.style.display = "block";
-        console.log(bubble);
         bubble.classList.add('animated', 'zoomIn');
     }
     else {
@@ -680,17 +740,20 @@ function alertPrize(indicatedSegment) {
 
 
 
+//avatar click to logout/main menu
 
 
+const handleAvatarClick=()=>{
+    const dropMenu = document.getElementById("drop-menu");
+    if(dropMenu.style.display==="block"){
+        dropMenu.style.display="none";
+    }else{
+        dropMenu.style.display="block";
+    }
 
-
-// displayBubble(true,"Hello World!");
-
-
-
-
-
-
+}
+const userAvatar = document.getElementById("user-footer") ;
+userAvatar.addEventListener("click",handleAvatarClick);
 
 
 
@@ -716,23 +779,17 @@ function animateCSS(node, animationName, callback) {
     const backgroundMusic = document.getElementById("background-music");
     backgroundMusic.play();
 
-
     //Event Handlers
-
-    //success
     function handleSuccessSound(){
         const sound = document.querySelector("#success-sound");
         sound.play();
     }
 
-
-    //fail
     function handleFailSound(){
         const sound = document.querySelector("#fail-sound");
         sound.play();
     }
 
-    //buttons
     function handleButtonClickSound(){
         const sound = document.querySelector("#button-sound");
         sound.play();
@@ -759,11 +816,6 @@ function animateCSS(node, animationName, callback) {
             isPlaying = true;
         }
     });
-
-
-
-
-
 
 
     fetchUpdatedScoreStatus();

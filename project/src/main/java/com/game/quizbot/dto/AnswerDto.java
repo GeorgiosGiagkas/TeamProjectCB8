@@ -6,6 +6,16 @@ public class AnswerDto {
     private Integer questionId;
     private boolean answerCorrect;
 
+    public AnswerDto() {
+    }
+
+    public AnswerDto(Integer answerId, String answerContent, Integer questionId, boolean answerCorrect) {
+        this.answerId = answerId;
+        this.answerContent = answerContent;
+        this.questionId = questionId;
+        this.answerCorrect = answerCorrect;
+    }
+
     public Integer getAnswerId() {
         return answerId;
     }

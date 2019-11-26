@@ -12,6 +12,16 @@ public class QuestionPackDto {
     private Integer questionId;
     private String questionContent;
     private String categoryName;
+    private Iterable<AnswerDto> answersDto;
+
+    public QuestionPackDto() {
+    }
+
+    public QuestionPackDto(Integer questionId, String questionContent, String categoryName) {
+        this.questionId = questionId;
+        this.questionContent = questionContent;
+        this.categoryName = categoryName;
+    }
 
     public String getCategoryName() {
         return categoryName;
@@ -20,9 +30,6 @@ public class QuestionPackDto {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
-    private Iterable<AnswerDto> answersDto;
-
 
     public Integer getQuestionId() {
         return questionId;
@@ -47,6 +54,18 @@ public class QuestionPackDto {
 
     public void setAnswersDto(Iterable<AnswerDto> answersDto) {
         this.answersDto = answersDto;
+    }
+
+
+    public void addAnswer(AnswerDto answerDto){
+        List<AnswerDto> answers = new ArrayList<>();
+        Iterator<AnswerDto> itr = this.answersDto.iterator();
+        while (itr.hasNext()){
+            answers.add(itr.next());
+        }
+        answers.add(answerDto);
+        this.answersDto=answers;
+
     }
 
     public void setAnswersDtoFromAnswers(Iterable<Answer> answers) {

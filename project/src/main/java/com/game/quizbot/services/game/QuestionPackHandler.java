@@ -23,6 +23,8 @@ public class QuestionPackHandler implements GameObserver {
 
     @Override
     public  void update() {
+
+
         this.round = gameStateSubject.getRound();
         this.userId = gameStateSubject.getUserId();
         this.categoryId= gameStateSubject.getCategoryId();
@@ -30,12 +32,15 @@ public class QuestionPackHandler implements GameObserver {
         assembler.setUserId(userId);
         assembler.setCategoryId(categoryId);
         if(bundle == null){
+
             bundle = assembler.getWeightedQuestionBundle();
 
             gameStateSubject.setTotalRounds(bundle.size());
         }
 
         setQuestionPackDto();
+
+
     }
 
     public void setQuestionPackDto(){

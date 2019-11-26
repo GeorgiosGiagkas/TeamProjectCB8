@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,22 +28,11 @@ public class ChatController {
 
     @GetMapping("/admin-chat")
     public ModelAndView showAdminChat(ModelAndView modelAndView, HttpSession session){
-        modelAndView.setViewName("test-chat-admin");
+        modelAndView.setViewName("chat-admin");
         String adminNickname=((UserDto)(session.getAttribute("login-admin"))).getUserNickname();
         Integer adminAvatarId=((UserDto)(session.getAttribute("login-admin"))).getSelectedAvatarId();
         modelAndView.addObject("adminNickname",adminNickname);
         modelAndView.addObject("adminAvatarId",adminAvatarId);
-        return  modelAndView;
-    }
-
-    @GetMapping("/user-chat")
-    public ModelAndView showUserChat(ModelAndView modelAndView, HttpSession session)
-    {
-        modelAndView.setViewName("test-chat-user");
-        String userNickname=((UserDto)(session.getAttribute("login-user"))).getUserNickname();
-        Integer userAvatarId=((UserDto)(session.getAttribute("login-user"))).getSelectedAvatarId();
-        modelAndView.addObject("userNickname",userNickname);
-        modelAndView.addObject("userAvatarId",userAvatarId);
         return  modelAndView;
     }
 

@@ -47,7 +47,7 @@
     </nav>
 </header>
 <div id="content">
-    <div class = "container">
+    <div class = "container mt-4 bg-light border shadow mb-5">
         <p class = "h1">Questions</p>
 
         <table class = "table table-hover">
@@ -350,7 +350,7 @@
                         let content = data2.answersDto[i].answerContent;
                         let answerid = data2.answersDto[i].answerId;
                         $("#answer" + k+"-edit").val(content);
-                        $("#answerId" + +"-edit").val(answerid);
+                        $("#answerId" + k).val(answerid);
 
                     }
 

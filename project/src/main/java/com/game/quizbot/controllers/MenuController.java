@@ -44,8 +44,12 @@ public class MenuController {
     }
 
     @GetMapping("/menu")
-    public ModelAndView showMenu(ModelAndView modelAndView){
+    public ModelAndView showMenu(ModelAndView modelAndView, HttpSession session){
         modelAndView.setViewName("menu");
+        String userNickname=((UserDto)(session.getAttribute("login-user"))).getUserNickname();
+        Integer userAvatarId=((UserDto)(session.getAttribute("login-user"))).getSelectedAvatarId();
+        modelAndView.addObject("userNickname",userNickname);
+        modelAndView.addObject("userAvatarId",userAvatarId);
         return  modelAndView;
     }
 

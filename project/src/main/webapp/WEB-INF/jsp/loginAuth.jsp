@@ -12,35 +12,41 @@
 <body>
 
 <section id="LoginContent">
+    <div class="questionMarks">
+        <video loop muted autoplay poster="/images/QuestionMarks.jpg" class="questionMarks_video">
+            <source src="/video/Questionmark_video.webm" type="video/webm">
+            <source src="/video/Questionmark_video.mp4" type="video/mp4">
+        </video>
+    </div>
     <form  id="loginForm" action="loginUser" method="post" enctype="application/x-www-form-urlencoded">
     <div class="login">
-        <div class="QuizbotHeader">
-                <h2></h2>
-                <h3></h3>
-                <p></p>
-        </div>
-        <div class="login_title">
-            <span></span>
-        </div>
+        <%--<div class="QuizbotHeader">--%>
+                <%--<h2></h2>--%>
+                <%--<h3></h3>--%>
+                <%--<p></p>--%>
+        <%--</div>--%>
+        <%--<div class="login_title">--%>
+            <%--<span></span>--%>
+        <%--</div>--%>
         <div class="login_fields">
-            <div class="login_fields__user">
-                <div class="icon">
-                    <%--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png">--%>
-                </div>
+            <%--<div class="login_fields__user">--%>
+                <%--<div class="icon">--%>
+                    <%--&lt;%&ndash;<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png">&ndash;%&gt;--%>
+                <%--</div>--%>
 
-                <div class="validation">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
-                </div>
-            </div>
-            <div class="login_fields__password">
-                <div class="icon">
-                    <%--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png">--%>
-                </div>
+                <%--<div class="validation">--%>
+                    <%--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="login_fields__password">--%>
+                <%--<div class="icon">--%>
+                    <%--&lt;%&ndash;<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png">&ndash;%&gt;--%>
+                <%--</div>--%>
 
-                <div class="validation">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
-                </div>
-            </div>
+                <%--<div class="validation">--%>
+                    <%--<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="login_fields__submit">
                 <%--<input type="submit" value="" id="loginButton">--%>
                 <div class="signUp">
@@ -57,7 +63,7 @@
         </div>
     </form>
     <div class="authent">
-        <img src="https://image.ibb.co/mco6FL/logo-mini.png" class='logoAutenticacao'>
+        <img src="https://image.ibb.co/mco6FL/logo-mini.png" class='authentLogo'>
         <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/puff.svg'>
         <p>Authenticating...</p>
     </div>

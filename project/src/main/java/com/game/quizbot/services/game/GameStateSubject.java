@@ -2,6 +2,7 @@ package com.game.quizbot.services.game;
 
 import com.game.quizbot.dto.QuestionPackDto;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,7 +23,6 @@ public class GameStateSubject {
     private int highscore;
     private boolean recordStateActive;
     private List<GameObserver> gameObservers = new CopyOnWriteArrayList<>();
-
 
     public void registerGameObserver(GameObserver gameObserver){
         //order matters

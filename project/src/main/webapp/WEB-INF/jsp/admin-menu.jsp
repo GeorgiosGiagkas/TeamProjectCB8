@@ -6,8 +6,7 @@
 
 
         <!--Bootsrap 4 CDN-->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 
         <!--Fontawesome CDN-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
@@ -25,6 +24,8 @@
         <link rel="stylesheet" type="text/css" href="/css/menu.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     </head>
 
@@ -37,6 +38,7 @@
                     <li id = "edit-question">Questions</li>
                     <li id = "edit-category">Categories</li>
                     <li id = "edit-avatars">Avatars</li>
+                    <li id = "chat-admin">Live Support</li>
 
                 </ul>
             </nav>
@@ -44,7 +46,6 @@
         <div id="content">
             <jsp:include page="leaderboard.jsp" />
         </div>
-        <script src="/js/leaderboard.js"></script>
         <script>
             $(document).ready(function(){
                 $("#home").click(function(){
@@ -61,6 +62,10 @@
 
                 $("#edit-avatars").click(function() {
                     location.href = "/show-all-avatars";
+                });
+
+                $("#chat-admin").click(function() {
+                    location.href = "/admin-chat";
                 });
 
 
