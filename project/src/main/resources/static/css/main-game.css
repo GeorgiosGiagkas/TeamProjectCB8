@@ -9,7 +9,9 @@ body{
     overflow: hidden;
 }
 
-
+#logo{
+    height: 100px;
+}
 /* Avatars */
 
 #user-avatar  {
@@ -17,6 +19,48 @@ body{
     border: 10px solid #fca959;
     box-shadow: -5px 10px  #fca959;
     margin-bottom: 10px;
+}
+#user-avatar:hover{
+    border-color: #f9ed99;
+    cursor: pointer;
+}
+#drop-menu{
+    display: none;
+    background: #f9ed99;
+    margin-left:20px;
+    margin-right:20px;
+    border: 5px solid #fca959;
+    text-align: center;
+
+}
+#nickname{
+    padding-top: 5px;
+    font-weight: bold;
+}
+#drop-menu li{
+    background: #f9ed99;
+    color:black;
+    text-decoration: none;
+    list-style-type:none ;
+}
+
+#drop-menu li:hover{
+    background: #fca959;
+    color: white;
+    text-decoration: none;
+
+}
+#drop-menu ul{
+    display: flex;
+    flex-direction: column;
+}
+#drop-menu li a{
+    color:black !important;
+    text-decoration: none !important;
+}
+
+#drop-menu li a i{
+    padding-right: 10px;
 }
 
 #user-section, #bot-section{
@@ -91,7 +135,7 @@ body{
     margin-left: auto;
     padding-top:10px ;
     padding-right:30px ;
-    color:#fca959;
+    color:#874302;
 }
 
 #volume-link>i:hover{
@@ -325,20 +369,29 @@ body{
 #game-info-container{
     display: none;
     margin-top: 8%;
+    margin-bottom: 4%;
     position: relative;
+
 }
 #timer-container{
     position: absolute;
     left: 48.5%;
-    color: #fca959;
-    font-size: 23px;
+    color: black;
+    font-size: 30px;
     font-weight: bold;
+}
+#timer{
+    background: #f9ed99;
+    border:2px solid  #fca959;
+    padding-right: 4px;
+    padding-left: 4px;
+    border-radius: 50%;
 }
 #round{
     color: #292442;
-    font: bold;
+    font-weight: bold;
     position: absolute;
-    position: absolute;
+
     left: 85%;
 }
 

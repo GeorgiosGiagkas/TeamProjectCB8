@@ -740,6 +740,22 @@ function alertPrize(indicatedSegment) {
 
 
 
+//avatar click to logout/main menu
+
+
+const handleAvatarClick=()=>{
+    const dropMenu = document.getElementById("drop-menu");
+    if(dropMenu.style.display==="block"){
+        dropMenu.style.display="none";
+    }else{
+        dropMenu.style.display="block";
+    }
+
+}
+const userAvatar = document.getElementById("user-footer") ;
+userAvatar.addEventListener("click",handleAvatarClick);
+
+
 
 //animate CSS
 function animateCSS(node, animationName, callback) {
