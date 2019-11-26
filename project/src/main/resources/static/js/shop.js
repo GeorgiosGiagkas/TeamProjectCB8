@@ -270,7 +270,17 @@ $(document).ready(function() {
 
 
         const avatarCount = invisible.getAttribute("avatarCount");
-        const avatarPageCount = ((avatarCount-avatarCount%5)/5)+1;
+
+
+        let avatarPageCount;
+
+        if(avatarCount%5==0){
+            avatarPageCount = (avatarCount/5);
+        } else {
+            avatarPageCount = (((avatarCount) - (avatarCount%5))/5) +1;
+        }
+
+
         if (n > avatarPageCount) {slideIndex = 1}
         if (n < 1) {slideIndex = avatarPageCount} ;
         invisible.setAttribute(`current-avatar-page`,slideIndex.toString());

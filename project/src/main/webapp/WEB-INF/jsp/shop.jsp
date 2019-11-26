@@ -48,7 +48,7 @@
 
 <div class ="container-fluid mt-5 bg-light border mb-5 logo blue">
     <div class="row yellow">
-        <div class="col-2 bounceInLeft animated" id="logo"><img src="/images/quizbot-logo2-230.png" alt="logo"></div>
+        <div class="col-2 bounceInLeft animated" id="logo"><a href="/menu"><img src="/images/quizbot-logo2-230.png" alt="logo"></a></div>
         <div class="col-4" id="loading"><img src="/images/robot-loading.gif" alt="logo" height="70px"></div>
 
 
@@ -120,7 +120,7 @@
             <img src="/images/potGold-350.png" alt="pot of gold" height="350px">
         </div>
         <div class="col-1 bounceInUp animated" id="paypal">
-            <img src="/images/paypal-gold-150.png" alt="logo" height = "100px" class="rounded hvr-shrink">
+            <img src="/images/paypal-gold-150.png" alt="logo" height = "73px" class="rounded hvr-shrink">
         </div>
         <div class="col-1 bounceInDown animated" id="myWallet"></div>
     </div>

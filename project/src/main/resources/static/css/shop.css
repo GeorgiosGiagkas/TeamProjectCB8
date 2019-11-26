@@ -167,8 +167,8 @@ body{
 }
 #paypal {
     position: relative;
-    top: -530px;
-    left: -70px;
+    top: -516px;
+    left: -40px;
     animation-delay: 2.1s;
     z-axis: -1;
 }
