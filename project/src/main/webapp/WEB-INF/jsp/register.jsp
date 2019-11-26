@@ -87,6 +87,11 @@
 
 <script src="js/registerValidation.js"></script>
 
+<script>
+    const video = document.querySelector(".questionMarks_video");
+    video.playbackRate = 0.7;
+</script>
+
 </body>
 
 </html>
