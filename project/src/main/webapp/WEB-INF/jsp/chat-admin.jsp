@@ -4,15 +4,36 @@
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/admin-chat.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <%--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--%>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <%--<link rel="stylesheet" type="text/css" href="/css/admin-chat.css">--%>
     <title>Admin</title>
+    <%--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--%>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <%--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>--%>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+
+
 
 <style>
     /* ----------------- GENERAL SETTINGS ----------------- */
     * {
         box-sizing: border-box;
     }
+
+    /*.menu {*/
+        /*overflow-y: hidden;*/
+    /*}*/
 
     .container{
         max-width:1170px;
@@ -29,7 +50,7 @@
         border: 1px solid #c4c4c4;
         clear: both;
         overflow: hidden;
-        height: 595px;
+        height: 825px;
     }
 
     /* ----------------- INBOX - LIST OF PLAYERS ----------------- */
@@ -92,7 +113,7 @@
     /* Inbox-Chat */
 
     .inbox_chat {
-        height: 550px;
+        height: 825px;
         overflow-y: scroll;
     }
 
@@ -182,7 +203,7 @@
     /* MESSAGEBOARD */
 
     #messageboard {
-        height: 480px;
+        height: 700px;
     }
 
     .nav-link {
@@ -221,7 +242,7 @@
     }
 
     .userMsgHistory {
-        height: 380px;
+        height: 500px;
         overflow-y: auto;
     }
 
@@ -284,6 +305,7 @@
         border-top: 1px solid #c4c4c4;
         position: relative;
         padding: 5px 10px 0px 10px;
+        height: 50px;
     }
 
     textarea {
@@ -338,62 +360,76 @@
 </head>
 
 
-<body>
+<body class="menu menu-open">
+<header>
+    <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
+    <nav class="menu-side">
+        <ul>
+            <li id = "home">Home</li>
+            <li id = "edit-question">Questions</li>
+            <li id = "edit-category">Categories</li>
+            <li id = "edit-avatars">Avatars</li>
+            <li id = "chat-admin">Live Support</li>
+        </ul>
+    </nav>
+</header>
+<div id="content">
 
-<div class="container">
-    <div class="messaging">
-        <div class="inbox_msg">
-            <div>
-                <input id="adminNickname" type="text" hidden id="from" value=<c:out value="${adminNickname}"/> />
-                <input id="adminAvatarId" type="text" hidden value=<c:out value="${adminAvatarId}"/> />
-                <div id="sound" hidden></div>
+    <div class="container mt-4 bg-light border shadow mb-5">
+        <div class="messaging">
+            <div class="inbox_msg">
+                <div>
+                    <input id="adminNickname" type="text" hidden id="from" value=<c:out value="${adminNickname}"/> />
+                    <input id="adminAvatarId" type="text" hidden value=<c:out value="${adminAvatarId}"/> />
+                    <div id="sound" hidden></div>
+                </div>
+
+                <div class="inbox_players">
+                    <div class="inbox_heading">
+                        <div class="heading_title">
+                            <h4>Players</h4>
+                        </div>
+                        <div class="heading_search">
+                            <input type="text" id="search-bar" placeholder="Search">
+                            <span class="input-group-addon">
+                                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                             </span>
+                        </div>
+                    </div>
+                    <%--users--%>
+                    <div class="inbox_chat"></div>
+                </div>
+
+                <div class="messages">
+
+                    <div class="message-header">
+                        <div class="chat-header">Quizbot Chat</div>
+                        <button id="disconnect" type="button" class="btn"  data-toggle="tooltip" title="Disconnect" onclick="disconnect();"><i class="fas fa-sign-out-alt"></i></button>
+                        <button id="connect" type="button" class="btn"  data-toggle="tooltip" title="Connect" onclick="connect();"><i class="fas fa-sign-in-alt"></i></button>
+                    </div>
+
+
+                    <div id="messageboard">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
+                        <div class="tab-content" id="myTabContent"></div>
+                    </div>
+
+
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <textarea class="write_msg" placeholder="Type a message" onfocus="clearContents(this);"></textarea>
+                            <button id="sendMessageBtn" class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="inbox_players">
-                <div class="inbox_heading">
-                    <div class="heading_title">
-                        <h4>Players</h4>
-                    </div>
-                    <div class="heading_search">
-                        <input type="text" id="search-bar" placeholder="Search">
-                        <span class="input-group-addon">
-                             <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                         </span>
-                    </div>
-                </div>
-                <%--users--%>
-                <div class="inbox_chat"></div>
-            </div>
-
-            <div class="messages">
-
-                <div class="message-header">
-                    <div class="chat-header">Quizbot Chat</div>
-                    <button id="disconnect" type="button" class="btn"  data-toggle="tooltip" title="Disconnect" onclick="disconnect();"><i class="fas fa-sign-out-alt"></i></button>
-                    <button id="connect" type="button" class="btn"  data-toggle="tooltip" title="Connect" onclick="connect();"><i class="fas fa-sign-in-alt"></i></button>
-                </div>
-
-
-                <div id="messageboard">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
-                    <div class="tab-content" id="myTabContent"></div>
-                </div>
-
-
-                <div class="type_msg">
-                    <div class="input_msg_write">
-                        <textarea class="write_msg" placeholder="Type a message" onfocus="clearContents(this);"></textarea>
-                        <button id="sendMessageBtn" class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-
-            </div>
         </div>
-
     </div>
 </div>
-
 <script>
+
      // -----------Admin Chat Functionality-----------
 
     const inboxChat = document.querySelector(".inbox_chat");
@@ -951,12 +987,30 @@
 
 
 
+         $("#home").click(function(){
+             location.href = "/admin-menu" ;
+         });
+         $("#edit-category").click(function () {
+             location.href = "/show-all-categories";
+         });
+
+         $("#edit-question").click(function () {
+             location.href = "/show-all-questions";
+         });
+         $("#edit-avatars").click(function() {
+             location.href = "/show-all-avatars";
+         });
+         $("#chat-admin").click(function() {
+             location.href = "/admin-chat";
+         });
+         $(".menu-toggle").on('click', function() {
+             $('body').toggleClass('menu-open');
+         });
+
+
+
 </script>
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
 </html>

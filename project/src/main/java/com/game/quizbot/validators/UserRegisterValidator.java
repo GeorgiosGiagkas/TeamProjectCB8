@@ -68,7 +68,7 @@ public class UserRegisterValidator implements Validator {
         } else if (u.getUserPassword().length()>60){
             errors.rejectValue("userPassword", "userPassword.maxLength");
         }
-        Pattern digitLetterSpecialCharPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+        Pattern digitLetterSpecialCharPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,}$");
         if (!(digitLetterSpecialCharPattern.matcher(u.getUserPassword()).matches())) {
             errors.rejectValue("userPassword", "userPassword.digitLetterSpecialCharPattern");
         }
