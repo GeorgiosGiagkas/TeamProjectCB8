@@ -49,7 +49,7 @@ public class QuestionBundleAssembler {
         List<QuestionPackDto> bundle = questionPacksCreator.getQuestions(ids);
         List<AnswerDto> answers = questionPacksCreator.getAnswersBasedOnQuestionId(ids);
         bundle.forEach((q)->{
-            List<AnswerDto> answerList = answers.stream().filter((a)->a.getQuestionId()==q.getQuestionId()).collect(Collectors.toList());
+            List<AnswerDto> answerList = answers.stream().filter((a)->a.getQuestionId().equals(q.getQuestionId())).collect(Collectors.toList());
             q.setAnswersDto(answerList);
         });
 
