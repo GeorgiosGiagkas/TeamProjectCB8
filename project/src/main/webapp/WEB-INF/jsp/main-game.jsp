@@ -40,7 +40,7 @@
 <div id="main-container">
     <aside id="user-section">
 
-        <img id="logo" src="/images/quizbot-logo2-230.png">
+        <a href="/main-menu"><img id="logo" src="/images/quizbot-logo2-230.png"></a>
 
         <div class="container score-container">
 
@@ -52,6 +52,14 @@
             </div>
         </div>
 
+        <div id="drop-menu" >
+            <div id = "nickname" class = "center"><c:out value="${nickname}"/></div>
+            <hr>
+            <ul>
+                <li ><a  href="/main-menu"><i class="fas fa-bars"></i>Main Menu</a></li>
+                <li ><a  href="/logout"><i class="fas fa-sign-out-alt"></i>Sign out</a></li>
+            </ul>
+        </div>
 
         <footer id="user-footer">
             <img id="user-avatar" src="/images/${selectedAvatarId}.jpg" alt="User avatar">
