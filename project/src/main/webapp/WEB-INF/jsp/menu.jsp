@@ -56,6 +56,7 @@
 </div>
 
 
+
 <div class="main">
     <div class="contain">
         <div class="box box-1" id="play">
@@ -65,6 +66,8 @@
             <button class="button">
                 <div style="text-align: center;"></div>
             </button>
+
+
         </div>
         <div class="box box-2" id="leaderboard">
             <div class="cover"><img class="img" src="https://cdn3.iconfinder.com/data/icons/circle-f1/512/F1_15-512.png"
@@ -90,6 +93,11 @@
             </button>
         </div>
     </div>
+
+</div>
+<div class = "centered">
+    <div class = "blob-1"></div>
+    <div class = "blob-2"></div>
 </div>
 
 <audio id="audio-click" src="/sound/click.mp3" autostart="false"></audio>

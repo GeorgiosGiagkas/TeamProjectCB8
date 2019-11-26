@@ -63,14 +63,48 @@ function appendCategories(categories) {
     $(".contain").append(boxInit);
     for (let category of categories) {
         if (category.categoryId != 14) {
-            let box = `<div class="box box-category" id = "${category.categoryName}">
+            let box = `<div class="box box-category" data-category-id="${category.categoryId}" id = "${category.categoryName}">
                                     <div class="cover"><img class = "img" src="/images/${category.categoryName}.jpg" alt=""></div>
                                     <button class = "button"><div style = "text-align: center;"></div></button>
                                 </div>`;
+
             $(".contain").append(box);
+            const id = `#${category.categoryName}`;
+            $(""+id).click(handleClickOnCategory);
         }
     }
 }
+
+function handleClickOnCategory(){
+
+    const categoryId=this.getAttribute("data-category-id");
+    window.location.href ="/start-game?category-id="+categoryId;
+    startGameAnimation();
+}
+
+function startGameAnimation(){
+    $(".box-category").css({
+        "pointer-event":"none",
+        "animation": "bounceOutRight ease 1s"
+    });
+    $('.box-category').on("animationend", function(){
+        $(this).css('display', 'none');
+    });
+    $(".box-init").css({
+        "pointer-event":"none",
+        "animation": "fadeOut ease 1s"
+    });
+    $('.box-init').on("animationend", function(){
+        $(this).css('display', 'none');
+    });
+    setTimeout(function(){
+        displayLoading();
+    },500);
+}
+function displayLoading(){
+    $('.centered').css('display','block');
+}
+
 
 function appendCategorySelector(categories) {
     //$(".contain").html("");
