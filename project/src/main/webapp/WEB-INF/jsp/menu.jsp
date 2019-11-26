@@ -81,7 +81,7 @@
                 <div style="text-align: center;"></div>
             </button>
         </div>
-        <div class="box box-4">
+        <div class="box box-4" id = "shop">
             <div class="cover"><img class="img"
                                     src="https://cdn3.iconfinder.com/data/icons/gradient-circle/36/2015-512.png" alt="">
             </div>
@@ -90,7 +90,13 @@
             </button>
         </div>
     </div>
+
+
 </div>
+<div style = "display: inline; font-size: 30px; font-weight: 300; position: absolute; top: 82%; left: 40%;" id = "description">
+
+</div>
+
 
 <audio id="audio-click" src="/sound/click.mp3" autostart="false"></audio>
 <audio id="audio-hover" src="/sound/hover.mp3" autostart="false"></audio>

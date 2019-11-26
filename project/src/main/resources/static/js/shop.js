@@ -15,6 +15,11 @@ $(document).ready(function() {
     const currentUserId = invisible.getAttribute("current-user-id");
     const clickSound = document.querySelector("#clickSound");
     const cashRegisterSound = document.querySelector("#cashRegisterSound");
+    const paypalLink = document.querySelector("#paypal");
+
+    paypalLink.addEventListener("click", function () {
+        location.href = "/payment";
+    });
 
 
     leftButton.addEventListener("click", function(){

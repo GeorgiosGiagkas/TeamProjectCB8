@@ -26,7 +26,7 @@ function returnMain() {
                             <div class="cover"><img class = "img" src="https://cdn1.iconfinder.com/data/icons/round-color-icon/3/21-512.png" alt=""></div>
                             <button class = "button"><div style = "text-align: center;"></div></button>
                             </div>
-                            <div class="box box-4">
+                            <div class="box box-4" id = "shop">
                             <div class="cover"><img class = "img" src="https://cdn3.iconfinder.com/data/icons/gradient-circle/36/2015-512.png" alt=""></div>
                             <button class = "button"><div style = "text-align: center;"></div></button>
                             </div>
@@ -34,7 +34,6 @@ function returnMain() {
     $(".contain").html(main);
     init();
 }
-
 
 function removeCategories() {
     $(".box-category").css({
@@ -372,6 +371,9 @@ function init() {
         $(".box").click(function () {
             playClick();
         });
+        $(".box-1, .box-2, .box-3").click(function () {
+            $("#description").html("");
+        });
 
         $("#play").click(function () {
             $(".contain").html("");
@@ -440,6 +442,41 @@ function init() {
                 returnMain();
             });
         });
+    });
+
+    $("#shop").click(function () {
+       location.href = "/show-shop";
+    });
+
+    $("#play").hover(function () {
+       let message = `<p>Play</p>`;
+       $("#description").html("");
+       $("#description").html(message);
+    });
+
+    $("#leaderboard").hover(function () {
+        let message = `<p>Leaderboard</p>`;
+        $("#description").html("");
+        $("#description").html(message);
+    });
+
+    $("#statistics").hover(function () {
+        let message = `<p>Statistics</p>`;
+        $("#description").html("");
+        $("#description").html(message);
+    });
+
+    $("#shop").hover(function () {
+        let message = `<p>Shop</p>`;
+        $("#description").html("");
+        $("#description").html(message);
+    });
+
+
+
+
+    $(".box").mouseleave(function () {
+       $("#description").html("");
     });
 }
 

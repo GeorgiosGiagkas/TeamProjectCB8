@@ -85,10 +85,9 @@ button:focus {outline:0;}
 }
 
 #description{
-    width: 50%;
-    margin: 0 auto;
-    padding: 20px;
     text-align: center;
+    /*font-size: 40px;*/
+    /*font-weight: 400;*/
 }
 
 .img {
