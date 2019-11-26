@@ -42,7 +42,7 @@
             <li id = "edit-question">Questions</li>
             <li id = "edit-category">Categories</li>
             <li id = "edit-avatars">Avatars</li>
-
+            <li id = "chat-admin">Live Support</li>
         </ul>
     </nav>
 </header>
@@ -395,7 +395,9 @@
         $("#edit-avatars").click(function() {
             location.href = "/show-all-avatars";
         });
-
+        $("#chat-admin").click(function() {
+            location.href = "/admin-chat";
+        });
 
         $('.menu-toggle').on('click', function() {
             $('body').toggleClass('menu-open');

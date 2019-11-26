@@ -59,11 +59,11 @@ public class UserRegisterController {
             user.setUserPassword(hashed);
             Role role = roleDao.getRoleByRoleName("User");
             user.setRoleId(role);
-            Avatar avatar = avatarDao.getAvatarByAvatarName("Beginner");
+            Avatar avatar = avatarDao.getAvatarByAvatarName("Avatar1");
             user.setSelectedAvatarId(avatar);
             user.setWallet(0);
-            userDao.insertUser(user);
-            return "main-menu";
+//            userDao.insertUser(user);
+            return "registerAuth";
         }
     }
 
