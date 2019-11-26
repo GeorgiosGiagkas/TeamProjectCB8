@@ -29,8 +29,9 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 
 
+    <link rel="icon" type="image/png" href="/fav.png">
+    <title>QuizBot</title>
 
-    <title>QuizBot Main Game</title>
 </head>
 <body>
 
