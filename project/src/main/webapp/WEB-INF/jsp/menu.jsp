@@ -100,7 +100,7 @@
     <div class = "blob-2"></div>
 </div>
 
-<div style = "display: inline; font-size: 30px; font-weight: 300; position: absolute; top: 82%; left: 40%;" id = "description">
+<div style = "width: 800px; font-size: 28px; font-weight: 400; position: absolute; top: 82%; left: 30%; color: #f9ed99; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;" id = "description">
 
 </div>
 

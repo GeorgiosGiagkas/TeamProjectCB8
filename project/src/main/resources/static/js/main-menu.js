@@ -62,13 +62,15 @@ function appendCategories(categories) {
     $(".contain").append(boxInit);
     for (let category of categories) {
         if (category.categoryId != 14) {
+            const id = `#${category.categoryName}`;
             let box = `<div class="box box-category" data-category-id="${category.categoryId}" id = "${category.categoryName}">
                                     <div class="cover"><img class = "img" src="/images/${category.categoryName}.jpg" alt=""></div>
-                                    <button class = "button"><div style = "text-align: center;"></div></button>
+                                    <button class = "button"><div id = ${id}-btn style = "text-align: center;"></div></button>
                                 </div>`;
 
             $(".contain").append(box);
-            const id = `#${category.categoryName}`;
+
+
             $(""+id).click(handleClickOnCategory);
         }
     }
@@ -425,6 +427,20 @@ function init() {
                     await sleep(700);
                     returnMain();
                 });
+
+                $("[data-category-id]").hover(function(e) {
+                    let categoryName = $(this).attr("id");
+                    console.log(categoryName);
+                    if(categoryName != null){
+                        let message = `<p>${categoryName}</p>`;
+                        $("#description").html("");
+                        $("#description").html(message);
+                    }
+                });
+
+                $("[data-category-id]").mouseleave(function () {
+                    $("#description").html("");
+                });
             });
         });
 
@@ -483,25 +499,25 @@ function init() {
     });
 
     $("#play").hover(function () {
-       let message = `<p>Play</p>`;
+       let message = `<p class = "message">Answer questions to test your knowledge.<br> Hurry up, though, time is against you!</p>`;
        $("#description").html("");
        $("#description").html(message);
     });
 
     $("#leaderboard").hover(function () {
-        let message = `<p>Leaderboard</p>`;
+        let message = `<p class = "message">Earn some serious points and <br> be one of the top 10 of the leaderboard!</p>`;
         $("#description").html("");
         $("#description").html(message);
     });
 
     $("#statistics").hover(function () {
-        let message = `<p>Statistics</p>`;
+        let message = `<p class = "message">Check your statistics frequently to <br> explore your strengths and weaknesses.</p>`;
         $("#description").html("");
         $("#description").html(message);
     });
 
     $("#shop").hover(function () {
-        let message = `<p>Shop</p>`;
+        let message = `<p class = "message">Your personality is unique. <br> Check our collection to choose an avatar that fits you.</p>`;
         $("#description").html("");
         $("#description").html(message);
     });
