@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import javax.servlet.http.HttpSession;
 import java.util.regex.Pattern;
 
 @Component
@@ -17,6 +18,9 @@ public class UserLoginValidator implements Validator {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    HttpSession session;
 
     @Override
     public boolean supports(Class<?> type) {
@@ -41,6 +45,10 @@ public class UserLoginValidator implements Validator {
             }
         } else if (dbUser == null){
             errors.rejectValue("userPassword", "loginError.notExists");
+        }
+
+        if((session.getAttribute("login-admin") != null) || (session.getAttribute("login-user") != null)){
+            errors.rejectValue("userPassword", "loginError.userAlreadyLoggedIn");
         }
     }
 

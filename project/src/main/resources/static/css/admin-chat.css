@@ -429,3 +429,14 @@ nav ul li:hover {
     margin: auto;
 }
 
+.active {
+    color: #f9ed99;
+}
+
+nav ul li:focus {
+    background-color:#f9ed99;
+}
+
+.active {
+    color: #f9ed99;
+}
