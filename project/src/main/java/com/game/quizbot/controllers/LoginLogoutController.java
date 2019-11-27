@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -28,6 +26,21 @@ public class LoginLogoutController {
 
     @Autowired
     UserLoginValidator userLoginValidator;
+
+    @GetMapping(value = "/404")
+    public String show404Page() {
+        return "404page";
+    }
+
+    @GetMapping(value = "/403")
+    public String show403Page() {
+        return "403page";
+    }
+
+    @GetMapping(value = "/500")
+    public String show500Page() {
+        return "500page";
+    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
