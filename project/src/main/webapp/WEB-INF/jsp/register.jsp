@@ -42,7 +42,7 @@
                 <p>Test your knowledge!</p>
             </div>
             <div class="login_title">
-                <span>Registration Page</span>
+                <span>Please Register Here</span>
             </div>
             <div class="login_fields">
                 <div class="login_fields__user">

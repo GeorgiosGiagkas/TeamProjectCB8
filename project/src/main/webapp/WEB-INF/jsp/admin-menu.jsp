@@ -29,12 +29,14 @@
         <header>
             <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
             <nav class="menu-side">
+                <img src="/images/quizbot-logo2-230.png" alt="Quizbot Logo"/>
                 <ul>
-                    <li id = "home">Home</li>
+                    <li id = "home" class="active">Leaderboard</li>
                     <li id = "edit-question">Questions</li>
                     <li id = "edit-category">Categories</li>
                     <li id = "edit-avatars">Avatars</li>
                     <li id = "chat-admin">Live Support</li>
+                    <li id = "logout">Sign out</li>
                 </ul>
             </nav>
         </header>
@@ -46,6 +48,7 @@
             $(document).ready(function(){
                 $("#home").click(function(){
                    location.href = "/admin-menu" ;
+                    $(this).toggleClass('active');
                 });
 
                 $("#edit-category").click(function () {
@@ -61,6 +64,9 @@
                 });
                 $("#chat-admin").click(function() {
                     location.href = "/admin-chat";
+                });
+                $("#logout").click(function() {
+                    location.href = "/logout";
                 });
                 $('.menu-toggle').on('click', function() {
                     $('body').toggleClass('menu-open');

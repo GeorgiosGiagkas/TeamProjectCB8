@@ -34,7 +34,7 @@
                 <p>Test your knowledge!</p>
             </div>
             <div class="login_title">
-                <span>Login Page</span>
+                <span>Please Login Here</span>
             </div>
             <div class="login_fields">
                 <div class="login_fields__user">
