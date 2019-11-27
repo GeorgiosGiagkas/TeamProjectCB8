@@ -47,9 +47,6 @@ public class UserLoginValidator implements Validator {
             errors.rejectValue("userPassword", "loginError.notExists");
         }
 
-        if((session.getAttribute("login-admin") != null) || (session.getAttribute("login-user") != null)){
-            errors.rejectValue("userPassword", "loginError.userAlreadyLoggedIn");
-        }
     }
 
 

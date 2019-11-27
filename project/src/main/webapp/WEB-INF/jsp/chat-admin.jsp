@@ -33,7 +33,7 @@
             <li id = "edit-question">Questions</li>
             <li id = "edit-category">Categories</li>
             <li id = "edit-avatars">Avatars</li>
-            <li id = "chat-admin" class="active1">Live Support</li>
+            <li id = "chat-admin" class="activeChat">Live Support</li>
             <li id = "logout">Sign out</li>
         </ul>
     </nav>
@@ -60,6 +60,13 @@
                 </div>
 
                 <div class="messages">
+                    <div>
+                        <input id="adminNickname" type="text" hidden id="from" value=
+                                <c:out value="${adminNickname}" /> />
+                        <input id="adminAvatarId" type="text" hidden value=
+                                <c:out value="${adminAvatarId}" /> />
+                        <div id="sound" hidden></div>
+                    </div>
 
                     <div class="message-header">
                         <div class="chat-header">Quizbot Chat</div>
@@ -86,13 +93,6 @@
                     </div>
 
                 </div>
-            </div>
-            <div>
-                <input id="adminNickname" type="text" hidden id="from" value=
-                <c:out value="${adminNickname}" />/>
-                <input id="adminAvatarId" type="text" hidden value=
-                <c:out value="${adminAvatarId}" />/>
-                <div id="sound" hidden></div>
             </div>
 
         </div>
@@ -122,7 +122,7 @@
         });
         $("#chat-admin").click(function() {
             location.href = "/admin-chat";
-            $(this).toggleClass('active');
+            $(this).toggleClass('activeChat');
         });
         $("#logout").click(function() {
             location.href = "/logout";
