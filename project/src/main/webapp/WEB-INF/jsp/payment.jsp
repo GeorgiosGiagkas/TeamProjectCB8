@@ -35,9 +35,9 @@
                     <div class="col-md-6">
                         <div>
                             <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
-                            <p>1000 Gold <span class="price">5€</span></p>
+                            <p>1000 Gold <span class="price">4.99€</span></p>
                             <hr>
-                            <p>Total <span class="price" style="color:black"><b>5€</b></span></p>
+                            <p>Total <span class="price" style="color:black"><b>4.99€</b></span></p>
                         </div>
                     </div>
 
@@ -46,14 +46,19 @@
 
 
 
-
+                <input type = "button" value = "Discard" class = "btn-return">
                 <input type="submit" value="Continue to checkout" class="btn">
             </form>
         </div>
 
 
 
-
+    <script>
+        const btnReturn = document.querySelector(".btn-return");
+        btnReturn.addEventListener("click", function () {
+           location.href = "/show-shop";
+        });
+    </script>
 
 </body>
 </html>

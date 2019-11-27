@@ -124,7 +124,7 @@ function appendCategorySelector(categories) {
 
     $.ajax(
         {
-            url: "http://localhost:8080/getLeaderboardByCategoryId/1",
+            url: "http://localhost:8080/getLeaderboardByCategoryId/26",
             async: false
         }
     ).then(function (userScores) {
