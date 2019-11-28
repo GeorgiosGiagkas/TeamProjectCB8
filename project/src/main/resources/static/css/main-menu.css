@@ -407,6 +407,19 @@ button:focus {outline:0;}
     100% {opacity: 0;} 
 }
 
+/*@-webkit-keyframes glow {*/
+    /*from {*/
+        /*text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fca959;*/
+    /*}*/
+    /*to {*/
+        /*text-shadow: 0 0 20px #fff, 0 0 30px #fca959, 0 0 40px #fca959;*/
+    /*}*/
+/*}*/
+
+/*.message{*/
+    /*-webkit-animation: glow 1s ease-in-out infinite alternate;*/
+/*}*/
+
 .box-1, .box-2, .box-3, .box-4, .box-init{
     animation: fadeInDown ease 1s;
 }
@@ -414,7 +427,6 @@ button:focus {outline:0;}
 
 
 .box-category .button::after {
-    content: "";
     background-color: #FF6500;
     top: -85px
 }
@@ -572,6 +584,7 @@ button:focus {outline:0;}
     font-size: 40px;
     font-weight: 400;
 }
+
 
 .box-init .button div::before {
     content: 'Return';

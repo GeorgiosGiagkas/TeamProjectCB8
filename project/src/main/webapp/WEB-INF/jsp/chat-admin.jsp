@@ -28,12 +28,14 @@
 <header>
     <i class="material-icons">menu</i>
     <nav class="menu-side">
+        <img src="/images/quizbot-logo2-230.png" alt="Quizbot Logo"/>
         <ul>
-            <li id="home">Home</li>
-            <li id="edit-question">Questions</li>
-            <li id="edit-category">Categories</li>
-            <li id="edit-avatars">Avatars</li>
-            <li id="chat-admin">Live Support</li>
+            <li id = "home">Leaderboard</li>
+            <li id = "edit-question">Questions</li>
+            <li id = "edit-category">Categories</li>
+            <li id = "edit-avatars">Avatars</li>
+            <li id = "chat-admin" class="activeChat">Live Support</li>
+            <li id = "logout">Sign out</li>
         </ul>
     </nav>
 </header>
@@ -59,6 +61,13 @@
                 </div>
 
                 <div class="messages">
+                    <div>
+                        <input id="adminNickname" type="text" hidden id="from" value=
+                                <c:out value="${adminNickname}" /> />
+                        <input id="adminAvatarId" type="text" hidden value=
+                                <c:out value="${adminAvatarId}" /> />
+                        <div id="sound" hidden></div>
+                    </div>
 
                     <div class="message-header">
                         <div class="chat-header">Quizbot Chat</div>
@@ -86,13 +95,6 @@
 
                 </div>
             </div>
-            <div>
-                <input id="adminNickname" type="text" hidden id="from" value=
-                <c:out value="${adminNickname}"/>/>
-                <input id="adminAvatarId" type="text" hidden value=
-                <c:out value="${adminAvatarId}"/>/>
-                <div id="sound" hidden></div>
-            </div>
 
         </div>
     </div>
@@ -104,8 +106,8 @@
 <script>
 
     $(document).ready(function () {
-        $("#home").click(function () {
-            location.href = "/admin-menu";
+        $("#home").click(function(){
+            location.href = "/admin-menu" ;
         });
 
         $("#edit-category").click(function () {
@@ -116,12 +118,17 @@
             location.href = "/show-all-questions";
         });
 
-        $("#edit-avatars").click(function () {
+        $("#edit-avatars").click(function() {
             location.href = "/show-all-avatars";
         });
-        $("#chat-admin").click(function () {
+        $("#chat-admin").click(function() {
             location.href = "/admin-chat";
+            $(this).toggleClass('activeChat');
         });
+        $("#logout").click(function() {
+            location.href = "/logout";
+        });
+
         $('.material-icons').on('click', function () {
             $('body').toggleClass('menu-open');
         });

@@ -40,14 +40,19 @@
 
 
 
-
+                <input type = "button" value = "Discard" class = "btn-return">
                 <input type="submit" value="Continue to checkout" class="btn">
             </form>
         </div>
 
 
 
-
+    <script>
+        const btnReturn = document.querySelector(".btn-return");
+        btnReturn.addEventListener("click", function () {
+           location.href = "/show-shop";
+        });
+    </script>
 
 </body>
 </html>

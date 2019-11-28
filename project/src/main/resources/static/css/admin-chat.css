@@ -429,3 +429,10 @@ nav ul li:hover {
     margin: auto;
 }
 
+nav ul li:focus {
+    background-color:#f9ed99;
+}
+
+.activeChat {
+    color: #f9ed99;
+}
