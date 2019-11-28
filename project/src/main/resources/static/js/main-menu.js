@@ -134,7 +134,9 @@ function appendCategorySelector(categories) {
         if (userScores.length != 0) {
             max = userScores[0][1];
         }
+        let counter = 0;
         for (let userScore of userScores) {
+            counter++;
             let nicknameData;
             if(userScore[0] == user.userNickname){ nicknameData = `<td><strong>${userScore[0]}</strong></td>`;}
             else{
@@ -142,12 +144,12 @@ function appendCategorySelector(categories) {
             }
             let row = `<tr>
             ${nicknameData}
-            <td><progress id = "progress-${userScore[0]}" value=0 max="100"></progress></td>
+            <td><progress id = "progress-${counter}" value=0 max="100"></progress></td>
             <td>${userScore[1]}</td>
             </tr>`;
             table += row;
 
-            let id = "#progress-" + userScore[0];
+            let id = "#progress-" + counter;
             slowlyLoad(max, userScore[1], id);
         }
 
@@ -244,7 +246,9 @@ function loadLeaderboard(categoryName) {
         <th>HIGHSCORE</th>`;
         $("thead").html("");
         $("thead").append(thead);
+        let counter = 0;
         for (let userScore of userScores) {
+            counter++;
             let nicknameData;
             if(userScore[0] == user.userNickname){ nicknameData = `<td><strong>${userScore[0]}</strong></td>`;}
             else{
@@ -252,11 +256,11 @@ function loadLeaderboard(categoryName) {
             }
             let row = `<tr>
             ${nicknameData}
-            <td><progress id = "progress-${userScore[0]}" value=0 max="100"></progress></td>
+            <td><progress id = "progress-${counter}" value=0 max="100"></progress></td>
             <td>${userScore[1]}</td>
             </tr>`;
             $("#rows").append(row);
-            let id = "#progress-" + userScore[0];
+            let id = "#progress-" + counter;
             //console.log($(id).attr("value"));
             slowlyLoad(max, userScore[1], id);
 
