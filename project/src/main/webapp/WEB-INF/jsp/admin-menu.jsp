@@ -43,7 +43,7 @@
         <div id="content">
             <jsp:include page="leaderboard.jsp" />
         </div>
-        <script src="/js/leaderboard.js"></script>
+
         <script>
             $(document).ready(function(){
                 $("#home").click(function(){

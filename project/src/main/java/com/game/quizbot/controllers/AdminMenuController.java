@@ -39,7 +39,7 @@ public class AdminMenuController {
     @GetMapping("/show-list")
     @ResponseBody
     public List<Integer> getList(){
-        List<Integer> questions = qd.getWeightedQuestionIds(1, 1);
+        List<Integer> questions = qd.getWeightedQuestionIds(22, 26);
         return questions;
     }
 }
