@@ -21,20 +21,14 @@ public class AuthenticationFilter implements Filter {
         String uri = req.getRequestURI();
         HttpSession session = req.getSession(false);
 
-        if(session==null && uri.endsWith("login")){
-            filterChain.doFilter(servletRequest, servletResponse);
-        }
-        else if(session==null && uri.endsWith("register")){
+        if(session==null &&( uri.endsWith("login") || uri.endsWith("register")||uri.endsWith("registerUser") || uri.endsWith("loginUser") || uri.endsWith("loginSuccess"))){
+            System.out.println("Filter 1 - null session-login/register");
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
         else if (session == null && !(uri.endsWith("login")) && (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - null session-login");
+            System.out.println("Filter 1 - null session- redirect to login");
             res.sendRedirect("login");
-        }
-        else if (session == null && !(uri.endsWith("register")) && (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - null session - regoster");
-            res.sendRedirect("register");
         }
 
         else if(session != null &&
@@ -43,14 +37,14 @@ public class AuthenticationFilter implements Filter {
                 (!isHelpFile(uri))) {
             System.out.println("Filter 1 - USER logged in");
             filterChain.doFilter(servletRequest, servletResponse);
-//                res.sendRedirect("menu");
+
         } else if(session != null &&
                 (uri.endsWith("loginUser") || uri.endsWith("loginSuccess")) &&
                 session.getAttribute("login-admin") != null &&
                 (!isHelpFile(uri))) {
             System.out.println("Filter 1 - ADMIN logged in");
             filterChain.doFilter(servletRequest, servletResponse);
-//            res.sendRedirect("admin-menu");
+
         } else if(session != null &&
                 session.getAttribute("login-user") == null &&
                 session.getAttribute("login-admin") == null &&
@@ -59,7 +53,7 @@ public class AuthenticationFilter implements Filter {
             System.out.println("Filter 1 - session not null but not logged in");
             res.sendRedirect("login");
         } else {
-            System.out.println("Filter1-Chain");
+
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
