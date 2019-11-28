@@ -207,7 +207,7 @@ button:focus {outline:0;}
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     width: 80vw;
-    height: 100vh;
+    height: 80vh;
     margin-left: 6vw;
     transform:rotateX(16deg) rotateZ(-4deg) rotateY(13deg) scale3d(1, 1, -0.9);
     /* -webkit-transform: rotateX(0deg) rotateZ(-9deg) rotateY(15deg) scale3d(1, 1, -0.9);
