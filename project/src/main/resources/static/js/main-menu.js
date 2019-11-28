@@ -126,7 +126,7 @@ function appendCategorySelector(categories) {
 
     $.ajax(
         {
-            url: "http://localhost:8080/getLeaderboardByCategoryId/26",
+            url: "/getLeaderboardByCategoryId/26",
             async: false
         }
     ).then(function (userScores) {
@@ -233,7 +233,7 @@ function loadLeaderboard(categoryName) {
     getUser();
     $.ajax(
         {
-            url: "http://localhost:8080/getLeaderboardByCategoryName/" + categoryName
+            url: "/getLeaderboardByCategoryName/" + categoryName
         }
     ).then(async function (userScores) {
         let max;
@@ -275,7 +275,7 @@ function loadLeaderboard(categoryName) {
 function setUserInfo(){
     $.ajax(
         {
-            url: "http://localhost:8080/get-user-info"
+            url: "/get-user-info"
         }
     ).then(function (user) {
         let nickname = user.userNickname;
@@ -287,7 +287,7 @@ function setUserInfo(){
 
 function getUser() {
     $.ajax({
-        url: 'http://localhost:8080/get-user-info',
+        url: '/get-user-info',
         type: 'GET',
         async: false,
         success: function(user) {
@@ -325,7 +325,7 @@ function init() {
             });
             $.ajax(
                 {
-                    url: "http://localhost:8080/getShopDtoByUserId/"+user.userId
+                    url: "/getShopDtoByUserId/"+user.userId
                 }
             ).then(function (shop) {
                 let carousel = `<div class = "scene"><div class = "carousel">`;
@@ -379,7 +379,7 @@ function init() {
                     $("#avatar").css({"backgroundImage" : "url("+imageFile+")"});
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/set-selected-avatar?avatarId="+avatarId,
+                        url: "/set-selected-avatar?avatarId="+avatarId,
                         success: function (data) {
 
                             var json = "<h4>Ajax Response</h4><pre>"
@@ -419,7 +419,7 @@ function init() {
             $(".contain").html("");
             $.ajax(
                 {
-                    url: "http://localhost:8080/show-categories"
+                    url: "/show-categories"
                 }
             ).then(function (categories) {
                 appendCategories(categories);
@@ -452,7 +452,7 @@ function init() {
             $(".contain").html("");
             $.ajax(
                 {
-                    url: "http://localhost:8080/show-categories"
+                    url: "/show-categories"
                 }
             ).then(async function (categories) {
                 appendCategorySelector(categories);
@@ -483,7 +483,7 @@ function init() {
         $(".contain").html("");
         $.ajax(
             {
-                url: "http://localhost:8080/get-user-stats"
+                url: "/get-user-stats"
             }
         ).then(function (categoryScores) {
             $(".box, .box-init").click(function () {

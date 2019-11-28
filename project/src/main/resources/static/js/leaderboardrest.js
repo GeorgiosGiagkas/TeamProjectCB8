@@ -1,7 +1,7 @@
 function loadLeaderboard(categoryName) {
     $.ajax(
         {
-            url: "http://localhost:8080/getLeaderboardByCategoryName/" + categoryName
+            url: "/getLeaderboardByCategoryName/" + categoryName
         }
     ).then(function (userScores) {
         $("#rows").html("");
@@ -31,7 +31,7 @@ function loadLeaderboard(categoryName) {
 $(document).ready(function () {
     $.ajax(
         {
-            url: "http://localhost:8080/show-categories"
+            url: "/show-categories"
         }
     ).then(function (categories) {
         loadLeaderboard(categories[0].categoryName);
