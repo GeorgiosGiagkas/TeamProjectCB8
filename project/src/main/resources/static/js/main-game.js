@@ -21,9 +21,6 @@ const fetchUpdatedScoreStatus =()=>{
         totalScore= data.currentScore;
         currentRound=data.currentRound;
         highscore= data.highscore;
-        console.log("total rounds: " +totalRounds);
-        console.log("total run points: "+totalScore)
-        console.log("current round: " + currentRound);
         displayScore(totalScore);
         if(totalScore>highscore){
             displayNewHighscore();
@@ -37,7 +34,7 @@ const fetchUpdatedScoreStatus =()=>{
 const fetchNextQuestion=()=>{
     if(currentRound<=totalRounds){
         fetch("/get-next-question").then(res=>res.json()).then(data=>{
-        console.log(data);
+
             createQuestionContent(data.questionContent);
             createAnswersButtons(data.answersDto);
             displayWheel(true);
@@ -60,7 +57,7 @@ const fetchNextQuestion=()=>{
 const fetchCorrectAnswerNoUserAnswer=()=>{
     isTimePaused = true;
     fetch("/answer-verification?answer-id="+0+"&timer="+time+"&points="+pointsMultiplayer).then(res=>res.json()).then(data=>{
-        console.log(data);
+
         noAnswerGiven(data.correctAnswer);
         totalRounds=data.totalRounds;
         totalScore= data.currentScore;
@@ -81,7 +78,7 @@ const fetchCorrectAnswer=(answer)=>{
     const userAnswerId = answer.getAttribute("data-answer-id");
     isTimePaused = true;
     fetch("/answer-verification?answer-id="+userAnswerId+"&timer="+time+"&points="+pointsMultiplayer).then(res=>res.json()).then(data=>{
-        console.log(data);
+
         animateAnswersQuestion(data.correctAnswer, answer);
 
         totalRounds=data.totalRounds;
@@ -114,17 +111,6 @@ const displayAnimationOut = (elem, animationOut) => {
     });
 }
 
-const setTimeoutForAnimationIn = (elem, animationIn, ms) => {
-    setTimeout(function () {
-        displayAnimationIn(elem, animationIn);
-    }, ms);
-}
-
-const setTimeoutForAnimationOut = (elem, animationOut, ms) => {
-    setTimeout(function () {
-        displayAnimationOut(elem, animationOut);
-    }, ms);
-}
 
 
 //timer
@@ -195,8 +181,6 @@ const updatePoints = (wheelPoints) => {
 
 //scoreboard
 const displayScore = (score)=>{
-    // const currentscore = document.getElementById("currentscore");
-    // "console-currentscore"
     consoleDisplayText((score+""), "currentscore");
 }
 
@@ -292,7 +276,7 @@ const animateAnswersQuestion = (correctAnswerId, userAnswer) => {
     // displayQuestion(false);
     setTimeout(function () {
         displayGameInfoContainer(false);
-        // question.style.display = "none";
+
         displayAnswers(false);
     }, 4000);
 
@@ -402,10 +386,10 @@ const noAnswerGiven = (correctAnswer) => {
         }
 
         setTimeoutForZoomOut();
-        // displayQuestion(false);
+
         setTimeout(function () {
             displayGameInfoContainer(false);
-            // question.style.display = "none";
+
             displayAnswers(false);
         }, 4000);
 
@@ -476,7 +460,7 @@ const setTimeoutForQuestionAnswerDisplay = () => {
         displayAnswers(true);
         displayQuestion(true);
         displayGameInfoContainer(true);
-        //Run
+
         const allAnswers = document.querySelectorAll(".answer-btn");
         const question = document.getElementById("quiz-container");
         // addZoomIn(question);
@@ -532,7 +516,7 @@ const displayWheel = (toggle) => {
             displayPointsInfo(true);
             displayIndicatorArrow(true);
         },1000);
-        // setTimeoutForFadeInIndicatorAndPoints(1000);
+
     }
     else {
 
@@ -541,10 +525,7 @@ const displayWheel = (toggle) => {
         animateCSS(wheel,"zoomOut",()=>{
             wheel.classList.remove("animated","zoomOut");
             wheel.style.display="none";
-            // setTimeout(()=>{
-            //     wheel.classList.remove("animated","zoomOut");
-            //     wheel.style.display="none";
-            // },1000);
+
         });
     }
 }
@@ -585,20 +566,6 @@ const displayPointsInfo = (toggle) => {
 }
 
 
-const setTimeoutForFadeInIndicatorAndPoints = (secs) => {
-    setTimeout(function () {
-        displayIndicatorArrow(true);
-        displayPointsInfo(true);
-    }, secs);
-}
-
-const setTimeoutForFadeOutIndicatorAndPoints = (secs) => {
-    setTimeout(function () {
-        displayIndicatorArrow(false);
-        displayPointsInfo(false);
-    }, secs);
-}
-
 
 //End bubble
 const displayEndBubble = (toggle) => {
@@ -617,12 +584,6 @@ const displayEndBubble = (toggle) => {
         });
     }
 }
-
-
-
-
-
-
 
 
 
@@ -727,7 +688,7 @@ function alertPrize(indicatedSegment) {
     let prize = indicatedSegment.text;
     prize = prize.split(" ")[0];
     pointsMultiplayer=Number(prize);
-    console.log("points:" + pointsMultiplayer);
+
     updatePoints(Number(prize));
     setTimeout(function () {
         displayWheel(false);
@@ -818,6 +779,7 @@ function animateCSS(node, animationName, callback) {
     });
 
 
+    //RUN!!!
     fetchUpdatedScoreStatus();
 
 });
