@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mousa
-  Date: 01-Nov-19
-  Time: 1:28 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@include file="authorize-user.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,9 +29,9 @@
                     <div class="col-md-6">
                         <div>
                             <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
-                            <p>1000 Gold <span class="price">5€</span></p>
+                            <p>1000 Gold <span class="price">4.99€</span></p>
                             <hr>
-                            <p>Total <span class="price" style="color:black"><b>5€</b></span></p>
+                            <p>Total <span class="price" style="color:black"><b>4.99€</b></span></p>
                         </div>
                     </div>
 

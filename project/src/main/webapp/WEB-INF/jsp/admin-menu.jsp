@@ -1,3 +1,4 @@
+<%@include file="authorize-admin.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
 <html>
@@ -26,6 +27,7 @@
     </head>
 
     <body class="menu menu-open">
+
         <header>
             <a href="#" class="menu-toggle"><i class="material-icons">menu</i></a>
             <nav class="menu-side">

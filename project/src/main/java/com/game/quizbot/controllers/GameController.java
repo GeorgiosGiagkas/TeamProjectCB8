@@ -27,29 +27,29 @@ public class GameController {
 
     @GetMapping("/start-game")
     public ModelAndView startGame(ModelAndView mv, HttpSession session, @RequestParam("category-id") int categoryId){
+        if(session!=null && session.getAttribute("login-user")!=null) {
+            session.removeAttribute("gameStateSubject");
+            GameStateSubject gameStateSubject = gameState.createGameStateSubject();
 
-        session.removeAttribute("gameStateSubject");
-        GameStateSubject gameStateSubject = gameState.createGameStateSubject();
-
-        int userId = ((UserDto) session.getAttribute("login-user")).getUserId();
-        gameStateSubject.setUserId(userId);
-        gameStateSubject.setCategoryId(categoryId);
-        gameStateSubject.setRound(1);
-        gameStateSubject.setTotalRunPoints(0);
-        gameStateSubject.setCurrentQuestionPoints(0);
-        gameStateSubject.setRecordStateActive(false);
+            int userId = ((UserDto) session.getAttribute("login-user")).getUserId();
+            gameStateSubject.setUserId(userId);
+            gameStateSubject.setCategoryId(categoryId);
+            gameStateSubject.setRound(1);
+            gameStateSubject.setTotalRunPoints(0);
+            gameStateSubject.setCurrentQuestionPoints(0);
+            gameStateSubject.setRecordStateActive(false);
 
 
-        gameStateSubject.notifyAllGameObservers();
+            gameStateSubject.notifyAllGameObservers();
 
-        session.setAttribute("gameStateSubject",gameStateSubject);
+            session.setAttribute("gameStateSubject", gameStateSubject);
 
-        int selectedAvatarId = ((UserDto) session.getAttribute("login-user")).getSelectedAvatarId();
-        String nickname = ((UserDto) session.getAttribute("login-user")).getUserNickname();
-        mv.addObject("selectedAvatarId",selectedAvatarId);
-        mv.addObject("nickname",nickname);
+            int selectedAvatarId = ((UserDto) session.getAttribute("login-user")).getSelectedAvatarId();
+            String nickname = ((UserDto) session.getAttribute("login-user")).getUserNickname();
+            mv.addObject("selectedAvatarId", selectedAvatarId);
+            mv.addObject("nickname", nickname);
+        }
         mv.setViewName("main-game");
-
         return mv;
     }
 
@@ -57,18 +57,28 @@ public class GameController {
     @ResponseBody
     @GetMapping("/get-updated-score-status")
     public UpdatedScoreStatus getUpdatedScoreStatus(HttpSession session){
-        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
-        return gameStateSubject.getUpdatedScoreStatus();
+        if(session!=null && session.getAttribute("login-user")!=null && session.getAttribute("gameStateSubject")!=null) {
+            GameStateSubject gameStateSubject = (GameStateSubject) session.getAttribute("gameStateSubject");
+            return gameStateSubject.getUpdatedScoreStatus();
+        }
+        else{
+            return null;
+        }
     }
 
     //Rest return a question . Even the first one.
     @ResponseBody
     @GetMapping("/get-next-question")
     public QuestionPackDto getNextQuestion(HttpSession session) {
-        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
-        gameStateSubject.setRecordStateActive(false);
-        gameStateSubject.notifyAllGameObservers();
-        return gameStateSubject.getQuestionPackDto();
+        if(session!=null && session.getAttribute("login-user")!=null && session.getAttribute("gameStateSubject")!=null) {
+            GameStateSubject gameStateSubject = (GameStateSubject) session.getAttribute("gameStateSubject");
+            gameStateSubject.setRecordStateActive(false);
+            gameStateSubject.notifyAllGameObservers();
+            return gameStateSubject.getQuestionPackDto();
+        }
+        else{
+            return  null;
+        }
     }
 
 
@@ -76,33 +86,48 @@ public class GameController {
     @GetMapping("/answer-verification")
     public UpdatedScoreStatus verifyAnswer( @RequestParam("answer-id") int answerId ,
                                            @RequestParam("timer") int timer, @RequestParam("points") int points, HttpSession session){
-        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
-        gameStateSubject.setRecordStateActive(true);
-        gameStateSubject.setAnswerId(answerId);
-        gameStateSubject.setTime(timer);
-        gameStateSubject.setCurrentQuestionPoints(points);
+        if(session!=null && session.getAttribute("login-user")!=null && session.getAttribute("gameStateSubject")!=null) {
+            GameStateSubject gameStateSubject = (GameStateSubject) session.getAttribute("gameStateSubject");
+            gameStateSubject.setRecordStateActive(true);
+            gameStateSubject.setAnswerId(answerId);
+            gameStateSubject.setTime(timer);
+            gameStateSubject.setCurrentQuestionPoints(points);
 
-        gameStateSubject.notifyAllGameObservers();
+            gameStateSubject.notifyAllGameObservers();
 
-        gameStateSubject.nextRound();
+            gameStateSubject.nextRound();
 
-        return  gameStateSubject.getUpdatedScoreStatus();
+            return gameStateSubject.getUpdatedScoreStatus();
+        }
+        else{
+            return  null;
+        }
     }
 
 
     @ResponseBody
     @GetMapping("/get-wallet-update")
-    public int getWalletUpdate(HttpSession session){
-        GameStateSubject gameStateSubject = (GameStateSubject)  session.getAttribute("gameStateSubject");
-        WalletPrize walletPrize = new WalletPrize();
+    public int getWalletUpdate(HttpSession session) {
+        if (session != null && session.getAttribute("login-user") != null && session.getAttribute("gameStateSubject") != null) {
+            GameStateSubject gameStateSubject = (GameStateSubject) session.getAttribute("gameStateSubject");
+            WalletPrize walletPrize = new WalletPrize();
 
-        if(gameStateSubject!=null){
-            walletPrize.setTotalRunPoints(gameStateSubject.getTotalRunPoints());
-            walletPrize.setUserId(gameStateSubject.getUserId());
-            walletService.updateWalletStatus(walletPrize);
+            if (gameStateSubject != null) {
+                walletPrize.setTotalRunPoints(gameStateSubject.getTotalRunPoints());
+                walletPrize.setUserId(gameStateSubject.getUserId());
+                walletService.updateWalletStatus(walletPrize);
+
+                //set new wallet to user dto session
+                ((UserDto)session.getAttribute("login-user")).setWallet(walletPrize.getWallet());
+
+            }
+
+            return walletPrize.calculateWalletPrize();
         }
-
-        return  walletPrize.calculateWalletPrize();
+        else{
+            return 0;
+        }
     }
+
 
 }

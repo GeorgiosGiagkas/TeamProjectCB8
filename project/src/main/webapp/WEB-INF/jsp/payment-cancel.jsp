@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mousa
-  Date: 05-Nov-19
-  Time: 1:57 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@include file="authorize-user.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

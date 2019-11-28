@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,43 +39,49 @@ public class QuestionController {
 
     @PostMapping("/create-question")
     public String createQuestion(@RequestParam("questionContent") String questionContent, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
-                                 @RequestParam("categoryName") String categoryName){
-
-        Question q = new Question();
-        q.setQuestionContent(questionContent);
-
-        qs.createQuestion(q, answersStr, correctAnswer, categoryName);
+                                 @RequestParam("categoryName") String categoryName,
+                                 HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
 
 
+            Question q = new Question();
+            q.setQuestionContent(questionContent);
+
+            qs.createQuestion(q, answersStr, correctAnswer, categoryName);
+
+        }
         return "redirect:/show-all-questions";
     }
 
     @PostMapping("/edit-question")
     public String editQuestion(@RequestParam("questionId") int questionId, @RequestParam("questionContent") String questionContent, @RequestParam("answer")List<String> answersStr, @RequestParam("correct") int correctAnswer,
-                                 @RequestParam("categoryName") String categoryName, @RequestParam("answerId") List<Integer> answerIds){
+                                 @RequestParam("categoryName") String categoryName, @RequestParam("answerId") List<Integer> answerIds,
+                               HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            Question q = new Question();
+            q.setQuestionId(questionId);
+            q.setQuestionContent(questionContent);
 
-        Question q = new Question();
-        q.setQuestionId(questionId);
-        q.setQuestionContent(questionContent);
+            qs.updateQuestion(q, answerIds, answersStr, correctAnswer, categoryName);
 
-        qs.updateQuestion(q,answerIds, answersStr, correctAnswer, categoryName);
-
-
+        }
         return "redirect:/show-all-questions";
     }
 
     @PostMapping("delete-question")
-    public String deleteCategory(@RequestParam("questionId") int questionId){
-        qd.deleteQuestionById(questionId);
-
+    public String deleteCategory(@RequestParam("questionId") int questionId,HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            qd.deleteQuestionById(questionId);
+        }
         return "redirect:/show-all-questions";
     }
 
     @GetMapping("show-all-questions")
-    public String showAllQuestions(ModelMap m){
-        Iterable<Question> questions = qd.getAllQuestions();
-        m.addAttribute("allquestions", questions);
-
+    public String showAllQuestions(ModelMap m,HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            Iterable<Question> questions = qd.getAllQuestions();
+            m.addAttribute("allquestions", questions);
+        }
         return "edit-question";
     }
 

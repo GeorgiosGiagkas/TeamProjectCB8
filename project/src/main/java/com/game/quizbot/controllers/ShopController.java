@@ -19,18 +19,15 @@ public class ShopController {
     AvatarService as;
 
     @GetMapping("/show-shop")
-    public ModelAndView showShop(ModelAndView modelAndView, UserDto userDto, ModelMap m, HttpSession session){
-        userDto = (UserDto)session.getAttribute("login-user");
-        if(userDto!=null) {
+    public ModelAndView showShop(ModelAndView modelAndView,  HttpSession session){
+        if(session!=null && session.getAttribute("login-user")!=null) {
+            UserDto userDto = (UserDto) session.getAttribute("login-user");
             int currentUserId = userDto.getUserId();
-            m.addAttribute("currentUserId", currentUserId);
+            modelAndView.addObject("currentUserId", currentUserId);
             int avatarCount = as.getAvatarCount();
-            m.addAttribute("avatarCount", avatarCount);
-            modelAndView.setViewName("shop");
-
-        }else {
-            modelAndView.setViewName("login");
+            modelAndView.addObject("avatarCount", avatarCount);
         }
+            modelAndView.setViewName("shop");
         return modelAndView;
     }
 }

@@ -15,9 +15,12 @@ public class WalletService {
         if(user!=null){
             int currentWallet = user.getWallet();
             int newWallet = currentWallet + walletPrize.calculateWalletPrize();
+            walletPrize.setWallet(newWallet);
             user.setWallet(newWallet);
             //update
             userDao.updateUser(user);
+
+
         }
 
     }

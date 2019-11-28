@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
 
@@ -27,21 +28,22 @@ public class CategoryController {
 
 
     @PostMapping("/create-category")
-    public String createCategory(@RequestParam("categoryName") String categoryName, @RequestParam("category-image") Part image, HttpServletRequest request, @RequestParam(value = "active", required = false) String active) {
+    public String createCategory(@RequestParam("categoryName") String categoryName,
+                                 HttpSession session, @RequestParam("category-image") Part image, HttpServletRequest request, @RequestParam(value = "active", required = false) String active) {
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            Category c = new Category();
+            c.setCategoryName(categoryName);
 
-        Category c = new Category();
-        c.setCategoryName(categoryName);
+            if (active != null) {
+                c.setCategoryActive(true);
+            }
 
-        if(active != null){
-            c.setCategoryActive(true);
+            cd.insertCategory(c);
+
+
+            cs.partWrite(image, categoryName, request);
+
         }
-
-        cd.insertCategory(c);
-
-
-        cs.partWrite(image, categoryName, request);
-
-
         return "redirect:/show-all-categories";
     }
 
@@ -67,29 +69,29 @@ public class CategoryController {
     }
 
     @PostMapping("edit-category")
-    public String editCategory(@RequestParam("categoryId") int categoryId, @RequestParam("categoryName") String categoryName, @RequestParam(value = "active", required = false) String active){
-        Category c = new Category();
-        c.setCategoryId(categoryId);
-        c.setCategoryName(categoryName);
+    public String editCategory(@RequestParam("categoryId") int categoryId,
+                               HttpSession session,@RequestParam("categoryName") String categoryName, @RequestParam(value = "active", required = false) String active){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            Category c = new Category();
+            c.setCategoryId(categoryId);
+            c.setCategoryName(categoryName);
 
-        if(active != null){
-            c.setCategoryActive(true);
+            if (active != null) {
+                c.setCategoryActive(true);
+            } else {
+                c.setCategoryActive(false);
+            }
+
+            cd.insertCategory(c);
         }
-
-        else{
-            c.setCategoryActive(false);
-        }
-
-        cd.insertCategory(c);
-
         return "redirect:/show-all-categories";
     }
 
     @PostMapping("delete-category")
-    public String deleteCategory(@RequestParam("categoryId") int categoryId){
-        cd.deleteCategoryById(categoryId);
-
-
+    public String deleteCategory(@RequestParam("categoryId") int categoryId,HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            cd.deleteCategoryById(categoryId);
+        }
         return "redirect:/show-all-categories";
     }
 

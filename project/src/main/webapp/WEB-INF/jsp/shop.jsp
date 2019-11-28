@@ -1,13 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: omiro
-  Date: 31-Oct-19
-  Time: 4:01 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@include file="authorize-user.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/fav.png">
     <title>QuizBot Shop</title>
 

@@ -3,7 +3,7 @@ package com.game.quizbot.services.wallet;
 public class WalletPrize {
     private int userId;
     private int totalRunPoints;
-
+    private int wallet;
 
 
     public int calculateWalletPrize(){
@@ -25,5 +25,14 @@ public class WalletPrize {
 
     public void setTotalRunPoints(int totalRunPoints) {
         this.totalRunPoints = totalRunPoints;
+    }
+
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
     }
 }

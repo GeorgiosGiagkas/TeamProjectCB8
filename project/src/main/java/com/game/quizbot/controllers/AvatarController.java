@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -25,36 +26,31 @@ public class AvatarController {
 
 
     @PostMapping("create-avatar")
-    public String createAvatar(@RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, @RequestParam("avatar-image") Part image, HttpServletRequest request){
-        Avatar a = new Avatar();
-
-        a.setAvatarName(name);
-        a.setAvatarCost(cost);
-
-        Avatar newAvatar = ad.saveAvatar(a);
-        int id = newAvatar.getAvatarId();
-
-
-
-        as.partWrite(image, id, request);
-
+    public String createAvatar(@RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost,
+                               @RequestParam("avatar-image") Part image, HttpServletRequest request, HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
+            Avatar a = new Avatar();
+            a.setAvatarName(name);
+            a.setAvatarCost(cost);
+            Avatar newAvatar = ad.saveAvatar(a);
+            int id = newAvatar.getAvatarId();
+            as.partWrite(image, id, request);
+        }
         return "redirect:/show-all-avatars";
     }
 
     @PostMapping("edit-avatar")
-    public String editAvatar(@RequestParam("avatarId") int id, @RequestParam("avatarName") String name, @RequestParam("avatarCost") int cost, HttpServletRequest request){
-        Avatar a = new Avatar();
-        a.setAvatarId(id);
-        a.setAvatarName(name);
-        a.setAvatarCost(cost);
+    public String editAvatar(@RequestParam("avatarId") int id, @RequestParam("avatarName") String name,
+                             @RequestParam("avatarCost") int cost, HttpServletRequest request,
+                             HttpSession session){
+        if(session!=null && session.getAttribute("login-admin")!=null) {
 
-        ad.saveAvatar(a);
-
-
-
-
-
-
+            Avatar a = new Avatar();
+            a.setAvatarId(id);
+            a.setAvatarName(name);
+            a.setAvatarCost(cost);
+            ad.saveAvatar(a);
+        }
         return "redirect:/show-all-avatars";
     }
 
