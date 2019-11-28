@@ -178,9 +178,9 @@ body{
     margin:auto ;
     padding:20px 5px;
     width: 70%;
-    height: 130px;
-    min-height: 130px;
-    max-height: 130px;
+    height: 145px;
+    min-height: 145px;
+    max-height: 145px;
     font-size: 30px;
     font-weight: bold;
     border: 8px solid #fca959;
@@ -192,13 +192,13 @@ body{
 
 #score-label{
     color:#f9ed99;
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
 }
 #new-highscore-label{
     display: none;
     color:#7edb80;
-    font-size: 10px;
+    font-size: 20px;
 }
 
 
@@ -219,6 +219,9 @@ body{
 
     background:  #f9ed99;
 }
+.answer-btn:hover{
+    cursor: pointer;
+}
 
 .button_slide {
     color: black;
@@ -227,7 +230,7 @@ body{
     padding: 18px 36px;
     display: inline-block;
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 22px;
     letter-spacing: 1px;
     cursor: pointer;
     box-shadow: inset 0 0 0 0 #fca959;
@@ -258,7 +261,6 @@ body{
 #answers-container{
     display: flex;
     flex-wrap: wrap;
-
 }
 
 
@@ -297,13 +299,10 @@ body{
     justify-content: center;
 }
 
+#question-content{
+    font-size: 25px;
+}
 
-/*#quiz-container>span {*/
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*line-height: normal;*/
-
-/*}*/
 
 
 
@@ -359,7 +358,7 @@ body{
 #points-info-container{
     display: none;
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
     color: #292442;
 }
 
@@ -377,7 +376,7 @@ body{
     position: absolute;
     left: 48.5%;
     color: black;
-    font-size: 30px;
+
     font-weight: bold;
 }
 #timer{
@@ -386,26 +385,17 @@ body{
     padding-right: 4px;
     padding-left: 4px;
     border-radius: 50%;
+    font-size: 35px;
 }
 #round{
     color: #292442;
     font-weight: bold;
     position: absolute;
-
+    font-size: 30px;
     left: 85%;
 }
 
-/* #timer{
-  position: absolute;
-  top: 65%;
-  left: 38%;
-  font-size: 20px;
-  color: #2A2B2DFF;
-}
-#stopwatch{
-  width: 200px;
-  height: 200px;
-} */
+
 
 
 

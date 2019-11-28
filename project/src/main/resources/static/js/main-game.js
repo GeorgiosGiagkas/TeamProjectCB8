@@ -804,14 +804,14 @@ function animateCSS(node, animationName, callback) {
     const volumeIcon = document.getElementById("volume");
     volumeIcon.addEventListener("click", function () {
         if (isPlaying) {
-            this.classList.remove("fa-volume-mute");
-            this.classList.add("fa-volume-up");
+            this.classList.remove("fa-volume-up");
+            this.classList.add("fa-volume-mute");
             backMusic.pause();
             isPlaying = false;
         }
         else{
-            this.classList.remove("fa-volume-up");
-            this.classList.add("fa-volume-mute");
+            this.classList.remove("fa-volume-mute");
+            this.classList.add("fa-volume-up");
             backMusic.play();
             isPlaying = true;
         }

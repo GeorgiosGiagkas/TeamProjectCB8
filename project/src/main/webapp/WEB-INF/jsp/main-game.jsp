@@ -132,7 +132,7 @@
 
     <aside id="bot-section">
         <a id="volume-link" href="#">
-            <i id="volume" class="fas fa-volume-mute fa-2x"></i>
+            <i id="volume" class="fas fa-volume-up fa-2x"></i>
         </a>
 
 
