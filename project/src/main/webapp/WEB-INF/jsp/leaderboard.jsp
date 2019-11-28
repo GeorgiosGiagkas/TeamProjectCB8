@@ -71,7 +71,7 @@
 
         <div class="col-2 p-0"></div>
             <div class="category-title col p-3 h5">
-                &nbsp
+
             </div>
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

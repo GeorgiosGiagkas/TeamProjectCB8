@@ -4,6 +4,8 @@ function loadLeaderboard(categoryName) {
             url: "/getLeaderboardByCategoryName/" + categoryName
         }
     ).then(function (userScores) {
+        $(".category-title").html("");
+        $(".category-title").html(categoryName);
         $("#rows").html("");
         if(userScores.length === 0){
             let message = "No users play this category.";
