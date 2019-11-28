@@ -515,7 +515,7 @@ function init() {
     });
 
     $("#statistics").hover(function () {
-        let message = `<p class = "message">Check your statistics frequently to <br> explore your strengths and weaknesses.</p>`;
+        let message = `<p class = "message">Revisit your statistics frequently to <br> explore your strengths and weaknesses.</p>`;
         $("#description").html("");
         $("#description").html(message);
     });

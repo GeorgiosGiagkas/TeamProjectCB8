@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Payment Failure</title>
+    <title>QuizBot</title>
 </head>
 <body>
 <h1>Payment Failure</h1>

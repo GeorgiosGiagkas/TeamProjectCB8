@@ -2,7 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
 <html>
 <head>
-    <title>Registration Page</title>
+    <title>QuizBot</title>
 
     <!--Bootsrap 4 CDN-->
     <%--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"--%>

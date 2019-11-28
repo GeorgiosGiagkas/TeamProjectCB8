@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/payment.css">
 
-    <title>Quizbot</title>
+    <title>QuizBot</title>
 </head>
 <body>
         <div class="container col-md-8">

@@ -95,18 +95,11 @@ button:focus {outline:0;}
 }
 
 #logo{
-    width: 100px;
-    float: left;
-    margin-left:30px;
-    margin-top:10px;
-    filter: grayscale(100%);
-    transition: ease 0.5s;
-
+    height: 100px;
 }
 
 #logo:hover{
-    filter: grayscale(0%);
-    cursor: pointer;
+
 }
 
 
