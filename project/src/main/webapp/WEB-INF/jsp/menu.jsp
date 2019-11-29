@@ -109,6 +109,8 @@
 <audio id="audio-click" src="/sound/click.mp3" autostart="false"></audio>
 <audio id="audio-hover" src="/sound/hover.mp3" autostart="false"></audio>
 
+<audio src = "/sound/orion.mp3" autoplay loop></audio>
+
 
 <button type="button" class="btn btn-info open-button" onclick="openChat(); connect(); getAdmin();"><i
         class="far fa-question-circle icon"></i>Need help?

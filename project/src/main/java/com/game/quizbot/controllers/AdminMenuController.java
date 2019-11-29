@@ -3,6 +3,8 @@ package com.game.quizbot.controllers;
 
 import com.game.quizbot.dao.QuestionDao;
 import com.game.quizbot.dao.UserQuestionDao;
+import com.game.quizbot.dto.QuestionWeight;
+import com.game.quizbot.dto.UserDto;
 import com.game.quizbot.model.Category;
 import com.game.quizbot.services.categories.CategoryService;
 import com.game.quizbot.utils.StatUtils;
@@ -36,6 +38,23 @@ public class AdminMenuController {
         }
         modelAndView.setViewName("admin-menu");
         return modelAndView;
+    }
+
+    //TEST
+    @GetMapping("/show-list")
+    @ResponseBody
+    public List<Integer> showList(HttpSession session){
+        int userId = ((UserDto) session.getAttribute("login-user")).getUserId();
+        List<Integer> list = qd.getWeightedQuestionIds(userId, 26);
+        return  list;
+    }
+
+    //TEST
+    @GetMapping("/show-weights")
+    @ResponseBody
+    public List<QuestionWeight> showWeights(){
+        List<QuestionWeight> weights = qd.getWeights(22, 26);
+        return weights;
     }
 
 

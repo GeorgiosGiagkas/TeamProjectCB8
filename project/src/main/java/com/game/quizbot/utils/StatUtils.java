@@ -3,7 +3,7 @@ package com.game.quizbot.utils;
 public class StatUtils {
 
     private static double sigmoid(int x, int y){
-        return 1/(1 + Math.exp((x - y)/2));
+        return 1/(1 + Math.exp(((double)x - (double)y)/1.5));
     }
 
     private static double round(double a){

@@ -1,5 +1,6 @@
 package com.game.quizbot.dao;
 
+import com.game.quizbot.dto.QuestionWeight;
 import com.game.quizbot.model.Question;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,5 +14,6 @@ public interface QuestionDao {
     public Iterable<Question> getAllQuestions();
     public Iterable<Integer> getQuestionIdsByCategoryId(int categoryId);
     public void deleteQuestionById(int questionId);
+    public List<QuestionWeight> getWeights(int userId, int categoryId);
 
 }

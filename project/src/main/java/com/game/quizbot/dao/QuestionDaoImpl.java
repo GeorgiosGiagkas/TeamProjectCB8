@@ -1,5 +1,6 @@
 package com.game.quizbot.dao;
 
+import com.game.quizbot.dto.QuestionWeight;
 import com.game.quizbot.model.Question;
 import com.game.quizbot.repositories.QuestionRepo;
 import com.game.quizbot.utils.CollectionUtils;
@@ -64,6 +65,38 @@ public class QuestionDaoImpl implements QuestionDao {
 
 
         return getWeightedQuestionsIdsList;
+    }
+
+    //TEST
+    @Override
+    public List<QuestionWeight> getWeights(int userId, int categoryId) {
+        Collection<Integer> questionIdsCollection = CollectionUtils.getCollectionFromIteralbe(getQuestionIdsByCategoryId(categoryId));
+        LinkedList<Integer> questionIds = new LinkedList<>(questionIdsCollection);
+
+
+        Iterator<Integer> questionIdsIter = questionIds.iterator();
+        List<QuestionWeight> weights = new ArrayList<>();
+
+        while(questionIdsIter.hasNext()){
+            QuestionWeight qw = new QuestionWeight();
+            int questionId = questionIdsIter.next();
+            Question q = getQuestionById(questionId);
+            qw.setQuestionId(questionId);
+            qw.setContent(q.getQuestionContent());
+            int total = uqr.getTotalNumberOfResponses(questionId, userId);
+            double weight = 0.5;
+
+            if(total >= 5){
+                int correct = uqr.getNumberOfCorrectResponses(questionId, userId);
+                weight = StatUtils.calculateWeight(correct);
+            }
+
+            qw.setWeight(weight);
+
+            weights.add(qw);
+
+        }
+        return weights;
     }
 
     @Override
