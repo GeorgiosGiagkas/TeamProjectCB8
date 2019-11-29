@@ -157,8 +157,9 @@ const updateRound = () => {
 
 const displayGameInfoContainer = (toggle) => {
     const gameInfoContainer = document.getElementById("game-info-container");
-    updateRound();
+
     if (toggle === true) {
+        updateRound();
         displayTime(time);
         gameInfoContainer.style.display = "block";
         animateCSS(gameInfoContainer,"bounceInDown",()=>{
