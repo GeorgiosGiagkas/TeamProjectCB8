@@ -3,6 +3,9 @@ TeamProjectCB8 Quizbot
 
 ## Description
 Quizbot is a web application that allows the user to login and play a game of questions. Each question has a weighted factor based on previous answers of the user for the same question. In other words, questions the user answered correctly, have less possibility to appear in the next game. Moreover, user gains more points the faster he answers. Points are translated to gold at the end of the 10-question game, thus, having the opportunity to purchase new avatars from the shop.
+* To be displayed in 1080p resolution
+* Developed with IntelliJ 2018
+* Tested with Google Chrome
 
 Developed by Omiros Neratzidis, Georgia Papavgeri, Georgios Giagkas and Andreas Tzevachiridis as a team project for Coding Bootcamp(AFDEmp). 
 
