@@ -29,12 +29,14 @@ Developed by Omiros Neratzidis, Georgia Papavgeri, Georgios Giagkas and Andreas 
 
 ## Languages, Frameworks and Libraries:
 ###### Back End
+- Java
 - Spring Boot
 - Spring Web Sockets
 - JPA/Hibernate
 - JavaServer Pages(JSP)
 - Paypal Sandbox
 ###### Front End
+- HTML/CSS/JavaScript
 - SocksJS
 - Stomp
 - JQuery
