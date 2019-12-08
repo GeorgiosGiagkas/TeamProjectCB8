@@ -40,8 +40,8 @@ Developed by Omiros Neratzidis, Georgia Papavgeri, Georgios Giagkas and Andreas 
 - Paypal Sandbox
 ###### Front End
 - HTML/CSS/JavaScript
-- SocksJS
-- Stomp
+- SockJS
+- STOMP
 - JQuery
 - Bootstrap CSS
 - Font Awsome
