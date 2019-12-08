@@ -13,12 +13,8 @@ public class WebSocketCloseListener implements ApplicationListener {
 
         if(applicationEvent instanceof SessionDisconnectEvent) {
             String httpSessionId = ((SessionDisconnectEvent) applicationEvent).getUser().getName();
-            System.out.println(httpSessionId);
-
             SessionRegistry sessionRegistry = SessionRegistry.getSessionRegistry();
             sessionRegistry.remove(httpSessionId);
-            System.out.println("Disconnected " + httpSessionId);
-            System.out.println("Session registry count: " + sessionRegistry.countSessions());
 
 
         }

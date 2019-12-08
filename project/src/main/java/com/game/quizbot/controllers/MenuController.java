@@ -37,11 +37,7 @@ public class MenuController {
     @Autowired
     AvatarService as;
 
-    @GetMapping("/main-menu")
-    public ModelAndView showMainMenu(ModelAndView modelAndView){
-        modelAndView.setViewName("main-menu");
-        return  modelAndView;
-    }
+
 
     @GetMapping("/menu")
     public ModelAndView showMenu(ModelAndView modelAndView, HttpSession session){

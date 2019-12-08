@@ -22,12 +22,10 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         if(session==null &&( uri.endsWith("login") || uri.endsWith("register")||uri.endsWith("registerUser") || uri.endsWith("loginUser") || uri.endsWith("loginSuccess"))){
-            System.out.println("Filter 1 - null session-login/register");
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
         else if (session == null && !(uri.endsWith("login")) && (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - null session- redirect to login");
             res.sendRedirect("login");
         }
 
@@ -35,14 +33,14 @@ public class AuthenticationFilter implements Filter {
                 (uri.endsWith("loginUser") || uri.endsWith("loginSuccess")) &&
                 session.getAttribute("login-user") != null &&
                 (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - USER logged in");
+
             filterChain.doFilter(servletRequest, servletResponse);
 
         } else if(session != null &&
                 (uri.endsWith("loginUser") || uri.endsWith("loginSuccess")) &&
                 session.getAttribute("login-admin") != null &&
                 (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - ADMIN logged in");
+
             filterChain.doFilter(servletRequest, servletResponse);
 
         } else if(session != null &&
@@ -50,7 +48,7 @@ public class AuthenticationFilter implements Filter {
                 session.getAttribute("login-admin") == null &&
                 (!(uri.endsWith("login")|| uri.endsWith("register")||uri.endsWith("registerUser") || uri.endsWith("loginUser") || uri.endsWith("loginSuccess"))) &&
                 (!isHelpFile(uri))) {
-            System.out.println("Filter 1 - session not null but not logged in");
+
             res.sendRedirect("login");
         } else {
 

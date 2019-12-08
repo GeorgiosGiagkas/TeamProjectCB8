@@ -45,7 +45,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                 SessionRegistry sessionRegistry = SessionRegistry.getSessionRegistry();
                 sessionRegistry.add(session);
-                System.out.println("Session registry count: "+sessionRegistry.countSessions());
                 attributes.put("sessionId", session.getId());
             }
 
